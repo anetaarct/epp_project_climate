@@ -1,6 +1,6 @@
 # NDVI extraction workflow
 
-This folder contains the files used to extract NDVI values for the EPP mixed-paternity dataset using Google Earth Engine.
+This folder contains the files used to extract NDVI values for the EPP dataset using Google Earth Engine.
 
 ## Input file
 
@@ -24,12 +24,12 @@ This file contains one row per study record and was used as the input table asse
 
 The script extracts NDVI from daily NOAA CDR datasets:
 
-- `NOAA/CDR/AVHRR/NDVI/V5` for 1981-2013
+- `NOAA/CDR/AVHRR/NDVI/V5` for 1981–2013
 - `NOAA/CDR/VIIRS/NDVI/V1` for 2014 onward
 
 For each record, the script creates a 30 × 30 km square around the study coordinates. Pixels flagged as cloud, cloud shadow, water, sunglint, night, or invalid channel data are masked.
 
-NDVI was calculated in two windows:
+NDVI was calculated for two breeding-season windows:
 
 - `ndvi_first_month_median_30km`: median NDVI during the first breeding month, calculated per pixel and then averaged across the 30 × 30 km square
 - `ndvi_full_season_median_30km`: median NDVI across the full breeding season, calculated per pixel and then averaged across the 30 × 30 km square

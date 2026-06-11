@@ -1,0 +1,159 @@
+/* Ornithological academic book theme */
+
+:root {
+  --deep-navy: #1a2e40;
+  --cool-grey: #f7f9f8;
+  --accent: #2f6f73;
+  --accent-blue: #4a7fa8;
+  --mustard: #c6922e;
+  --text-dark: #263238;
+  --text-muted: #5c6670;
+  --white: #ffffff;
+  --code-bg: #eef3f7;
+  --rule: #d7dfdc;
+  --reader-width: 900px;
+}
+
+body {
+  background-color: var(--cool-grey);
+  color: var(--text-dark);
+  line-height: 1.68;
+}
+
+.content {
+  max-width: var(--reader-width);
+}
+
+p,
+li {
+  max-width: 78ch;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--deep-navy);
+  letter-spacing: 0;
+}
+
+h1 {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.35rem;
+}
+
+a {
+  color: var(--accent-blue);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+.sidebar-title {
+  color: var(--deep-navy);
+  font-weight: 700;
+}
+
+.sidebar nav[role="doc-toc"] ul > li > a.active,
+.sidebar nav[role="doc-toc"] ul > li > ul > li > a.active {
+  border-left: 3px solid var(--accent);
+  color: var(--deep-navy) !important;
+}
+
+.callout {
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.callout.callout-style-default {
+  border-left-width: 5px;
+}
+
+div.callout-note {
+  border-left-color: var(--mustard);
+}
+
+div.callout-tip {
+  border-left-color: var(--accent);
+}
+
+div.callout-important {
+  border-left-color: var(--accent-blue);
+}
+
+div.callout-caution {
+  border-left-color: var(--mustard);
+}
+
+.reader-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+
+.reader-card {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--accent);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+}
+
+.reader-card h3 {
+  margin-top: 0;
+  font-size: 1rem;
+}
+
+.reader-card p:last-child {
+  margin-bottom: 0;
+}
+
+.chapter-map,
+.definition-list {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--accent);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 1.25rem 0;
+}
+
+.definition-list {
+  background: #e8f1ef;
+  border-color: #c7ddda;
+}
+
+.chapter-map ol,
+.chapter-map ul {
+  margin-bottom: 0;
+}
+
+.definition-list p:last-child {
+  margin-bottom: 0;
+}
+
+code {
+  color: var(--deep-navy);
+  background-color: var(--code-bg);
+}
+
+pre code {
+  color: inherit;
+}
+
+@media (max-width: 760px) {
+  body {
+    line-height: 1.62;
+  }
+
+  .reader-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reader-card,
+  .chapter-map,
+  .definition-list {
+    padding: 0.85rem 1rem;
+  }
+}

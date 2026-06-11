@@ -1,0 +1,20 @@
+# Large fitted model objects
+*.rds
+*.RData
+*.Rhistory
+
+# Quarto/R local cache and temporary files
+.quarto/
+*_cache/
+*_files/
+.Rproj.user/
+
+# Local preview output
+_site/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+
+/.quarto/
+**/*.quarto_ipynb

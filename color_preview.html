@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EPP Book Color Preview</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .preview-shell {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .preview-sidebar {
+      background: #ffffff;
+      border-right: 1px solid var(--rule);
+      padding: 1.5rem 1.2rem;
+    }
+
+    .preview-sidebar-title {
+      color: var(--deep-navy);
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+    }
+
+    .preview-sidebar a {
+      display: block;
+      border-left: 3px solid transparent;
+      color: var(--text-muted);
+      padding: 0.4rem 0.65rem;
+      text-decoration: none;
+    }
+
+    .preview-sidebar a.active {
+      border-left-color: var(--accent);
+      color: var(--deep-navy);
+      font-weight: 700;
+    }
+
+    .preview-main {
+      padding: 2rem;
+    }
+
+    .preview-content {
+      max-width: var(--reader-width);
+      margin: 0 auto;
+    }
+
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin: 1.2rem 0 1.8rem;
+    }
+
+    .swatch {
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .swatch-color {
+      height: 70px;
+    }
+
+    .swatch-label {
+      padding: 0.55rem 0.65rem;
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }
+
+    .mock-callout {
+      background: #ffffff;
+      border: 1px solid var(--rule);
+      border-left: 5px solid var(--accent);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+    }
+
+    .mock-callout.note {
+      border-left-color: var(--mustard);
+    }
+
+    .mock-callout.important {
+      border-left-color: var(--accent-blue);
+    }
+
+    .mock-callout-title {
+      color: var(--deep-navy);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    @media (max-width: 820px) {
+      .preview-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .preview-sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--rule);
+      }
+
+      .swatches {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-shell">
+    <aside class="preview-sidebar">
+      <div class="preview-sidebar-title">EPP Climate Models</div>
+      <a class="active" href="#">Project overview</a>
+      <a href="#">Data preparation</a>
+      <a href="#">Taxonomy and phylogeny</a>
+      <a href="#">Overall model</a>
+      <a href="#">Environmental models</a>
+      <a href="#">Figures</a>
+    </aside>
+
+    <main class="preview-main">
+      <div class="preview-content">
+        <h1>Environmental variation and extra-pair paternity in birds</h1>
+        <p>
+          This is a quick color preview for the Quarto book. It shows the page background,
+          sidebar, headings, links, cards, and callout colors using the current stylesheet.
+        </p>
+
+        <h2>Palette</h2>
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-color" style="background: var(--deep-navy);"></div>
+            <div class="swatch-label"><strong>Deep navy</strong><br>#1a2e40</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: var(--accent);"></div>
+            <div class="swatch-label"><strong>Green accent</strong><br>#2f6f73</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: var(--accent-blue);"></div>
+            <div class="swatch-label"><strong>Link blue</strong><br>#4a7fa8</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: var(--mustard);"></div>
+            <div class="swatch-label"><strong>Mustard</strong><br>#c6922e</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: var(--cool-grey);"></div>
+            <div class="swatch-label"><strong>Page background</strong><br>#f7f9f8</div>
+          </div>
+        </div>
+
+        <h2>Reader Components</h2>
+        <p>
+          Links look like <a href="#">this example link</a>, while inline code looks like
+          <code>n_epp_broods | trials(n_broods_sampled)</code>.
+        </p>
+
+        <div class="mock-callout">
+          <div class="mock-callout-title">Main Aim</div>
+          <p>
+            Test whether spatial and temporal variation in EPP is associated with climatic
+            conditions, environmental variability, habitat productivity, and anomalies.
+          </p>
+        </div>
+
+        <div class="mock-callout important">
+          <div class="mock-callout-title">Inclusion Criteria</div>
+          <ul>
+            <li>Socially monogamous species.</li>
+            <li>Known year or study period.</li>
+            <li>Known brood counts and EPP counts.</li>
+          </ul>
+        </div>
+
+        <div class="mock-callout note">
+          <div class="mock-callout-title">Model Note</div>
+          <p>
+            Daily precipitation variability is log-transformed before standardisation.
+          </p>
+        </div>
+
+        <h2>Cards</h2>
+        <div class="reader-grid">
+          <div class="reader-card">
+            <h3>Mean Climatic Conditions</h3>
+            <p>Seasonal or monthly temperature and precipitation values linked to EPP records.</p>
+          </div>
+          <div class="reader-card">
+            <h3>Daily Weather Variability</h3>
+            <p>ERA5-Land daily temperature variability, precipitation variability, and wet days.</p>
+          </div>
+        </div>
+
+        <div class="definition-list">
+          <p><strong>Extra-pair paternity (EPP)</strong><br>
+          Offspring within a socially monogamous brood sired by a male other than the social father.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

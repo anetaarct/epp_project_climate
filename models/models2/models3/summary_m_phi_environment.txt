@@ -1,0 +1,60 @@
+ Family: beta_binomial 
+  Links: mu = logit; phi = log 
+Formula: n_epp_broods | trials(n_broods_sampled) ~ abs_latitude_z + distance_to_coast_z + nest_box + marker_type + ndvi_first_month_median_30km_z + era5_tmp_sd_C_first_month_z + era5_pre_sd_mm_day_first_month_log_z + era5_pre_wet_days_gt1mm_first_month_z + (1 | population_id) + (1 | species_nonphylo) + (1 | gr(species_phylo, cov = phylo_mat)) 
+         phi ~ ndvi_first_month_median_30km_z + era5_tmp_sd_C_first_month_z + era5_pre_sd_mm_day_first_month_log_z + era5_pre_wet_days_gt1mm_first_month_z
+   Data: dat_dispersion (Number of observations: 402) 
+  Draws: 4 chains, each with iter = 10000; warmup = 5000; thin = 1;
+         total post-warmup draws = 20000
+
+Multilevel Hyperparameters:
+~population_id (Number of levels: 152) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.72      0.10     0.54     0.92 1.00     3983     8665
+
+~species_nonphylo (Number of levels: 104) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.33      0.22     0.01     0.80 1.00     1627     4042
+
+~species_phylo (Number of levels: 101) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     1.35      0.31     0.77     1.98 1.00     2785     5321
+
+Regression Coefficients:
+                                          Estimate Est.Error l-95% CI u-95% CI
+Intercept                                    -1.83      0.62    -3.03    -0.58
+phi_Intercept                                 5.29      0.63     4.29     6.79
+abs_latitude_z                               -0.05      0.13    -0.31     0.21
+distance_to_coast_z                           0.02      0.11    -0.19     0.23
+nest_boxyes                                  -0.52      0.27    -1.06     0.01
+marker_typemicrosatellite                     0.25      0.19    -0.12     0.64
+marker_typeother                              0.23      0.60    -0.96     1.39
+marker_typeSNPs                               0.31      0.50    -0.68     1.27
+ndvi_first_month_median_30km_z                0.07      0.08    -0.09     0.22
+era5_tmp_sd_C_first_month_z                  -0.02      0.05    -0.11     0.08
+era5_pre_sd_mm_day_first_month_log_z          0.09      0.05    -0.01     0.19
+era5_pre_wet_days_gt1mm_first_month_z        -0.03      0.05    -0.13     0.08
+phi_ndvi_first_month_median_30km_z            0.35      0.49    -0.72     1.26
+phi_era5_tmp_sd_C_first_month_z               0.07      0.41    -0.71     0.90
+phi_era5_pre_sd_mm_day_first_month_log_z     -0.21      0.67    -1.47     1.13
+phi_era5_pre_wet_days_gt1mm_first_month_z    -0.57      0.48    -1.47     0.42
+                                          Rhat Bulk_ESS Tail_ESS
+Intercept                                 1.00    13071    12989
+phi_Intercept                             1.00    11220    12703
+abs_latitude_z                            1.00    15489    15094
+distance_to_coast_z                       1.00    14135    14331
+nest_boxyes                               1.00    14077    14763
+marker_typemicrosatellite                 1.00    11605    13337
+marker_typeother                          1.00    18186    14412
+marker_typeSNPs                           1.00    18520    15511
+ndvi_first_month_median_30km_z            1.00    19620    15959
+era5_tmp_sd_C_first_month_z               1.00    27274    15795
+era5_pre_sd_mm_day_first_month_log_z      1.00    26108    15102
+era5_pre_wet_days_gt1mm_first_month_z     1.00    24415    16213
+phi_ndvi_first_month_median_30km_z        1.00    14925    13391
+phi_era5_tmp_sd_C_first_month_z           1.00    22801    14563
+phi_era5_pre_sd_mm_day_first_month_log_z  1.00    14872    16019
+phi_era5_pre_wet_days_gt1mm_first_month_z 1.00    18147    14017
+
+Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).

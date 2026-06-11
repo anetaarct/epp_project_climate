@@ -1,0 +1,22 @@
+# Check for Multicollinearity
+
+Low Correlation
+
+                                  Term  VIF   VIF 95% CI adj. VIF Tolerance
+                        abs_latitude_z 1.61 [1.43, 1.86]     1.27      0.62
+                   distance_to_coast_z 1.41 [1.27, 1.62]     1.19      0.71
+                              nest_box 1.08 [1.02, 1.32]     1.04      0.93
+                           marker_type 1.48 [1.33, 1.71]     1.07      0.67
+        ndvi_first_month_median_30km_z 1.28 [1.17, 1.48]     1.13      0.78
+           era5_tmp_sd_C_first_month_z 1.49 [1.33, 1.72]     1.22      0.67
+  era5_pre_sd_mm_day_first_month_log_z 1.76 [1.56, 2.05]     1.33      0.57
+ era5_pre_wet_days_gt1mm_first_month_z 1.87 [1.65, 2.17]     1.37      0.53
+ Tolerance 95% CI
+     [0.54, 0.70]
+     [0.62, 0.79]
+     [0.76, 0.98]
+     [0.59, 0.75]
+     [0.68, 0.86]
+     [0.58, 0.75]
+     [0.49, 0.64]
+     [0.46, 0.61]

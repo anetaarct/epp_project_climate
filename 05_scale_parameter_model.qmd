@@ -1,0 +1,204 @@
+---
+title: "Scale variation across species, populations and years"
+---
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(brms)
+library(dplyr)
+library(knitr)
+```
+
+# Aim
+
+This analysis asks whether residual EPP dispersion differs among species, populations and study years.
+
+
+::: {.callout-important title="Interpreting Phi"}
+In a beta-binomial model, `phi` is a precision parameter. Higher `phi` indicates lower residual dispersion around the mean EPP probability. Lower `phi` indicates greater residual dispersion.
+:::
+
+# Load Prepared Data
+
+```{r}
+#| label: load-data
+
+dat_model_phylo <- readRDS("data/processed/dat_model_phylo.rds")
+```
+
+# Prepare Model Data
+
+```{r}
+#| label: prepare-data
+
+complete_model_data <- function(data, vars) {
+  data <- data[
+    !is.na(data$n_epp_broods) &
+      !is.na(data$n_broods_sampled) &
+      data$n_broods_sampled > 0 &
+      data$n_epp_broods <= data$n_broods_sampled,
+  ]
+
+  data <- data[complete.cases(data[, vars]), ]
+  droplevels(data)
+}
+
+dat_scale <- dat_model_phylo
+
+dat_scale$species_nonphylo <- as.factor(dat_scale$species_nonphylo)
+dat_scale$population_id <- as.factor(dat_scale$population_id)
+
+dat_scale$year_of_study_start <- as.numeric(dat_scale$year_of_study_start)
+dat_scale$year_of_study_end <- as.numeric(dat_scale$year_of_study_end)
+dat_scale$study_year <- ifelse(
+  !is.na(dat_scale$year_of_study_end),
+  rowMeans(
+    cbind(dat_scale$year_of_study_start, dat_scale$year_of_study_end),
+    na.rm = TRUE
+  ),
+  dat_scale$year_of_study_start
+)
+dat_scale$study_year_factor <- as.factor(round(dat_scale$study_year))
+
+scale_model_vars <- c(
+  "n_epp_broods",
+  "n_broods_sampled",
+  "species_nonphylo",
+  "population_id",
+  "study_year_factor"
+)
+
+dat_scale_model <- complete_model_data(
+  dat_scale,
+  scale_model_vars
+)
+```
+
+# Data Support
+
+```{r}
+#| label: scale-data-support
+
+scale_data_support <- data.frame(
+  quantity = c(
+    "Records",
+    "Species",
+    "Populations",
+    "Study years"
+  ),
+  value = c(
+    nrow(dat_scale_model),
+    n_distinct(dat_scale_model$species_nonphylo),
+    n_distinct(dat_scale_model$population_id),
+    n_distinct(dat_scale_model$study_year_factor)
+  )
+)
+
+kable(scale_data_support)
+```
+
+# Priors
+
+```{r}
+#| label: priors
+
+priors_scale <- c(
+  prior(normal(0, 2), class = "Intercept"),
+  prior(exponential(1), class = "sd"),
+  prior(normal(0, 2), class = "Intercept", dpar = "phi"),
+  prior(exponential(1), class = "sd", dpar = "phi")
+)
+```
+
+# Scale Model
+
+```{r}
+#| label: fit-scale-model-on-totoro
+#| eval: false
+
+m_scale_species_population_year <- brm(
+  bf(
+    n_epp_broods | trials(n_broods_sampled) ~
+      1 +
+      (1 | mu_species | species_nonphylo) +
+      (1 | mu_population | population_id),
+    phi ~
+      1 +
+      (1 | phi_species | species_nonphylo) +
+      (1 | phi_population | population_id) +
+      (1 | phi_year | study_year_factor)
+  ),
+  data = dat_scale_model,
+  family = beta_binomial(link = "logit", link_phi = "log"),
+  prior = priors_scale,
+  chains = 4,
+  cores = 4,
+  iter = 10000,
+  warmup = 5000,
+  control = list(adapt_delta = 0.99, max_treedepth = 15),
+  seed = 301,
+  save_pars = save_pars(all = TRUE)
+)
+```
+
+# Model Summary
+
+```{r}
+#| label: load-scale-model-summary
+#| message: false
+#| warning: false
+
+if (file.exists("models/models_scale/m_scale_species_population_year.rds")) {
+  m_scale_species_population_year <- readRDS(
+    "models/models_scale/m_scale_species_population_year.rds"
+  )
+
+  summary(m_scale_species_population_year)
+} else {
+  cat(
+    "Scale model not found: models/models_scale/m_scale_species_population_year.rds\n"
+  )
+}
+```
+
+# Scale Components
+
+```{r}
+#| label: scale-components
+#| message: false
+#| warning: false
+
+if (file.exists("models/models_scale/scale_parameter_components.csv")) {
+  scale_parameter_components <- read.csv(
+    "models/models_scale/scale_parameter_components.csv"
+  )
+
+  kable(scale_parameter_components, digits = 3)
+} else {
+  cat(
+    "Scale component table not found: models/models_scale/scale_parameter_components.csv\n"
+  )
+}
+```
+
+The posterior estimates suggest that residual EPP dispersion can vary at the population, species and study-year levels. However, uncertainty is broad and all credible intervals extend close to zero. This means that the model does not provide strong evidence that scale variation is clearly dominated by one biological level. Population-level dispersion is estimated slightly higher than species- and year-level dispersion, but the difference should be interpreted cautiously.
+
+# Output Files
+
+The corresponding Totoro script is:
+
+```text
+scripts/run_scale_parameter_model.R
+```
+
+The expected model outputs are:
+
+```text
+models/models_scale/m_scale_species_population_year.rds
+models/models_scale/summary_m_scale_species_population_year.txt
+models/models_scale/scale_model_data_support.csv
+models/models_scale/scale_parameter_components.csv
+```

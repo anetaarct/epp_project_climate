@@ -1,0 +1,88 @@
+variable,source,unit_or_type,description
+epp_row_id,EPP dataset,integer,One-based row identifier added to link EPP records with Google Earth Engine exports.
+id,EPP dataset,text,Original study or publication identifier.
+scientific_name,EPP dataset,text,Scientific species name used in the EPP dataset.
+Clements_name,Taxonomy,text,Species name matched to the Clements taxonomic backbone used for phylogenetic matching.
+order,Clements Checklist v2025,text,Avian order matched from the Clements Checklist v2025 using Clements_name.
+family,Clements Checklist v2025,text,Scientific family name matched from the Clements Checklist v2025 using Clements_name.
+family_common,Clements Checklist v2025,text,English common family group name extracted from the Clements Checklist v2025 family field.
+scientific_name_jetz,EPP dataset,text,"Species name matched to the Jetz taxonomic backbone, where available."
+breeding_system,EPP dataset,categorical,Breeding system classification used to restrict analyses to socially monogamous species.
+level,EPP dataset,categorical,"Resolution of the EPP record, such as single-year or multi-year study level."
+common_name,EPP dataset,text,Common English species name.
+lat,EPP dataset,decimal degrees,Latitude of the study population or assigned study location.
+long,EPP dataset,decimal degrees,Longitude of the study population or assigned study location.
+nest_box,EPP dataset,categorical,Whether the study population used nest boxes.
+marker_type,EPP dataset,categorical,Genetic marker type used to estimate extra-pair paternity.
+year_of_study_start,EPP dataset,year,First year covered by the EPP estimate.
+year_of_study_end,EPP dataset,year,Final year covered by the EPP estimate.
+breeding_start,EPP dataset,month name,Start month of the breeding season or first breeding month used for environmental matching.
+breeding_end,EPP dataset,month name,End month of the breeding season or final breeding month used for environmental matching.
+epp_percent_broods,EPP dataset,percent,Percentage of sampled broods containing at least one extra-pair young.
+n_epp_broods,EPP dataset,count,Number of sampled broods containing at least one extra-pair young.
+n_wpp_broods,EPP dataset,count,Number of sampled broods without extra-pair young.
+n_broods_sampled,EPP dataset,count,Total number of sampled broods.
+record_id,Climate merge,integer,Record identifier used during environmental-data extraction.
+lon,Climate merge,decimal degrees,Longitude column used for climate extraction; usually duplicates long.
+climate_year,CRU climate,year,Year used to extract monthly climate data.
+climate_month,CRU climate,month number,First breeding-season month used to extract monthly climate data.
+location_id,Climate merge,integer,Location identifier used during climate-data extraction.
+tmp_cru_C_first_month,CRU climate,degrees C,Mean CRU temperature during the first-month breeding window.
+tmp_long_base_1961_1989_C_first_month,CRU climate,degrees C,"Long-term baseline mean temperature for the first-month breeding window, calculated over 1961-1989."
+tmp_long_anom_1961_1989_C_first_month,CRU climate,degrees C,Temperature anomaly for the first-month breeding window relative to the 1961-1989 baseline.
+tmp_short_base_5yr_C_first_month,CRU climate,degrees C,"Short-term baseline mean temperature for the first-month breeding window, calculated over the preceding five years."
+tmp_short_anom_5yr_C_first_month,CRU climate,degrees C,Temperature anomaly for the first-month breeding window relative to the preceding five-year baseline.
+original_end_month,Climate merge,month number,Original breeding-season end month before any adjustment used for climate matching.
+tmp_cru_C_full_season,CRU climate,degrees C,Mean CRU temperature across the full breeding-season window.
+tmp_long_base_1961_1989_C_full_season,CRU climate,degrees C,"Long-term baseline mean temperature across the full breeding-season window, calculated over 1961-1989."
+tmp_long_anom_1961_1989_C_full_season,CRU climate,degrees C,Temperature anomaly across the full breeding-season window relative to the 1961-1989 baseline.
+tmp_short_base_5yr_C_full_season,CRU climate,degrees C,"Short-term baseline mean temperature across the full breeding-season window, calculated over the preceding five years."
+tmp_short_anom_5yr_C_full_season,CRU climate,degrees C,Temperature anomaly across the full breeding-season window relative to the preceding five-year baseline.
+n_months_full_season,Climate merge,count,Number of months included in the full breeding-season temperature window.
+pre_cru_mm_first_month,CRU climate,mm,Total CRU precipitation during the first-month breeding window.
+pre_long_base_1961_1989_mm_first_month,CRU climate,mm,"Long-term baseline precipitation for the first-month breeding window, calculated over 1961-1989."
+pre_long_anom_1961_1989_mm_first_month,CRU climate,mm,Precipitation anomaly for the first-month breeding window relative to the 1961-1989 baseline.
+pre_short_base_5yr_mm_first_month,CRU climate,mm,"Short-term baseline precipitation for the first-month breeding window, calculated over the preceding five years."
+pre_short_anom_5yr_mm_first_month,CRU climate,mm,Precipitation anomaly for the first-month breeding window relative to the preceding five-year baseline.
+pre_cru_mm_full_season,CRU climate,mm,Total CRU precipitation across the full breeding-season window.
+pre_long_base_1961_1989_mm_full_season,CRU climate,mm,"Long-term baseline precipitation across the full breeding-season window, calculated over 1961-1989."
+pre_long_anom_1961_1989_mm_full_season,CRU climate,mm,Precipitation anomaly across the full breeding-season window relative to the 1961-1989 baseline.
+pre_short_base_5yr_mm_full_season,CRU climate,mm,"Short-term baseline precipitation across the full breeding-season window, calculated over the preceding five years."
+pre_short_anom_5yr_mm_full_season,CRU climate,mm,Precipitation anomaly across the full breeding-season window relative to the preceding five-year baseline.
+n_months_pre_full_season,Climate merge,count,Number of months included in the full breeding-season precipitation window.
+dtr_cru_C_first_month,CRU climate,degrees C,Mean diurnal temperature range during the first-month breeding window.
+dtr_cru_C_full_season,CRU climate,degrees C,Mean diurnal temperature range across the full breeding-season window.
+breeding_start_month_num,EPP dataset,month number,Numeric breeding-season start month.
+breeding_end_month_num,EPP dataset,month number,Numeric breeding-season end month.
+breeding_season_length_months,EPP dataset,count,Length of the breeding-season window in months.
+ndvi_can_first_month,NOAA NDVI,logical,Whether first-month NDVI could be extracted for the record.
+ndvi_can_full_season,NOAA NDVI,logical,Whether full-season NDVI could be extracted for the record.
+ndvi_start_month,NOAA NDVI,month number,First month used for NDVI extraction.
+ndvi_end_month,NOAA NDVI,month number,Final month used for NDVI extraction.
+ndvi_year,NOAA NDVI,year,Year used for NDVI extraction.
+ndvi_lat,NOAA NDVI,decimal degrees,Latitude used for NDVI extraction.
+ndvi_lon,NOAA NDVI,decimal degrees,Longitude used for NDVI extraction.
+ndvi_first_month_median_30km,NOAA NDVI,NDVI,Median NDVI within 30 km during the first-month breeding window.
+ndvi_full_season_median_30km,NOAA NDVI,NDVI,Median NDVI within 30 km across the full breeding-season window.
+ndvi_merge_status,NOAA NDVI,categorical,Status of NDVI matching for first-month and full-season windows.
+ndvi_coord_match_round4,NOAA NDVI,logical,Whether NDVI coordinates matched the EPP coordinates after rounding to four decimal places.
+lat_round,Derived variable,decimal degrees,Latitude rounded to two decimal places for defining population identity.
+long_round,Derived variable,decimal degrees,Longitude rounded to two decimal places for defining population identity.
+abs_latitude,Derived variable,decimal degrees,Absolute latitude of the study population.
+population_id,Derived variable,text,Population identifier based on species identity and rounded coordinates.
+distance_to_coast_km,Derived variable,km,Distance from the study population to the nearest coastline.
+era5_year,ERA5-Land GEE,year,Year used for the ERA5-Land daily weather extraction.
+era5_first_month,ERA5-Land GEE,month number,First breeding-season month used for the ERA5-Land daily weather extraction.
+era5_latitude,ERA5-Land GEE,decimal degrees,Latitude used for the ERA5-Land extraction.
+era5_longitude,ERA5-Land GEE,decimal degrees,Longitude used for the ERA5-Land extraction.
+era5_weather_start_date,ERA5-Land GEE,date,Start date of the daily ERA5-Land weather window.
+era5_weather_end_date,ERA5-Land GEE,date,End date of the daily ERA5-Land weather window.
+era5_weather_dataset,ERA5-Land GEE,text,Google Earth Engine dataset used for daily weather extraction.
+era5_pre_max_mm_day_first_month,ERA5-Land GEE,mm/day,Maximum daily precipitation during the first-month breeding window.
+era5_pre_mean_mm_day_first_month,ERA5-Land GEE,mm/day,Mean daily precipitation during the first-month breeding window.
+era5_pre_sd_mm_day_first_month,ERA5-Land GEE,mm/day,Standard deviation of daily precipitation during the first-month breeding window.
+era5_pre_sum_mm_first_month,ERA5-Land GEE,mm,Total precipitation summed across daily values during the first-month breeding window.
+era5_pre_wet_days_gt1mm_first_month,ERA5-Land GEE,count,Number of days with precipitation greater than 1 mm during the first-month breeding window.
+era5_tmp_mean_C_first_month,ERA5-Land GEE,degrees C,Mean daily temperature during the first-month breeding window.
+era5_tmp_range_C_first_month,ERA5-Land GEE,degrees C,Range of daily temperature values during the first-month breeding window.
+era5_tmp_sd_C_first_month,ERA5-Land GEE,degrees C,Standard deviation of daily temperature during the first-month breeding window.

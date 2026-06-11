@@ -1,0 +1,291 @@
+---
+title: "Taxonomy and phylogeny"
+---
+
+# Aim
+
+This page prepares the taxonomic and phylogenetic structure used in the Bayesian comparative analyses.
+
+The goal is to verify species matching between the analytical dataset and the phylogenetic tree, prune the tree to the species included in the study, generate a phylogenetic correlation matrix, and prepare the phylogenetic grouping variables required for the Bayesian models.
+
+# Load packages and data
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(ape)
+library(knitr)
+
+dat_model <- readRDS("data/processed/dat_model.rds")
+
+dat_taxonomy <- readr::read_csv(
+  "epp_data_June2026.csv",
+  show_col_types = FALSE
+) %>%
+  select(
+    any_of(
+      c(
+        "epp_row_id",
+        "record_id",
+        "scientific_name",
+        "Clements_name",
+        "order",
+        "family",
+        "family_common"
+      )
+    )
+  ) %>%
+  distinct()
+
+if (
+  !"family" %in% names(dat_model) ||
+    ("family" %in% names(dat_model) && all(is.na(dat_model$family)))
+) {
+  dat_model <- dat_model %>%
+    select(-any_of(c("order", "family", "family_common")))
+}
+
+needs_family_merge <- !"family" %in% names(dat_model) ||
+  all(is.na(dat_model$family))
+
+if (needs_family_merge && "epp_row_id" %in% names(dat_model)) {
+  dat_model <- dat_model %>%
+    left_join(
+      dat_taxonomy %>%
+        select(
+          epp_row_id,
+          any_of(c("order", "family", "family_common"))
+        ),
+      by = "epp_row_id"
+    )
+}
+
+needs_family_merge <- !"family" %in% names(dat_model) ||
+  all(is.na(dat_model$family))
+
+if (needs_family_merge && "record_id" %in% names(dat_model)) {
+  dat_model <- dat_model %>%
+    left_join(
+      dat_taxonomy %>%
+        select(
+          record_id,
+          any_of(c("order", "family", "family_common"))
+        ),
+      by = "record_id"
+    )
+}
+
+needs_family_merge <- !"family" %in% names(dat_model) ||
+  all(is.na(dat_model$family))
+
+if (needs_family_merge && "Clements_name" %in% names(dat_model)) {
+  dat_model <- dat_model %>%
+    left_join(
+      dat_taxonomy %>%
+        select(
+          Clements_name,
+          any_of(c("order", "family", "family_common"))
+        ) %>%
+        distinct(),
+      by = "Clements_name"
+    )
+}
+
+tree <- ape::read.nexus("phylogeny/summary_dated_clements.nex")
+```
+
+# Phylogenetic tree overview
+
+The phylogenetic analyses are based on the global avian phylogeny using Clements taxonomy.
+
+```{r}
+#| label: tree-overview
+
+tree
+```
+
+# Species included in the analytical dataset
+
+The cleaned EPP dataset contains species names matched to the Clements taxonomic backbone. These names are stored in the variable `Clements_name`.
+
+```{r}
+#| label: species-summary
+
+species_data <- dat_model %>%
+  distinct(Clements_name) %>%
+  filter(!is.na(Clements_name)) %>%
+  pull(Clements_name)
+
+species_tree <- tree$tip.label
+
+species_summary <- tibble(
+  metric = c(
+    "Species in analytical dataset",
+    "Tips in full phylogeny"
+  ),
+  value = c(
+    length(species_data),
+    length(species_tree)
+  )
+)
+
+knitr::kable(species_summary)
+```
+
+# Check taxonomic matching
+
+We verified that all species included in the analytical dataset were represented in the phylogenetic tree.
+
+```{r}
+#| label: species-names-check
+
+missing_from_tree <- setdiff(
+  species_data,
+  species_tree
+)
+
+missing_from_tree
+```
+
+```{r}
+#| label: missing-summary
+
+tibble(
+  n_species_missing_from_tree = length(missing_from_tree)
+) %>%
+  knitr::kable()
+```
+
+A value of zero indicates complete taxonomic matching between the dataset and the phylogeny.
+
+# Prune the phylogeny
+
+The full phylogenetic tree contains many species not included in the EPP dataset. Therefore, the tree was pruned to retain only species present in the analytical dataset.
+
+```{r}
+#| label: prune-tree
+
+tree_pruned <- ape::drop.tip(
+  tree,
+  setdiff(tree$tip.label, species_data)
+)
+```
+
+```{r}
+#| label: pruned-tree-overview
+
+tree_pruned
+```
+
+```{r}
+#| label: pruned-tree-summary
+
+tibble(
+  metric = c(
+    "Species retained in analytical dataset",
+    "Tips in pruned phylogeny"
+  ),
+  value = c(
+    length(species_data),
+    length(tree_pruned$tip.label)
+  )
+) %>%
+  knitr::kable()
+```
+
+# Generate the phylogenetic correlation matrix
+
+The Bayesian models account for phylogenetic non-independence among species through a phylogenetic random effect.
+
+To implement this structure in `brms`, the pruned phylogeny was converted into a phylogenetic correlation matrix.
+
+```{r}
+#| label: phylogenetic-correlation-matrix
+
+phylo_mat <- ape::vcv.phylo(
+  tree_pruned,
+  corr = TRUE
+)
+
+dim(phylo_mat)
+```
+
+```{r}
+#| label: phylo-matrix-preview
+
+phylo_mat[1:5, 1:5]
+```
+
+# Prepare phylogenetic grouping variables
+
+Two species-level grouping variables were retained for the Bayesian models:
+
+- `species_phylo` - species identity linked to the phylogenetic covariance matrix;
+- `species_nonphylo` - species identity modelled as an additional non-phylogenetic random effect.
+
+Including both random effects allows the models to partition variation attributable to shared evolutionary history and species-specific variation not explained by phylogeny.
+
+```{r}
+#| label: add-phylo-columns
+
+dat_model_phylo <- dat_model %>%
+  mutate(
+    species_phylo = Clements_name,
+    species_nonphylo = scientific_name
+  ) %>%
+  filter(
+    species_phylo %in% tree_pruned$tip.label
+  )
+```
+
+# Final Dataset Summary
+
+```{r}
+#| label: phylo-dataset-summary
+
+dat_model_phylo %>%
+  summarise(
+    n_records = n(),
+    n_studies = n_distinct(id),
+    n_species_phylo = n_distinct(species_phylo),
+    n_species_nonphylo = n_distinct(species_nonphylo),
+    n_families = n_distinct(family),
+    n_orders = n_distinct(order),
+    n_populations = n_distinct(population_id)
+  ) %>%
+  knitr::kable()
+```
+
+# Save Phylogenetic Objects
+
+The processed phylogenetic objects are saved for subsequent modelling steps.
+
+```{r}
+#| label: save-phylo-objects
+
+saveRDS(
+  dat_model_phylo,
+  "data/processed/dat_model_phylo.rds"
+)
+
+saveRDS(
+  tree_pruned,
+  "data/processed/tree_pruned.rds"
+)
+
+saveRDS(
+  phylo_mat,
+  "data/processed/phylo_mat.rds"
+)
+```
+
+# Output Files
+
+| File | Description |
+|------------------------------------|------------------------------------|
+| `dat_model_phylo.rds` | Analytical dataset with phylogenetic grouping variables |
+| `tree_pruned.rds` | Pruned phylogenetic tree containing only species included in the study |
+| `phylo_mat.rds` | Phylogenetic correlation matrix used in Bayesian models |

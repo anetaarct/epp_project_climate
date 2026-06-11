@@ -1,0 +1,824 @@
+---
+title: "Figures"
+---
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(brms)
+library(dplyr)
+library(posterior)
+library(ggplot2)
+library(grid)
+library(knitr)
+```
+
+# Aim
+
+This page creates the figures used throughout the book.
+
+The variation figures summarise biological structure in EPP, and the forest plot compares effects from the absolute climate, short-term anomaly, and long-term anomaly models. All continuous predictors were standardised before model fitting. Model effects are shown on the logit scale.
+
+# Output Directory
+
+```{r}
+#| label: create-figure-directory
+
+dir.create("figures", recursive = TRUE, showWarnings = FALSE)
+```
+
+# First-Month Versus Full-Season Variables
+
+```{r}
+#| label: figure-first-month-full-season-data
+
+dat_model_phylo <- readRDS("data/processed/dat_model_phylo.rds")
+
+make_first_full_data <- function(data, first_var, full_var, label) {
+  keep <- complete.cases(data[, c(first_var, full_var)])
+  test <- cor.test(
+    data[[first_var]][keep],
+    data[[full_var]][keep],
+    method = "pearson"
+  )
+
+  data.frame(
+    variable = label,
+    first_month = data[[first_var]][keep],
+    full_season = data[[full_var]][keep],
+    r = unname(test$estimate),
+    n = sum(keep)
+  )
+}
+
+first_full_plot_data <- bind_rows(
+  make_first_full_data(
+    dat_model_phylo,
+    "tmp_cru_C_first_month",
+    "tmp_cru_C_full_season",
+    "Temperature"
+  ),
+  make_first_full_data(
+    dat_model_phylo,
+    "pre_cru_mm_first_month",
+    "pre_cru_mm_full_season",
+    "Precipitation"
+  ),
+  make_first_full_data(
+    dat_model_phylo,
+    "dtr_cru_C_first_month",
+    "dtr_cru_C_full_season",
+    "DTR"
+  ),
+  make_first_full_data(
+    dat_model_phylo,
+    "ndvi_first_month_median_30km",
+    "ndvi_full_season_median_30km",
+    "NDVI"
+  )
+)
+
+first_full_labels <- first_full_plot_data %>%
+  group_by(variable) %>%
+  summarise(
+    label = paste0("r = ", round(first(r), 2), "; n = ", first(n)),
+    x = min(first_month, na.rm = TRUE),
+    y = max(full_season, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+```{r}
+#| label: figure-first-month-full-season-correlations
+#| fig-width: 8
+#| fig-height: 6
+
+if (!exists("first_full_plot_data")) {
+  if (!exists("dat_model_phylo")) {
+    dat_model_phylo <- readRDS("data/processed/dat_model_phylo.rds")
+  }
+
+  make_first_full_data <- function(data, first_var, full_var, label) {
+    keep <- complete.cases(data[, c(first_var, full_var)])
+    test <- cor.test(
+      data[[first_var]][keep],
+      data[[full_var]][keep],
+      method = "pearson"
+    )
+
+    data.frame(
+      variable = label,
+      first_month = data[[first_var]][keep],
+      full_season = data[[full_var]][keep],
+      r = unname(test$estimate),
+      n = sum(keep)
+    )
+  }
+
+  first_full_plot_data <- bind_rows(
+    make_first_full_data(
+      dat_model_phylo,
+      "tmp_cru_C_first_month",
+      "tmp_cru_C_full_season",
+      "Temperature"
+    ),
+    make_first_full_data(
+      dat_model_phylo,
+      "pre_cru_mm_first_month",
+      "pre_cru_mm_full_season",
+      "Precipitation"
+    ),
+    make_first_full_data(
+      dat_model_phylo,
+      "dtr_cru_C_first_month",
+      "dtr_cru_C_full_season",
+      "DTR"
+    ),
+    make_first_full_data(
+      dat_model_phylo,
+      "ndvi_first_month_median_30km",
+      "ndvi_full_season_median_30km",
+      "NDVI"
+    )
+  )
+}
+
+if (!exists("first_full_labels")) {
+  first_full_labels <- first_full_plot_data %>%
+    group_by(variable) %>%
+    summarise(
+      label = paste0("r = ", round(first(r), 2), "; n = ", first(n)),
+      x = min(first_month, na.rm = TRUE),
+      y = max(full_season, na.rm = TRUE),
+      .groups = "drop"
+    )
+}
+
+fig_first_full_correlations <- ggplot(
+  first_full_plot_data,
+  aes(x = first_month, y = full_season)
+) +
+  geom_point(
+    alpha = 0.35,
+    size = 1.5,
+    colour = "#6f7f62"
+  ) +
+  geom_smooth(
+    method = "lm",
+    se = FALSE,
+    linewidth = 0.7,
+    colour = "#33412f"
+  ) +
+  geom_text(
+    data = first_full_labels,
+    aes(x = x, y = y, label = label),
+    inherit.aes = FALSE,
+    hjust = 0,
+    vjust = 1,
+    size = 3.5,
+    colour = "#24301f"
+  ) +
+  facet_wrap(~ variable, scales = "free", ncol = 2) +
+  labs(
+    x = "First-month value",
+    y = "Full-season value",
+    title = "First-month environmental values track full-season conditions",
+    subtitle = "Each panel compares the first breeding-season month with the corresponding full-season summary."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", colour = "#24301f"),
+    plot.subtitle = element_text(colour = "#52624a"),
+    strip.text = element_text(face = "bold", colour = "#24301f"),
+    axis.title = element_text(colour = "#2f382c"),
+    axis.text = element_text(colour = "#2f382c"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(colour = "#e3e7dc", linewidth = 0.35)
+  )
+
+fig_first_full_correlations
+
+ggsave(
+  "figures/first_month_full_season_correlations.png",
+  fig_first_full_correlations,
+  width = 8,
+  height = 6,
+  dpi = 300
+)
+
+ggsave(
+  "figures/first_month_full_season_correlations.pdf",
+  fig_first_full_correlations,
+  width = 8,
+  height = 6
+)
+```
+
+# Variation Across Biological Levels
+
+```{r}
+#| label: figure-prepare-variation-data
+
+weighted_mean <- function(x, w) {
+  keep <- !is.na(x) & !is.na(w) & w > 0
+  sum(x[keep] * w[keep]) / sum(w[keep])
+}
+
+dat_var <- dat_model_phylo %>%
+  filter(
+    !is.na(n_epp_broods),
+    !is.na(n_broods_sampled),
+    n_broods_sampled > 0,
+    n_epp_broods <= n_broods_sampled,
+    !is.na(species_phylo),
+    !is.na(population_id)
+  ) %>%
+  mutate(
+    epp_rate = n_epp_broods / n_broods_sampled,
+    year_of_study_start = as.numeric(year_of_study_start),
+    year_of_study_end = as.numeric(year_of_study_end),
+    study_year = ifelse(
+      !is.na(year_of_study_end),
+      rowMeans(
+        cbind(year_of_study_start, year_of_study_end),
+        na.rm = TRUE
+      ),
+      year_of_study_start
+    )
+  )
+
+species_epp <- dat_var %>%
+  group_by(species_phylo) %>%
+  summarise(
+    species_mean_epp = weighted_mean(epp_rate, n_broods_sampled),
+    n_populations = n_distinct(population_id),
+    .groups = "drop"
+  )
+
+global_mean_epp <- weighted_mean(
+  dat_var$epp_rate,
+  dat_var$n_broods_sampled
+)
+
+population_epp <- dat_var %>%
+  group_by(species_phylo, population_id) %>%
+  summarise(
+    population_mean_epp = weighted_mean(epp_rate, n_broods_sampled),
+    n_years = n_distinct(study_year[!is.na(study_year)]),
+    .groups = "drop"
+  ) %>%
+  left_join(
+    species_epp %>%
+      select(species_phylo, species_mean_epp, n_populations),
+    by = "species_phylo"
+  )
+
+repeated_population_ids <- population_epp %>%
+  filter(n_years >= 3) %>%
+  pull(population_id)
+
+year_epp <- dat_var %>%
+  filter(population_id %in% repeated_population_ids) %>%
+  left_join(
+    population_epp %>%
+      select(population_id, population_mean_epp),
+    by = "population_id"
+  ) %>%
+  group_by(population_id) %>%
+  summarise(
+    abs_deviation = mean(
+      abs(epp_rate - population_mean_epp),
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  )
+
+variation_deviations <- bind_rows(
+  species_epp %>%
+    transmute(
+      level = "Among species",
+      unit = as.character(species_phylo),
+      abs_deviation = abs(species_mean_epp - global_mean_epp)
+    ),
+  population_epp %>%
+    filter(n_populations >= 3) %>%
+    transmute(
+      level = "Among populations within species",
+      unit = as.character(population_id),
+      abs_deviation = abs(population_mean_epp - species_mean_epp)
+    ),
+  year_epp %>%
+    transmute(
+      level = "Among years within population",
+      unit = as.character(population_id),
+      abs_deviation = abs_deviation
+    )
+)
+
+variation_deviations$level <- factor(
+  variation_deviations$level,
+  levels = c(
+    "Among species",
+    "Among populations within species",
+    "Among years within population"
+  )
+)
+```
+
+```{r}
+#| label: figure-epp-variation-levels
+#| fig-width: 8
+#| fig-height: 5.5
+
+fig_epp_variation_levels <- ggplot(
+  variation_deviations,
+  aes(x = level, y = abs_deviation)
+) +
+  geom_boxplot(
+    width = 0.55,
+    outlier.shape = NA,
+    fill = "#dfe7d6",
+    colour = "#33412f"
+  ) +
+  geom_jitter(
+    width = 0.12,
+    alpha = 0.35,
+    size = 1.4,
+    colour = "#6f7f62"
+  ) +
+  scale_y_continuous(
+    labels = function(x) paste0(round(100 * x), "%")
+  ) +
+  labs(
+    x = NULL,
+    y = "Absolute deviation in EPP",
+    title = "EPP variation occurs across biological levels",
+    subtitle = "Deviation is measured from the global mean, species mean, or population mean depending on level."
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", colour = "#24301f"),
+    plot.subtitle = element_text(colour = "#52624a"),
+    axis.text.x = element_text(colour = "#2f382c"),
+    axis.text.y = element_text(colour = "#2f382c"),
+    axis.title.y = element_text(colour = "#2f382c"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(colour = "#e3e7dc", linewidth = 0.35)
+  )
+
+fig_epp_variation_levels
+
+ggsave(
+  "figures/epp_variation_across_levels.png",
+  fig_epp_variation_levels,
+  width = 8,
+  height = 5.5,
+  dpi = 300
+)
+
+ggsave(
+  "figures/epp_variation_across_levels.pdf",
+  fig_epp_variation_levels,
+  width = 8,
+  height = 5.5
+)
+```
+
+# Family-Level Mean and Scale
+
+```{r}
+#| label: figure-family-mean-scale
+#| fig-width: 8
+#| fig-height: 5.8
+
+if ("family" %in% names(dat_var) && any(!is.na(dat_var$family))) {
+  species_family_epp <- dat_var %>%
+    filter(
+      !is.na(family),
+      !is.na(species_phylo)
+    ) %>%
+    group_by(family, species_phylo) %>%
+    summarise(
+      species_mean_epp = weighted_mean(epp_rate, n_broods_sampled),
+      total_broods = sum(n_broods_sampled, na.rm = TRUE),
+      n_records = n(),
+      .groups = "drop"
+    )
+
+  family_species_variation <- species_family_epp %>%
+    group_by(family) %>%
+    summarise(
+      n_species = n_distinct(species_phylo),
+      mean_species_epp = mean(species_mean_epp, na.rm = TRUE),
+      sd_species_epp = sd(species_mean_epp, na.rm = TRUE),
+      min_species_epp = min(species_mean_epp, na.rm = TRUE),
+      max_species_epp = max(species_mean_epp, na.rm = TRUE),
+      range_species_epp = max_species_epp - min_species_epp,
+      .groups = "drop"
+    ) %>%
+    filter(n_species >= 3) %>%
+    arrange(desc(sd_species_epp))
+
+  fig_family_mean_scale <- ggplot(
+    family_species_variation,
+    aes(
+      x = mean_species_epp,
+      y = sd_species_epp,
+      size = n_species
+    )
+  ) +
+    geom_smooth(
+      method = "lm",
+      se = TRUE,
+      linewidth = 0.7,
+      colour = "#5f8c72",
+      fill = "#dfe7d6"
+    ) +
+    geom_point(
+      shape = 21,
+      fill = "#d9b86c",
+      colour = "#2f382c",
+      alpha = 0.9,
+      stroke = 0.35
+    ) +
+    geom_text(
+      aes(label = family),
+      size = 3,
+      hjust = -0.08,
+      vjust = 0.4,
+      colour = "#2f382c",
+      check_overlap = TRUE
+    ) +
+    scale_x_continuous(
+      labels = function(x) paste0(round(100 * x), "%"),
+      expand = expansion(mult = c(0.08, 0.24))
+    ) +
+    scale_y_continuous(
+      labels = function(x) paste0(round(100 * x), "%"),
+      expand = expansion(mult = c(0.08, 0.12))
+    ) +
+    scale_size_continuous(
+      range = c(3, 8),
+      name = "Species"
+    ) +
+    labs(
+      x = "Family mean EPP",
+      y = "Among-species EPP variation within family",
+      title = "Family-level mean and scale of EPP",
+      subtitle = "Families with higher mean EPP tended to show greater among-species divergence."
+    ) +
+    theme_minimal(base_size = 12) +
+    theme(
+      plot.title = element_text(face = "bold", colour = "#24301f"),
+      plot.subtitle = element_text(colour = "#52624a"),
+      axis.title = element_text(colour = "#2f382c"),
+      axis.text = element_text(colour = "#2f382c"),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_line(colour = "#e3e7dc", linewidth = 0.35),
+      legend.position = "bottom"
+    )
+
+  fig_family_mean_scale
+
+  ggsave(
+    "figures/family_mean_scale_epp.png",
+    fig_family_mean_scale,
+    width = 8,
+    height = 5.8,
+    dpi = 300
+  )
+
+  ggsave(
+    "figures/family_mean_scale_epp.pdf",
+    fig_family_mean_scale,
+    width = 8,
+    height = 5.8
+  )
+} else {
+  cat(
+    "Family-level mean-scale figure was not created because no family column is present in the current dataset.\n"
+  )
+}
+```
+
+# Load Fitted Models
+
+```{r}
+#| label: load-models
+
+m_basic_pop <- readRDS("models/m_basic_pop.rds")
+m_env_absolute <- readRDS("models/m_env_absolute.rds")
+m_env_short <- readRDS("models/m_env_short.rds")
+m_env_long <- readRDS("models/m_env_long.rds")
+```
+
+# Posterior Predictive Checks
+
+```{r}
+#| label: posterior-predictive-check-figures
+#| fig-width: 8
+#| fig-height: 5
+
+pp_check_overall_basic_pop <- pp_check(
+  m_basic_pop,
+  type = "bars",
+  ndraws = 100
+)
+
+pp_check_env_absolute <- pp_check(
+  m_env_absolute,
+  type = "bars",
+  ndraws = 100
+)
+
+pp_check_env_short <- pp_check(
+  m_env_short,
+  type = "bars",
+  ndraws = 100
+)
+
+pp_check_env_long <- pp_check(
+  m_env_long,
+  type = "bars",
+  ndraws = 100
+)
+
+pp_check_overall_basic_pop
+pp_check_env_absolute
+pp_check_env_short
+pp_check_env_long
+
+ggsave(
+  "figures/pp_check_overall_basic_pop.png",
+  pp_check_overall_basic_pop,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
+
+ggsave(
+  "figures/pp_check_overall_basic_pop.pdf",
+  pp_check_overall_basic_pop,
+  width = 8,
+  height = 5
+)
+
+ggsave(
+  "figures/pp_check_env_absolute.png",
+  pp_check_env_absolute,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
+
+ggsave(
+  "figures/pp_check_env_absolute.pdf",
+  pp_check_env_absolute,
+  width = 8,
+  height = 5
+)
+
+ggsave(
+  "figures/pp_check_env_short.png",
+  pp_check_env_short,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
+
+ggsave(
+  "figures/pp_check_env_short.pdf",
+  pp_check_env_short,
+  width = 8,
+  height = 5
+)
+
+ggsave(
+  "figures/pp_check_env_long.png",
+  pp_check_env_long,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
+
+ggsave(
+  "figures/pp_check_env_long.pdf",
+  pp_check_env_long,
+  width = 8,
+  height = 5
+)
+```
+
+# Extract Fixed Effects
+
+```{r}
+#| label: extract-effects
+
+extract_fixed_effects <- function(model, model_label, term_labels) {
+  draws <- as_draws_df(model)
+
+  available_terms <- intersect(names(term_labels), names(draws))
+
+  do.call(
+    rbind,
+    lapply(
+      available_terms,
+      function(term) {
+        x <- draws[[term]]
+
+        data.frame(
+          model = model_label,
+          term = term,
+          predictor = term_labels[[term]],
+          estimate = median(x),
+          lower = quantile(x, 0.025),
+          upper = quantile(x, 0.975),
+          prob_positive = mean(x > 0),
+          prob_negative = mean(x < 0),
+          row.names = NULL
+        )
+      }
+    )
+  )
+}
+
+moderator_terms <- c(
+  b_abs_latitude_z = "Absolute latitude",
+  b_distance_to_coast_z = "Distance to coast",
+  b_nest_boxyes = "Nest box",
+  b_marker_typemicrosatellite = "Marker: microsatellite",
+  b_marker_typeSNPs = "Marker: SNPs",
+  b_marker_typeother = "Marker: other"
+)
+
+absolute_terms <- c(
+  b_tmp_cru_C_first_month_z = "Temperature",
+  b_pre_cru_mm_first_month_log_z = "Precipitation",
+  b_dtr_cru_C_first_month_z = "DTR",
+  b_ndvi_first_month_median_30km_z = "NDVI",
+  moderator_terms
+)
+
+short_terms <- c(
+  b_tmp_short_anom_5yr_C_first_month_z = "Temperature anomaly",
+  b_pre_short_anom_5yr_mm_first_month_z = "Precipitation anomaly",
+  b_dtr_cru_C_first_month_z = "DTR",
+  b_ndvi_first_month_median_30km_z = "NDVI",
+  moderator_terms
+)
+
+long_terms <- c(
+  b_tmp_long_anom_1961_1989_C_first_month_z = "Temperature anomaly",
+  b_pre_long_anom_1961_1989_mm_first_month_z = "Precipitation anomaly",
+  b_dtr_cru_C_first_month_z = "DTR",
+  b_ndvi_first_month_median_30km_z = "NDVI",
+  moderator_terms
+)
+
+effects_list <- list(
+  extract_fixed_effects(m_env_absolute, "Absolute climate", absolute_terms),
+  extract_fixed_effects(m_env_short, "Short anomalies", short_terms),
+  extract_fixed_effects(m_env_long, "Long anomalies", long_terms)
+)
+
+effects_env <- do.call(rbind, effects_list)
+
+model_levels <- c(
+  "Absolute climate",
+  "Short anomalies",
+  "Long anomalies"
+)
+
+effects_env$model <- factor(
+  effects_env$model,
+  levels = model_levels[model_levels %in% effects_env$model]
+)
+
+predictor_order <- c(
+  "Temperature",
+  "Temperature anomaly",
+  "Precipitation",
+  "Precipitation anomaly",
+  "DTR",
+  "NDVI",
+  "Absolute latitude",
+  "Distance to coast",
+  "Nest box",
+  "Marker: microsatellite",
+  "Marker: SNPs",
+  "Marker: other"
+)
+
+effects_env$predictor <- factor(
+  effects_env$predictor,
+  levels = rev(predictor_order)
+)
+
+effects_env$credible_direction <- ifelse(
+  effects_env$lower > 0 | effects_env$upper < 0,
+  "95% CrI excludes zero",
+  "95% CrI overlaps zero"
+)
+
+kable(
+  effects_env[
+    ,
+    c(
+      "model",
+      "predictor",
+      "estimate",
+      "lower",
+      "upper",
+      "prob_positive",
+      "prob_negative"
+    )
+  ],
+  digits = 3
+)
+```
+
+# Forest Plot
+
+```{r}
+#| label: forest-plot
+#| fig-width: 9
+#| fig-height: 9
+
+fig_environmental_effects <- ggplot(
+  effects_env,
+  aes(x = estimate, y = predictor)
+) +
+  geom_vline(
+    xintercept = 0,
+    linewidth = 0.4,
+    linetype = "dashed",
+    colour = "grey35"
+  ) +
+  geom_errorbarh(
+    aes(xmin = lower, xmax = upper, colour = credible_direction),
+    height = 0,
+    linewidth = 0.7
+  ) +
+  geom_point(
+    aes(fill = credible_direction),
+    shape = 21,
+    size = 2.8,
+    colour = "black",
+    stroke = 0.25
+  ) +
+  facet_wrap(~ model, ncol = 1, scales = "free_y") +
+  scale_colour_manual(
+    values = c(
+      "95% CrI excludes zero" = "#1b9e77",
+      "95% CrI overlaps zero" = "grey45"
+    )
+  ) +
+  scale_fill_manual(
+    values = c(
+      "95% CrI excludes zero" = "#1b9e77",
+      "95% CrI overlaps zero" = "white"
+    )
+  ) +
+  labs(
+    x = "Posterior effect on EPP probability (logit scale)",
+    y = NULL,
+    colour = NULL,
+    fill = NULL
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    strip.background = element_blank(),
+    strip.text = element_text(face = "bold", hjust = 0),
+    legend.position = "bottom",
+    axis.text.y = element_text(size = 10),
+    panel.spacing.y = unit(1.1, "lines")
+  )
+
+fig_environmental_effects
+```
+
+# Save Figure
+
+```{r}
+#| label: save-figure
+
+dir.create("figures", recursive = TRUE, showWarnings = FALSE)
+
+ggsave(
+  filename = "figures/main_environmental_effects_forest_plot.png",
+  plot = fig_environmental_effects,
+  width = 9,
+  height = 9,
+  dpi = 300
+)
+
+ggsave(
+  filename = "figures/main_environmental_effects_forest_plot.pdf",
+  plot = fig_environmental_effects,
+  width = 9,
+  height = 9
+)
+```

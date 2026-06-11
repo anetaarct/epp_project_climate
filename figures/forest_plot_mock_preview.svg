@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="1192" viewBox="0 0 980 1192">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="40" y="36" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#1a2e40">Mock preview: environmental effects forest plot</text>
+<text x="40" y="58" font-family="Arial, sans-serif" font-size="12" fill="#5c6670">Example values only. Layout matches the planned figure style.</text>
+<text x="40" y="88" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#1a2e40">Absolute climate</text>
+<line x1="590.0" y1="92" x2="590.0" y2="284" stroke="#555" stroke-width="1.2" stroke-dasharray="5,5"/>
+<line x1="315.0" y1="92" x2="315.0" y2="284" stroke="#eeeeee" stroke-width="1"/>
+<line x1="452.5" y1="92" x2="452.5" y2="284" stroke="#eeeeee" stroke-width="1"/>
+<line x1="590.0" y1="92" x2="590.0" y2="284" stroke="#eeeeee" stroke-width="1"/>
+<line x1="727.5" y1="92" x2="727.5" y2="284" stroke="#eeeeee" stroke-width="1"/>
+<line x1="865.0" y1="92" x2="865.0" y2="284" stroke="#eeeeee" stroke-width="1"/>
+<text x="235" y="113" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Nest box</text>
+<line x1="493.4" y1="109" x2="664.4" y2="109" stroke="#666666" stroke-width="2.2"/>
+<circle cx="578.9" cy="109" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="141" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Distance to coast</text>
+<line x1="495.9" y1="137" x2="657.4" y2="137" stroke="#666666" stroke-width="2.2"/>
+<circle cx="576.7" cy="137" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="169" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Absolute latitude</text>
+<line x1="438.7" y1="165" x2="721.6" y2="165" stroke="#666666" stroke-width="2.2"/>
+<circle cx="580.2" cy="165" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="197" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">NDVI</text>
+<line x1="406.3" y1="193" x2="543.1" y2="193" stroke="#1b9e77" stroke-width="2.2"/>
+<circle cx="474.7" cy="193" r="5.2" fill="#1b9e77" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="225" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">DTR</text>
+<line x1="493.0" y1="221" x2="653.6" y2="221" stroke="#666666" stroke-width="2.2"/>
+<circle cx="573.3" cy="221" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="253" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Precipitation</text>
+<line x1="492.6" y1="249" x2="705.3" y2="249" stroke="#666666" stroke-width="2.2"/>
+<circle cx="598.9" cy="249" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="281" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Temperature</text>
+<line x1="521.1" y1="277" x2="760.0" y2="277" stroke="#666666" stroke-width="2.2"/>
+<circle cx="640.6" cy="277" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="40" y="364" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#1a2e40">Short anomalies</text>
+<line x1="590.0" y1="368" x2="590.0" y2="560" stroke="#555" stroke-width="1.2" stroke-dasharray="5,5"/>
+<line x1="315.0" y1="368" x2="315.0" y2="560" stroke="#eeeeee" stroke-width="1"/>
+<line x1="452.5" y1="368" x2="452.5" y2="560" stroke="#eeeeee" stroke-width="1"/>
+<line x1="590.0" y1="368" x2="590.0" y2="560" stroke="#eeeeee" stroke-width="1"/>
+<line x1="727.5" y1="368" x2="727.5" y2="560" stroke="#eeeeee" stroke-width="1"/>
+<line x1="865.0" y1="368" x2="865.0" y2="560" stroke="#eeeeee" stroke-width="1"/>
+<text x="235" y="389" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Nest box</text>
+<line x1="488.6" y1="385" x2="708.5" y2="385" stroke="#666666" stroke-width="2.2"/>
+<circle cx="598.5" cy="385" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="417" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Distance to coast</text>
+<line x1="475.0" y1="413" x2="742.9" y2="413" stroke="#666666" stroke-width="2.2"/>
+<circle cx="609.0" cy="413" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="445" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Absolute latitude</text>
+<line x1="629.9" y1="441" x2="752.0" y2="441" stroke="#1b9e77" stroke-width="2.2"/>
+<circle cx="691.0" cy="441" r="5.2" fill="#1b9e77" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="473" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">NDVI</text>
+<line x1="539.6" y1="469" x2="722.3" y2="469" stroke="#666666" stroke-width="2.2"/>
+<circle cx="630.9" cy="469" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="501" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">DTR</text>
+<line x1="403.5" y1="497" x2="552.7" y2="497" stroke="#1b9e77" stroke-width="2.2"/>
+<circle cx="478.1" cy="497" r="5.2" fill="#1b9e77" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="529" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Precipitation anomaly</text>
+<line x1="588.3" y1="525" x2="726.2" y2="525" stroke="#666666" stroke-width="2.2"/>
+<circle cx="657.3" cy="525" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="557" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Temperature anomaly</text>
+<line x1="502.2" y1="553" x2="640.7" y2="553" stroke="#666666" stroke-width="2.2"/>
+<circle cx="571.5" cy="553" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="40" y="640" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#1a2e40">Long anomalies</text>
+<line x1="590.0" y1="644" x2="590.0" y2="836" stroke="#555" stroke-width="1.2" stroke-dasharray="5,5"/>
+<line x1="315.0" y1="644" x2="315.0" y2="836" stroke="#eeeeee" stroke-width="1"/>
+<line x1="452.5" y1="644" x2="452.5" y2="836" stroke="#eeeeee" stroke-width="1"/>
+<line x1="590.0" y1="644" x2="590.0" y2="836" stroke="#eeeeee" stroke-width="1"/>
+<line x1="727.5" y1="644" x2="727.5" y2="836" stroke="#eeeeee" stroke-width="1"/>
+<line x1="865.0" y1="644" x2="865.0" y2="836" stroke="#eeeeee" stroke-width="1"/>
+<text x="235" y="665" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Nest box</text>
+<line x1="516.5" y1="661" x2="784.0" y2="661" stroke="#666666" stroke-width="2.2"/>
+<circle cx="650.2" cy="661" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="693" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Distance to coast</text>
+<line x1="377.6" y1="689" x2="631.0" y2="689" stroke="#666666" stroke-width="2.2"/>
+<circle cx="504.3" cy="689" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="721" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Absolute latitude</text>
+<line x1="293.4" y1="717" x2="483.1" y2="717" stroke="#1b9e77" stroke-width="2.2"/>
+<circle cx="388.3" cy="717" r="5.2" fill="#1b9e77" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="749" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">NDVI</text>
+<line x1="432.7" y1="745" x2="653.9" y2="745" stroke="#666666" stroke-width="2.2"/>
+<circle cx="543.3" cy="745" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="777" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">DTR</text>
+<line x1="502.4" y1="773" x2="779.8" y2="773" stroke="#666666" stroke-width="2.2"/>
+<circle cx="641.1" cy="773" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="805" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Precipitation anomaly</text>
+<line x1="383.2" y1="801" x2="609.0" y2="801" stroke="#666666" stroke-width="2.2"/>
+<circle cx="496.1" cy="801" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="833" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Temperature anomaly</text>
+<line x1="502.2" y1="829" x2="664.5" y2="829" stroke="#666666" stroke-width="2.2"/>
+<circle cx="583.4" cy="829" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="40" y="916" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#1a2e40">Daily weather variability</text>
+<line x1="590.0" y1="920" x2="590.0" y2="1112" stroke="#555" stroke-width="1.2" stroke-dasharray="5,5"/>
+<line x1="315.0" y1="920" x2="315.0" y2="1112" stroke="#eeeeee" stroke-width="1"/>
+<text x="315.0" y="1150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#5c6670">-1</text>
+<line x1="452.5" y1="920" x2="452.5" y2="1112" stroke="#eeeeee" stroke-width="1"/>
+<text x="452.5" y="1150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#5c6670">-0.5</text>
+<line x1="590.0" y1="920" x2="590.0" y2="1112" stroke="#eeeeee" stroke-width="1"/>
+<text x="590.0" y="1150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#5c6670">0</text>
+<line x1="727.5" y1="920" x2="727.5" y2="1112" stroke="#eeeeee" stroke-width="1"/>
+<text x="727.5" y="1150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#5c6670">0.5</text>
+<line x1="865.0" y1="920" x2="865.0" y2="1112" stroke="#eeeeee" stroke-width="1"/>
+<text x="865.0" y="1150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#5c6670">1</text>
+<text x="235" y="941" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Nest box</text>
+<line x1="480.6" y1="937" x2="654.1" y2="937" stroke="#666666" stroke-width="2.2"/>
+<circle cx="567.4" cy="937" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="969" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Distance to coast</text>
+<line x1="569.5" y1="965" x2="708.8" y2="965" stroke="#666666" stroke-width="2.2"/>
+<circle cx="639.2" cy="965" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="997" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Absolute latitude</text>
+<line x1="531.2" y1="993" x2="702.7" y2="993" stroke="#666666" stroke-width="2.2"/>
+<circle cx="616.9" cy="993" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="1025" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">NDVI</text>
+<line x1="447.6" y1="1021" x2="635.8" y2="1021" stroke="#666666" stroke-width="2.2"/>
+<circle cx="541.7" cy="1021" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="1053" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Wet days > 1 mm</text>
+<line x1="455.2" y1="1049" x2="614.3" y2="1049" stroke="#666666" stroke-width="2.2"/>
+<circle cx="534.8" cy="1049" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="1081" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Daily precipitation SD</text>
+<line x1="451.4" y1="1077" x2="690.1" y2="1077" stroke="#666666" stroke-width="2.2"/>
+<circle cx="570.7" cy="1077" r="5.2" fill="#ffffff" stroke="#000000" stroke-width="0.8"/>
+<text x="235" y="1109" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#263238">Daily temperature SD</text>
+<line x1="654.1" y1="1105" x2="885.6" y2="1105" stroke="#1b9e77" stroke-width="2.2"/>
+<circle cx="769.9" cy="1105" r="5.2" fill="#1b9e77" stroke="#000000" stroke-width="0.8"/>
+<text x="590.0" y="1177" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#263238">Posterior effect on EPP probability (logit scale)</text>
+<line x1="665" y1="42" x2="700" y2="42" stroke="#1b9e77" stroke-width="2.2"/>
+<circle cx="683" cy="42" r="5.2" fill="#1b9e77" stroke="#000"/>
+<text x="710" y="46" font-family="Arial, sans-serif" font-size="11" fill="#263238">95% CrI excludes zero</text>
+<line x1="665" y1="62" x2="700" y2="62" stroke="#666666" stroke-width="2.2"/>
+<circle cx="683" cy="62" r="5.2" fill="#ffffff" stroke="#000"/>
+<text x="710" y="66" font-family="Arial, sans-serif" font-size="11" fill="#263238">95% CrI overlaps zero</text>
+</svg>

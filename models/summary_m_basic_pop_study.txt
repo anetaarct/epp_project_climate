@@ -1,0 +1,35 @@
+ Family: beta_binomial 
+  Links: mu = logit 
+Formula: n_epp_broods | trials(n_broods_sampled) ~ 1 + (1 | id) + (1 | population_id) + (1 | species_nonphylo) + (1 | gr(species_phylo, cov = phylo_mat)) 
+   Data: dat_basic_phylo (Number of observations: 589) 
+  Draws: 4 chains, each with iter = 10000; warmup = 5000; thin = 1;
+         total post-warmup draws = 20000
+
+Multilevel Hyperparameters:
+~id (Number of levels: 221) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.45      0.17     0.05     0.73 1.00      741     1100
+
+~population_id (Number of levels: 233) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.42      0.16     0.07     0.70 1.00      699     1771
+
+~species_nonphylo (Number of levels: 156) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.53      0.23     0.05     0.93 1.00      810     2060
+
+~species_phylo (Number of levels: 153) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     1.40      0.34     0.80     2.09 1.00     1297     3657
+
+Regression Coefficients:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+Intercept    -1.93      0.61    -3.10    -0.69 1.00     8308     9362
+
+Further Distributional Parameters:
+    Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+phi   111.02     42.63    57.53   218.75 1.00     8351    12839
+
+Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).

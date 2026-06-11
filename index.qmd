@@ -1,0 +1,102 @@
+---
+title: "Project overview"
+description: "A reproducible workflow for a global comparative analysis of environmental variation and extra-pair paternity in birds."
+---
+
+# Project Overview
+
+This book documents the reproducible workflow for a global comparative analysis of environmental variation and extra-pair paternity (EPP) in birds.
+
+The project focuses on annual, population-level estimates of EPP in socially monogamous bird species. Each record represents a population-level estimate of the proportion of broods containing at least one extra-pair young in a defined study year or study period, linked to geographic coordinates, breeding-season timing, environmental variables, and phylogenetic information.
+
+::: {.callout-tip title="Main Aim"}
+The main aim is to test whether spatial and temporal variation in EPP is associated with climatic conditions, climatic variability, habitat productivity, and environmental anomalies.
+:::
+
+## Scope of the Dataset
+
+The analysis is restricted to records that meet the criteria below. These rules keep the dataset comparable across species, populations, and study systems.
+
+::: {.callout-important title="Inclusion Criteria"}
+- The species is classified as socially monogamous.
+- The EPP estimate is available for a known year or study period.
+- The number of sampled broods and the number of broods with EPP are known.
+- Geographic coordinates are available or can be assigned reliably.
+- The breeding season can be linked to monthly environmental data.
+- The species can be matched to the taxonomic and phylogenetic backbone used in the analysis.
+:::
+
+## Predictor Groups
+
+Environmental predictors are organized into four broad groups.
+
+::: {.reader-grid}
+::: {.reader-card}
+### Mean Climatic Conditions
+
+Seasonal or monthly temperature and precipitation values linked to each EPP record.
+:::
+
+::: {.reader-card}
+### Climatic Variability
+
+Measures such as diurnal temperature range or within-season variation in temperature and precipitation.
+:::
+
+::: {.reader-card}
+### Environmental Anomalies
+
+Short-term and long-term deviations from local climatic baselines.
+:::
+
+::: {.reader-card}
+### Habitat Productivity
+
+NDVI-based measures of vegetation productivity during the relevant breeding-season window.
+:::
+:::
+
+## Additional Covariates
+
+The models also include methodological, geographic, and biological covariates where appropriate.
+
+::: {.callout-note title="Covariates Considered in the Models"}
+- Marker type
+- Nest box use
+- Absolute latitude
+- Distance to coast
+- Species identity
+- Population identity
+- Phylogenetic relatedness among species
+:::
+
+## Workflow
+
+The book is organized as a reproducible research workflow, moving from raw data preparation to analytical outputs.
+
+::: {.chapter-map}
+1. **Data preparation** - cleaning the raw EPP dataset and checking response variables, breeding-system categories, coordinates, dates, and sampling effort.
+2. **Taxonomic matching and phylogeny** - matching species names to the taxonomic backbone and preparing the phylogenetic covariance matrix.
+3. **Environmental variables** - linking each EPP record to climate and NDVI data using location, year, and breeding-season timing.
+4. **Exploratory analyses** - summarising sample sizes, missing data, predictor distributions, and correlations among environmental variables.
+5. **Overall model diagnostics** - evaluating the random-effect structure used in the EPP models.
+6. **Environmental models** - fitting beta-binomial models of EPP while accounting for population, species, and phylogenetic non-independence.
+7. **Figures** - producing model summaries, posterior predictions, and manuscript-ready figures.
+:::
+
+## Key Terms
+
+::: {.definition-list}
+**Extra-pair paternity (EPP)**  
+The occurrence of offspring within a socially monogamous brood that are sired by a male other than the social father.
+
+**Population-level estimate**  
+An EPP estimate associated with a particular population, study site, year, or study period.
+
+**Environmental anomaly**  
+A deviation in environmental conditions from a relevant long-term baseline.
+:::
+
+::: {.callout-caution title="Reproducibility Principle"}
+Every analytical decision should be traceable from raw input data to final figures, tables, and model outputs.
+:::

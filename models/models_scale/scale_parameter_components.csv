@@ -1,0 +1,4 @@
+"scale_component","estimate","est_error","lower_95","upper_95"
+"Population",0.61,0.47,0.02,1.72
+"Species",0.53,0.43,0.02,1.60
+"Study year",0.45,0.40,0.01,1.47

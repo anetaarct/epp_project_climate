@@ -1,0 +1,221 @@
+---
+title: "Data preparation"
+---
+
+# Aim
+
+This page documents the construction of the analytical dataset used in the yearly EPP analyses.
+
+The goal of this step is to clean the raw dataset, standardise key variables, define population-level identifiers, restrict the dataset to socially monogamous species, and retain only records with valid brood-count information for modelling.
+
+# Load packages and data
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(knitr)
+
+dat_raw <- readr::read_csv(
+  "epp_data_June2026.csv",
+  show_col_types = FALSE
+)
+```
+
+# Raw data summary
+
+```{r}
+#| label: raw-data-summary
+
+raw_summary <- tibble(
+  metric = c(
+    "Number of records",
+    "Number of studies",
+    "Number of species",
+    "Number of families",
+    "Number of populations / localities"
+  ),
+  value = c(
+    nrow(dat_raw),
+    n_distinct(dat_raw$id),
+    n_distinct(dat_raw$scientific_name),
+    n_distinct(dat_raw$family),
+    n_distinct(paste(dat_raw$scientific_name, round(dat_raw$lat, 2), round(dat_raw$long, 2)))
+  )
+)
+
+knitr::kable(raw_summary)
+```
+
+# Basic variable cleaning
+
+Geographic coordinates, response variables, environmental variables, and breeding-season variables were converted to numeric format where needed. We also created absolute latitude and a population identifier based on species identity and rounded geographic coordinates.
+
+```{r}
+#| label: basic-cleaning
+
+dat_clean <- dat_raw %>%
+  mutate(
+    lat = as.numeric(lat),
+    long = as.numeric(long),
+    lat_round = round(lat, 2),
+    long_round = round(long, 2),
+    abs_latitude = abs(lat),
+
+    population_id = paste(
+      scientific_name,
+      lat_round,
+      long_round,
+      sep = "_"
+    ),
+
+    n_epp_broods = as.numeric(n_epp_broods),
+    n_wpp_broods = as.numeric(n_wpp_broods),
+    n_broods_sampled = as.numeric(n_broods_sampled),
+
+    tmp_cru_C_first_month = as.numeric(tmp_cru_C_first_month),
+    pre_cru_mm_first_month = as.numeric(pre_cru_mm_first_month),
+    dtr_cru_C_first_month = as.numeric(dtr_cru_C_first_month),
+    ndvi_first_month_median_30km = as.numeric(ndvi_first_month_median_30km),
+
+    tmp_cru_C_full_season = as.numeric(tmp_cru_C_full_season),
+    pre_cru_mm_full_season = as.numeric(pre_cru_mm_full_season),
+    dtr_cru_C_full_season = as.numeric(dtr_cru_C_full_season),
+    ndvi_full_season_median_30km = as.numeric(ndvi_full_season_median_30km),
+
+    tmp_long_anom_1961_1989_C_first_month = as.numeric(tmp_long_anom_1961_1989_C_first_month),
+    tmp_short_anom_5yr_C_first_month = as.numeric(tmp_short_anom_5yr_C_first_month),
+    pre_long_anom_1961_1989_mm_first_month = as.numeric(pre_long_anom_1961_1989_mm_first_month),
+    pre_short_anom_5yr_mm_first_month = as.numeric(pre_short_anom_5yr_mm_first_month),
+
+    era5_pre_max_mm_day_first_month = as.numeric(era5_pre_max_mm_day_first_month),
+    era5_pre_mean_mm_day_first_month = as.numeric(era5_pre_mean_mm_day_first_month),
+    era5_pre_sd_mm_day_first_month = as.numeric(era5_pre_sd_mm_day_first_month),
+    era5_pre_sum_mm_first_month = as.numeric(era5_pre_sum_mm_first_month),
+    era5_pre_wet_days_gt1mm_first_month = as.numeric(era5_pre_wet_days_gt1mm_first_month),
+    era5_tmp_mean_C_first_month = as.numeric(era5_tmp_mean_C_first_month),
+    era5_tmp_range_C_first_month = as.numeric(era5_tmp_range_C_first_month),
+    era5_tmp_sd_C_first_month = as.numeric(era5_tmp_sd_C_first_month),
+
+    distance_to_coast_km = as.numeric(distance_to_coast_km),
+    breeding_season_length_months = as.numeric(breeding_season_length_months),
+
+    id = factor(id),
+    population_id = factor(population_id),
+    scientific_name = factor(scientific_name),
+    marker_type = factor(marker_type),
+    nest_box = factor(nest_box),
+    breeding_system = factor(breeding_system)
+  )
+```
+
+# Breeding-system restriction
+
+The main analyses are restricted to socially monogamous species.
+
+This restriction is important because EPP is defined relative to social pair bonds. EPP estimates are therefore not directly comparable across systems without stable social pair bonds, or across polyandrous, lekking, or non-pair-bonded mating systems.
+
+```{r}
+#| label: breeding-system-counts
+
+dat_clean %>%
+  count(breeding_system, sort = TRUE) %>%
+  knitr::kable()
+```
+
+```{r}
+#| label: monogamy-filter
+
+dat_mono <- dat_clean %>%
+  filter(breeding_system == "monogamy")
+```
+
+```{r}
+#| label: monogamy-summary
+
+dat_mono %>%
+  summarise(
+    n_records = n(),
+    n_studies = n_distinct(id),
+    n_species = n_distinct(scientific_name),
+    n_populations = n_distinct(population_id)
+  ) %>%
+  knitr::kable()
+```
+
+# Response-variable checks
+
+The response variable is the number of broods with EPP out of the total number of broods sampled.
+
+Records were retained for modelling only when brood counts were available, the total number of sampled broods was greater than zero, and the number of EPP broods did not exceed the total number of sampled broods.
+
+```{r}
+#| label: response-variable-qc
+
+response_qc <- dat_mono %>%
+  summarise(
+    n_records = n(),
+    missing_epp_broods = sum(is.na(n_epp_broods)),
+    missing_total_broods = sum(is.na(n_broods_sampled)),
+    zero_total_broods = sum(n_broods_sampled == 0, na.rm = TRUE),
+    epp_greater_than_total = sum(n_epp_broods > n_broods_sampled, na.rm = TRUE)
+  )
+
+knitr::kable(response_qc)
+```
+
+# Final model dataset
+
+```{r}
+#| label: final-model-dataset
+
+dat_model <- dat_mono %>%
+  filter(
+    !is.na(n_epp_broods),
+    !is.na(n_broods_sampled),
+    n_broods_sampled > 0,
+    n_epp_broods <= n_broods_sampled
+  )
+```
+
+```{r}
+#| label: final-model-dataset-summary
+
+dat_model %>%
+  summarise(
+    n_records = n(),
+    n_studies = n_distinct(id),
+    n_species = n_distinct(scientific_name),
+    n_populations = n_distinct(population_id),
+    total_broods = sum(n_broods_sampled),
+    total_epp_broods = sum(n_epp_broods),
+    raw_epp_rate = total_epp_broods / total_broods
+  ) %>%
+  knitr::kable(digits = 3)
+```
+
+```{r}
+#| label: era5-first-month-coverage
+
+era5_coverage <- dat_model %>%
+  summarise(
+    n_records = n(),
+    n_with_era5_export = sum(!is.na(era5_weather_dataset)),
+    n_with_precipitation_variability = sum(!is.na(era5_pre_sd_mm_day_first_month)),
+    n_with_temperature_variability = sum(!is.na(era5_tmp_sd_C_first_month))
+  )
+
+knitr::kable(era5_coverage)
+```
+
+
+# Save processed dataset
+
+```{r}
+#| label: save-model-dataset
+
+saveRDS(dat_model, "data/processed/dat_model.rds")
+```
+

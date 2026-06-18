@@ -4,8 +4,8 @@ project:
 
 book:
   title: "Environmental variation and extra-pair paternity in birds"
-  subtitle: "A reproducible workflow for a global comparative analysis"
-  author: "Aneta Arct et al.2026"
+  subtitle: "A reproducible workflow for a climate-focused comparative analysis"
+  author: "Aneta Arct et al. 2026"
   date: today
   chapters:
     - index.qmd
@@ -13,24 +13,16 @@ book:
     - 01_data_preparation.qmd
     - 02_taxonomy_matching.qmd
     - 03_overall_model.qmd
-    - 04_epp_variation_structure.qmd
-    - 05_scale_parameter_model.qmd
-    - 06_environmental_model.qmd
-    - 07_environmental_phi_models.qmd
-    - 08_figures.qmd
+    - 04_pca_for_environmental_predictors.qmd
+    - 05_location_scale_models.qmd
+    - 06_sensitivity_models.qmd
+    - 07_figures.qmd
 
 format:
   html:
-    theme: cosmo
-    css: styles.css
     toc: true
     toc-depth: 3
     number-sections: true
     code-fold: true
+    code-tools: true
     code-summary: "Show code"
-    df-print: kable
-    smooth-scroll: true
-
-execute:
-  warning: false
-  message: false

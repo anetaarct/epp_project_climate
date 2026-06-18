@@ -1,6 +1,6 @@
 variable,source,unit_or_type,description
 epp_row_id,EPP dataset,integer,One-based row identifier added to link EPP records with Google Earth Engine exports.
-id,EPP dataset,text,Original study or publication identifier.
+id_reference,EPP dataset,text,Original study or publication identifier.
 scientific_name,EPP dataset,text,Scientific species name used in the EPP dataset.
 Clements_name,Taxonomy,text,Species name matched to the Clements taxonomic backbone used for phylogenetic matching.
 order,Clements Checklist v2025,text,Avian order matched from the Clements Checklist v2025 using Clements_name.

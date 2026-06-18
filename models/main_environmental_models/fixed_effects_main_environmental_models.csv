@@ -1,0 +1,63 @@
+model,term,predictor,component,estimate,lower,upper,prob_positive,prob_negative
+Environmental PCA mean-only,b_PC1_thermal_geographic,PC1 thermal-geographic,mu,0.12416896803328444,0.004098694433244116,0.24344192642646179,0.97835,0.02165
+Environmental PCA mean-only,b_PC2_wet_productive,PC2 wet-productivity,mu,0.06694609891674974,-0.04032321647429637,0.17575440406839601,0.8901,0.1099
+Environmental PCA mean-only,b_nest_boxyes,Nest box,mu,-0.29820100476835476,-0.8236964671781754,0.21503033220751153,0.12505,0.87495
+Environmental PCA mean-only,b_marker_typemicrosatellite,Marker: microsatellite,mu,0.1920791146273003,-0.13793392277065256,0.5417705085751509,0.87,0.13
+Environmental PCA mean-only,b_marker_typeSNPs,Marker: SNPs,mu,0.3630372872171515,-0.5734731589154598,1.2949007013902198,0.77775,0.22225
+Environmental PCA mean-only,b_marker_typeother,Marker: other,mu,0.28898825079380075,-0.8083266336342794,1.3740325812387146,0.70065,0.29935
+Environmental PCA location-scale,b_PC1_thermal_geographic,PC1 thermal-geographic,mu,0.11944494528444165,0.0012110528697519608,0.23588669744398968,0.9763,0.0237
+Environmental PCA location-scale,b_PC2_wet_productive,PC2 wet-productivity,mu,0.07290653644520068,-0.022383291542796002,0.171759576482403,0.9312,0.0688
+Environmental PCA location-scale,b_nest_boxyes,Nest box,mu,-0.3143377411677403,-0.8520524113603051,0.20821410174423555,0.1228,0.8772
+Environmental PCA location-scale,b_marker_typemicrosatellite,Marker: microsatellite,mu,0.2129429261401602,-0.12337296980144356,0.5582520710400481,0.89385,0.10615
+Environmental PCA location-scale,b_marker_typeSNPs,Marker: SNPs,mu,0.3580235708999881,-0.5856817414044114,1.3161839283351355,0.77195,0.22805
+Environmental PCA location-scale,b_marker_typeother,Marker: other,mu,0.26838544713983037,-0.8832880446840458,1.3945369523557472,0.6767,0.3233
+Environmental PCA location-scale,b_phi_PC1_thermal_geographic,PC1 thermal-geographic,phi,0.31422567413665553,-0.1289329743662214,0.8055758245871582,0.921,0.079
+Environmental PCA location-scale,b_phi_PC2_wet_productive,PC2 wet-productivity,phi,-0.2026583880253241,-0.8989437086565505,0.4131435555068077,0.2659,0.7341
+Environmental PCA location-scale,b_phi_nest_boxyes,Nest box,phi,0.1031369117242537,-1.0654102110651897,1.2801282640383156,0.57025,0.42975
+Environmental PCA location-scale,b_phi_marker_typemicrosatellite,Marker: microsatellite,phi,-0.16015117131889983,-1.4450115071523038,0.9945538121935357,0.3887,0.6113
+Environmental PCA location-scale,b_phi_marker_typeSNPs,Marker: SNPs,phi,0.08941179290560913,-1.6545797134358615,1.9760270919865646,0.5409,0.4591
+Environmental PCA location-scale,b_phi_marker_typeother,Marker: other,phi,-0.5393755079071411,-2.116285267055678,1.298938917001791,0.2679,0.7321
+Short-anomaly mean-only,b_tmp_short_anom_5yr_C_first_month_z,Short temperature anomaly,mu,0.04608112145633441,-0.02602009837527162,0.11957232939381757,0.8903,0.1097
+Short-anomaly mean-only,b_pre_short_anom_5yr_mm_first_month_z,Short precipitation anomaly,mu,0.033440846128320864,-0.04008675843304574,0.10682605123988967,0.81185,0.18815
+Short-anomaly mean-only,b_abs_latitude_z,Absolute latitude,mu,-0.10225826426465645,-0.30579898928787186,0.09925816726226512,0.1646,0.8354
+Short-anomaly mean-only,b_distance_to_coast_z,Distance to coast,mu,0.04139168797911966,-0.12722388751232794,0.20854811873494894,0.68875,0.31125
+Short-anomaly mean-only,b_nest_boxyes,Nest box,mu,-0.3599110719971591,-0.8727433106278549,0.1611429709196834,0.08605,0.91395
+Short-anomaly mean-only,b_marker_typemicrosatellite,Marker: microsatellite,mu,0.23568914002831137,-0.09887231584359966,0.5906398628561106,0.9109,0.0891
+Short-anomaly mean-only,b_marker_typeSNPs,Marker: SNPs,mu,0.4444086857255498,-0.5057765942932207,1.3721249854840698,0.82365,0.17635
+Short-anomaly mean-only,b_marker_typeother,Marker: other,mu,0.2807065184881471,-0.8122761022705843,1.3510234825205247,0.6969,0.3031
+Short-anomaly location-scale,b_tmp_short_anom_5yr_C_first_month_z,Short temperature anomaly,mu,0.04564783859298413,-0.01684782656692169,0.1096921868670833,0.92435,0.07565
+Short-anomaly location-scale,b_pre_short_anom_5yr_mm_first_month_z,Short precipitation anomaly,mu,0.03164251825952498,-0.03310935785455537,0.0973843480740809,0.83715,0.16285
+Short-anomaly location-scale,b_abs_latitude_z,Absolute latitude,mu,-0.09547223478817722,-0.30262151377725965,0.10984312347858738,0.1807,0.8193
+Short-anomaly location-scale,b_distance_to_coast_z,Distance to coast,mu,0.047866073048023774,-0.12477001546481949,0.21777934183871414,0.7073,0.2927
+Short-anomaly location-scale,b_nest_boxyes,Nest box,mu,-0.39316111863400066,-0.9267285944130097,0.1331247459992521,0.07175,0.92825
+Short-anomaly location-scale,b_marker_typemicrosatellite,Marker: microsatellite,mu,0.23884868221271316,-0.10946622490930313,0.6006441505947443,0.9106,0.0894
+Short-anomaly location-scale,b_marker_typeSNPs,Marker: SNPs,mu,0.43877738849812853,-0.5437706893733146,1.4142158924186257,0.81485,0.18515
+Short-anomaly location-scale,b_marker_typeother,Marker: other,mu,0.2368747222268172,-0.916946617939852,1.386261009045538,0.6578,0.3422
+Short-anomaly location-scale,b_phi_tmp_short_anom_5yr_C_first_month_z,Short temperature anomaly,phi,-0.5108366259340106,-1.1682771345351959,0.195690395279545,0.07635,0.92365
+Short-anomaly location-scale,b_phi_pre_short_anom_5yr_mm_first_month_z,Short precipitation anomaly,phi,-0.2838580134447384,-0.756590125453433,0.2564406763378697,0.14345,0.85655
+Short-anomaly location-scale,b_phi_nest_boxyes,Nest box,phi,-0.046174744827421094,-1.0953758212632845,1.0653504401347877,0.4663,0.5337
+Short-anomaly location-scale,b_phi_marker_typemicrosatellite,Marker: microsatellite,phi,-0.07021185298843016,-1.3453145989749773,1.0450061452407144,0.45435,0.54565
+Short-anomaly location-scale,b_phi_marker_typeSNPs,Marker: SNPs,phi,0.22951666491330672,-1.451131858115206,2.0147282201682235,0.60475,0.39525
+Short-anomaly location-scale,b_phi_marker_typeother,Marker: other,phi,-0.40204141737147825,-2.058721762467236,1.567237305398619,0.3367,0.6633
+Long-anomaly mean-only,b_tmp_long_anom_1961_1989_C_first_month_z,Long temperature anomaly,mu,0.05362013277549171,-0.024495613418316988,0.13224833903908267,0.912,0.088
+Long-anomaly mean-only,b_pre_long_anom_1961_1989_mm_first_month_z,Long precipitation anomaly,mu,0.03285880163820114,-0.04131087209803763,0.10701082050095921,0.80715,0.19285
+Long-anomaly mean-only,b_abs_latitude_z,Absolute latitude,mu,-0.10307815315818625,-0.30741273377705497,0.10123965513472041,0.1586,0.8414
+Long-anomaly mean-only,b_distance_to_coast_z,Distance to coast,mu,0.04065876924633645,-0.12311828020663097,0.20658698646047047,0.68555,0.31445
+Long-anomaly mean-only,b_nest_boxyes,Nest box,mu,-0.36224757825487996,-0.9012747963308323,0.15455979084430452,0.0856,0.9144
+Long-anomaly mean-only,b_marker_typemicrosatellite,Marker: microsatellite,mu,0.2261001978277962,-0.10649365330455061,0.5801526177461992,0.90715,0.09285
+Long-anomaly mean-only,b_marker_typeSNPs,Marker: SNPs,mu,0.4586502409628543,-0.4996882979915532,1.3786054968899801,0.8292,0.1708
+Long-anomaly mean-only,b_marker_typeother,Marker: other,mu,0.3005634559562784,-0.8095565789655208,1.4131133585906652,0.7035,0.2965
+Long-anomaly location-scale,b_tmp_long_anom_1961_1989_C_first_month_z,Long temperature anomaly,mu,0.04953658893104751,-0.020660893540380042,0.11903050455613079,0.91705,0.08295
+Long-anomaly location-scale,b_pre_long_anom_1961_1989_mm_first_month_z,Long precipitation anomaly,mu,0.029698221213391607,-0.04144779976775961,0.0977520415443403,0.79725,0.20275
+Long-anomaly location-scale,b_abs_latitude_z,Absolute latitude,mu,-0.09696240746537724,-0.30393579274030447,0.1085969704225501,0.1752,0.8248
+Long-anomaly location-scale,b_distance_to_coast_z,Distance to coast,mu,0.05095886152742965,-0.11860861877130884,0.22348926327146765,0.7182,0.2818
+Long-anomaly location-scale,b_nest_boxyes,Nest box,mu,-0.3870071987607159,-0.9310571178638816,0.15485549865356996,0.07915,0.92085
+Long-anomaly location-scale,b_marker_typemicrosatellite,Marker: microsatellite,mu,0.22886825795094606,-0.11250856194840074,0.5851948090295536,0.90635,0.09365
+Long-anomaly location-scale,b_marker_typeSNPs,Marker: SNPs,mu,0.4499580850732515,-0.5391808443188779,1.4178759153299194,0.81395,0.18605
+Long-anomaly location-scale,b_marker_typeother,Marker: other,mu,0.27239347442168216,-0.8645409221693475,1.3935601707221186,0.6804,0.3196
+Long-anomaly location-scale,b_phi_tmp_long_anom_1961_1989_C_first_month_z,Long temperature anomaly,phi,-0.31831086669811826,-0.9405937225793831,0.319617770268367,0.16405,0.83595
+Long-anomaly location-scale,b_phi_pre_long_anom_1961_1989_mm_first_month_z,Long precipitation anomaly,phi,-0.31337604324373847,-0.759526616499945,0.19807804729686534,0.10415,0.89585
+Long-anomaly location-scale,b_phi_nest_boxyes,Nest box,phi,-0.06508743349537621,-1.1504723562341355,1.0428486824821386,0.4535,0.5465
+Long-anomaly location-scale,b_phi_marker_typemicrosatellite,Marker: microsatellite,phi,0.018663081473492892,-1.3191903449432283,1.150971730561371,0.51105,0.48895
+Long-anomaly location-scale,b_phi_marker_typeSNPs,Marker: SNPs,phi,0.21431745498076676,-1.4486657908146268,1.962861282753467,0.5958,0.4042
+Long-anomaly location-scale,b_phi_marker_typeother,Marker: other,phi,-0.5177817003474683,-2.2244138992336535,1.4776532829666265,0.2952,0.7048

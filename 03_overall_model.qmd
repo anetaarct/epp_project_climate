@@ -1,291 +1,171 @@
 ---
-title: "Selection of the random-effect structure"
+title: "Overall model structure"
 ---
 
-# Aim
+## Overview
 
-This page evaluates the random-effect structure used in the Bayesian phylogenetic models.
-
-The primary goal is to determine whether study identity should be retained in addition to population identity. Because multiple observations may originate from the same population and some populations may be represented in multiple studies, these grouping factors can partially overlap.
-
-To assess the importance of study identity, we first quantify the overlap between populations and studies and then compare two alternative random-effect structures:
-
-1.  Population identity only.
-2.  Population identity plus study identity.
-
-Both models additionally account for species-level variation and phylogenetic relatedness among species.
-
-# Load packages and data
+This chapter defines the common statistical structure used across the Bayesian models. It describes the beta-binomial response model, the population, species, and phylogenetic grouping terms used for the expected EPP probability, and the distinction between mean-only and location-scale models. Reference identity (`id_reference`) is not included as a separate grouping term in the model because the reference-population overlap check in the data-preparation chapter showed that population identity captures the repeated-observation structure used in the main environmental models.
 
 ```{r}
-#| label: setup
+#| label: model-structure-setup
+#| echo: false
 #| message: false
 #| warning: false
 
-library(brms)
-library(loo)
+library(dplyr)
+library(readr)
+library(tibble)
 library(knitr)
-library(tidyverse)
 
-dat_model_phylo <- readRDS("data/processed/dat_model_phylo.rds")
-phylo_mat <- readRDS("data/processed/phylo_mat.rds")
+first_existing <- function(paths) {
+  existing <- paths[file.exists(paths)]
+  if (length(existing) == 0) {
+    return(NA_character_)
+  }
+  existing[1]
+}
+
+overall_summary_file <- first_existing(c(
+  "models/overall_population/summary_m_overall_population.txt",
+  "models/overall_model/summary_m_overall_population.txt",
+  "models/summary_m_overall_population.txt"
+))
+
+overall_diagnostics_file <- first_existing(c(
+  "models/overall_population/overall_population_model_diagnostics.csv",
+  "models/overall_population/diagnostics_m_overall_population.csv",
+  "models/overall_model/overall_model_diagnostics.csv"
+))
+
+overall_model_file <- first_existing(c(
+  "models/overall_population/m_overall_population.rds",
+  "models/overall_model/m_overall_population.rds",
+  "models/m_overall_population.rds"
+))
 ```
 
-# Prepare model dataset
+## Response model
 
-```{r}
-#| label: prepare-data
+For record $i$, the response is the number of sampled broods with EPP:
 
-dat_basic_phylo <- dat_model_phylo
+$$y_i = \texttt{n\_epp\_broods}_i,$$
 
-dat_basic_phylo$nest_box <- as.factor(dat_basic_phylo$nest_box)
-dat_basic_phylo$marker_type <- as.factor(dat_basic_phylo$marker_type)
-dat_basic_phylo$id <- as.factor(dat_basic_phylo$id)
-dat_basic_phylo$population_id <- as.factor(dat_basic_phylo$population_id)
-dat_basic_phylo$species_nonphylo <- as.factor(dat_basic_phylo$species_nonphylo)
-dat_basic_phylo$species_phylo <- as.factor(dat_basic_phylo$species_phylo)
+out of the total number of sampled broods:
 
-dat_basic_phylo <- dat_basic_phylo[
-  !is.na(dat_basic_phylo$n_epp_broods) &
-    !is.na(dat_basic_phylo$n_broods_sampled) &
-    dat_basic_phylo$n_broods_sampled > 0 &
-    dat_basic_phylo$n_epp_broods <= dat_basic_phylo$n_broods_sampled &
-    !is.na(dat_basic_phylo$id) &
-    !is.na(dat_basic_phylo$population_id) &
-    !is.na(dat_basic_phylo$species_nonphylo) &
-    !is.na(dat_basic_phylo$species_phylo),
-]
+$$n_i = \texttt{n\_broods\_sampled}_i.$$
 
-dat_basic_phylo <- droplevels(dat_basic_phylo)
+The model likelihood is:
+
+$$y_i \sim \operatorname{BetaBinomial}(n_i, \mu_i, \phi_i),$$
+
+where $\mu_i$ is the expected EPP probability and $\phi_i$ is the beta-binomial precision parameter.
+
+## Expected EPP and grouping structure
+
+The baseline component for the expected EPP probability is:
+
+$$\operatorname{logit}(\mu_i) =
+\alpha +
+\mathbf{x}_i \boldsymbol{\beta} +
+u_{\operatorname{population}[i]} +
+v_{\operatorname{species}[i]} +
+w_{\operatorname{phylogeny}[i]}.$$
+
+The grouping terms correspond to population identity, non-phylogenetic species identity, and phylogenetic species covariance:
+
+$$u_{\operatorname{population}[i]} \sim \mathcal{N}(0, \sigma^2_{\operatorname{population}}),$$
+
+$$v_{\operatorname{species}[i]} \sim \mathcal{N}(0, \sigma^2_{\operatorname{species}}),$$
+
+$$w_{\operatorname{phylogeny}} \sim \mathcal{N}(0, \sigma^2_{\operatorname{phylogeny}}\mathbf{A}),$$
+
+where $\mathbf{A}$ is the phylogenetic correlation matrix.
+
+Here $\mathbf{x}_i \boldsymbol{\beta}$ denotes the fixed-effect part of the model. The exact predictors differ between the environmental models, but the linear predictor always combines fixed effects with the same random-effect structure: `population_id`, `species_nonphylo`, and `species_phylo` with the phylogenetic covariance matrix.
+
+In `brms` notation, this is:
+
+``` text
+(1 | population_id) +
+(1 | species_nonphylo) +
+(1 | gr(species_phylo, cov = phylo_mat))
 ```
 
-# Data summary
+## Precision parameter
+
+The parameter $\phi_i$ is the beta-binomial precision parameter. It controls the amount of residual variation around the expected EPP probability $\mu_i$. Lower precision corresponds to stronger extra-binomial variation among records with the same expected EPP probability. Positive coefficients in the precision component indicate higher precision and lower residual overdispersion; negative coefficients indicate lower precision and higher residual overdispersion.
+
+In mean-only models, the precision parameter is constant across records:
+
+$$\log(\phi_i) = \gamma_0.$$
+
+In mean-scale models, selected predictors are also included in the precision component:
+
+$$\log(\phi_i) =
+\gamma_0 +
+\mathbf{z}_i \boldsymbol{\gamma}.$$
+
+Here $\mathbf{z}_i \boldsymbol{\gamma}$ denotes the fixed-effect part of the scale model. Thus, mean-only models ask whether predictors explain average EPP, whereas mean-scale models additionally ask whether predictors explain variation in the precision of EPP estimates.
+
+## Baseline overall model
+
+The baseline overall model uses only the common grouping structure, without environmental predictors:
+
+$$\operatorname{logit}(\mu_i) =
+\alpha +
+u_{\operatorname{population}[i]} +
+v_{\operatorname{species}[i]} +
+w_{\operatorname{phylogeny}[i]}.$$
+
+The precision component is:
+
+$$\log(\phi_i) = \gamma_0.$$
+
+In `brms` notation:
 
 ```{r}
-#| label: data-checks
-
-species_in_phylo <- all(
-  dat_basic_phylo$species_phylo %in% rownames(phylo_mat)
-)
-
-data_checks <- data.frame(
-  quantity = c(
-    "Records",
-    "Species",
-    "Populations",
-    "Studies",
-    "Species present in phylogenetic matrix"
-  ),
-  value = c(
-    nrow(dat_basic_phylo),
-    length(unique(dat_basic_phylo$species_phylo)),
-    length(unique(dat_basic_phylo$population_id)),
-    length(unique(dat_basic_phylo$id)),
-    species_in_phylo
-  )
-)
-
-kable(data_checks)
-```
-
-# Overlap between populations and studies
-
-To evaluate whether population identity already captures most of the repeated-measures structure in the dataset, we quantified how many studies contributed data to each population.
-
-```{r}
-#| label: study-population-overlap
-
-study_population_overlap <- aggregate(
-  id ~ population_id,
-  data = dat_basic_phylo,
-  FUN = function(x) length(unique(x))
-)
-
-names(study_population_overlap) <- c(
-  "population_id",
-  "n_studies"
-)
-
-overlap_table <- as.data.frame(
-  table(study_population_overlap$n_studies)
-)
-
-names(overlap_table) <- c(
-  "n_studies",
-  "n_populations"
-)
-
-overlap_table$percent_populations <- round(
-  100 * overlap_table$n_populations /
-    sum(overlap_table$n_populations),
-  1
-)
-
-kable(overlap_table)
-```
-
-This table indicates how frequently populations are represented by multiple studies. Strong overlap between population identity and study identity would suggest that population identity may already account for much of the non-independence among observations.
-
-# Priors
-
-The same prior specification was used for both candidate models.
-
-```{r}
-#| label: priors
-
-priors_basic <- c(
-  prior(normal(0, 2), class = "Intercept"),
-  prior(exponential(1), class = "sd")
-)
-```
-
-# Overall model: population identity only
-
-This model accounts for repeated observations of the same population, species-level variation, and phylogenetic relatedness.
-
-```{r}
-#| label: fit-basic-pop
+#| label: overall-model-formula
 #| eval: false
 
-m_basic_pop <- brm(
+m_overall_population <- brms::brm(
   n_epp_broods | trials(n_broods_sampled) ~
     1 +
     (1 | population_id) +
     (1 | species_nonphylo) +
-    (1 | gr(species_phylo, cov = phylo_mat)),
-  data = dat_basic_phylo,
-  data2 = list(phylo_mat = phylo_mat),
-  family = beta_binomial(link = "logit", link_phi = "log"),
-  prior = priors_basic,
-  chains = 4,
-  cores = 4,
-  iter = 10000,
-  warmup = 5000,
-  control = list(
-    adapt_delta = 0.99,
-    max_treedepth = 15
-  ),
-  seed = 123
+    (1 | gr(species_phylo, cov = phylo_mat_fit)),
+  data = dat_model,
+  data2 = list(phylo_mat_fit = phylo_mat_fit),
+  family = brms::beta_binomial(link = "logit", link_phi = "log")
 )
 ```
+
+## Overall model summary
 
 ```{r}
-#| label: load-summary-basic-pop
+#| label: overall-model-result
+#| echo: false
+#| results: asis
 
-m_basic_pop <- readRDS(
-  "models/m_basic_pop.rds"
-)
-
-summary(m_basic_pop)
+if (!is.na(overall_summary_file)) {
+  cat("<details><summary>Show overall model summary</summary>\n\n```\n")
+  cat(readLines(overall_summary_file), sep = "\n")
+  cat("\n```\n</details>\n")
+} else {
+  invisible(NULL)
+}
 ```
 
-# Overall model: population identity plus study identity
-
-This model additionally accounts for non-independence among observations originating from the same study.
+## Overall model diagnostics
 
 ```{r}
-#| label: fit-basic-pop-study
-#| eval: false
+#| label: overall-model-diagnostics
+#| echo: false
 
-m_basic_pop_study <- brm(
-  n_epp_broods | trials(n_broods_sampled) ~
-    1 +
-    (1 | id) +
-    (1 | population_id) +
-    (1 | species_nonphylo) +
-    (1 | gr(species_phylo, cov = phylo_mat)),
-  data = dat_basic_phylo,
-  data2 = list(phylo_mat = phylo_mat),
-  family = beta_binomial(link = "logit", link_phi = "log"),
-  prior = priors_basic,
-  chains = 4,
-  cores = 4,
-  iter = 10000,
-  warmup = 5000,
-  control = list(
-    adapt_delta = 0.99,
-    max_treedepth = 15
-  ),
-  seed = 124
-)
+if (!is.na(overall_diagnostics_file)) {
+  read_csv(overall_diagnostics_file, show_col_types = FALSE) %>%
+    mutate(across(where(is.numeric), ~ round(.x, 3))) %>%
+    knitr::kable()
+} else {
+  invisible(NULL)
+}
 ```
-
-```{r}
-#| label: load-summary-basic-pop-study
-
-m_basic_pop_study <- readRDS(
-  "models/m_basic_pop_study.rds"
-)
-
-summary(m_basic_pop_study)
-```
-
-# Model comparison
-
-Predictive performance was compared using leave-one-out cross-validation (LOO). The LOO comparison was computed in the external model-running script and saved as `models/loo_comparison_basic.rds`.
-
-```{r}
-#| label: loo-comparison
-
-loo_comparison_basic <- readRDS(
-  "models/loo_comparison_basic.rds"
-)
-
-loo_basic_df <- as.data.frame(
-  loo_comparison_basic
-)
-
-loo_basic_df$model <- rownames(
-  loo_basic_df
-)
-
-loo_basic_df <- loo_basic_df[
-  ,
-  c("model", "elpd_diff", "se_diff")
-]
-
-knitr::kable(
-  loo_basic_df,
-  digits = 2
-)
-```
-
-# Sampling diagnostics
-
-```{r}
-#| label: sampling-diagnostics
-
-m_basic_pop <- readRDS(
-  "models/m_basic_pop.rds"
-)
-
-np_basic <- nuts_params(
-  m_basic_pop
-)
-
-n_divergent <- sum(
-  np_basic$Parameter == "divergent__" &
-    np_basic$Value == 1
-)
-
-knitr::kable(
-  data.frame(
-    diagnostic = "Divergent transitions",
-    value = n_divergent
-  )
-)
-```
-
-# Posterior predictive check
-
-```{r}
-#| label: posterior-predictive-check
-#| fig-width: 8
-#| fig-height: 5
-
-knitr::include_graphics("figures/pp_check_overall_basic_pop.png")
-```
-
-# Decision
-
-The comparison evaluates whether study identity contributes meaningful information beyond population identity. If the model including study identity shows little improvement in predictive performance and the overlap analysis indicates that most populations are represented by a single study, population identity alone provides an adequate representation of repeated-measures structure. The selected random-effect structure is retained in all subsequent environmental models.

@@ -1,0 +1,11 @@
+model,term,predictor,component,estimate,lower,upper,prob_positive,prob_negative
+Mean-only sensitivity,b_tmp_cru_C_first_month_z,First-month mean temperature,mu,0.17185053701206363,-0.055043119638920106,0.405553960260202,0.9325,0.0675
+Mean-only sensitivity,b_pre_cru_mm_first_month_log_z,First-month precipitation (log),mu,0.08155826510758302,-0.04250669955205876,0.2061149384893729,0.89805,0.10195
+Mean-only sensitivity,b_dtr_cru_C_first_month_z,First-month DTR,mu,0.12437364193446913,-0.06196740144001319,0.3107539479560128,0.90365,0.09635
+Mean-only sensitivity,b_ndvi_first_month_median_30km_z,First-month NDVI,mu,0.01433245139227838,-0.1267640597756163,0.16034035388118817,0.57915,0.42085
+Mean-only sensitivity,b_abs_latitude_z,Absolute latitude,mu,0.06250699408670317,-0.19676830191910125,0.3174580970948586,0.6809,0.3191
+Mean-only sensitivity,b_distance_to_coast_z,Distance to coast,mu,0.019893523482813855,-0.1632498338916277,0.194761080205056,0.5917,0.4083
+Mean-only sensitivity,b_nest_boxyes,Nest box,mu,-0.26845229168992524,-0.8020621258846211,0.241594232600062,0.14855,0.85145
+Mean-only sensitivity,b_marker_typemicrosatellite,Marker: microsatellite,mu,0.23997300880605738,-0.10448085179650003,0.5995570604257204,0.91275,0.08725
+Mean-only sensitivity,b_marker_typeSNPs,Marker: SNPs,mu,0.41112511443552,-0.5516192012677582,1.3440712399484864,0.8027,0.1973
+Mean-only sensitivity,b_marker_typeother,Marker: other,mu,0.3721261521033703,-0.7421832022944513,1.478903641669427,0.74685,0.25315

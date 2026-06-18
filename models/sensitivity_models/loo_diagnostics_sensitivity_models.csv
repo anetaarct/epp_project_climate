@@ -1,0 +1,5 @@
+model,max_pareto_k,n_pareto_k_gt_0.7,n_pareto_k_gt_1
+m_sensitivity_first_month_mu,0.9453946070175756,6,0
+m_sensitivity_first_month_mu_phi,1.1247054356371287,21,2
+m_sensitivity_pca12_mu,1.1351505966991704,9,2
+m_sensitivity_pca123_mu,0.9676987827780922,6,0

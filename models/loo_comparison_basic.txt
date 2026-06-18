@@ -1,3 +1,0 @@
-                  elpd_diff se_diff
-m_basic_pop        0.0       0.0   
-m_basic_pop_study -0.3       2.5   

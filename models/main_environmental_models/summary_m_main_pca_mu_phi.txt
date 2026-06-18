@@ -1,0 +1,56 @@
+ Family: beta_binomial 
+  Links: mu = logit; phi = log 
+Formula: n_epp_broods | trials(n_broods_sampled) ~ PC1_thermal_geographic + PC2_wet_productive + nest_box + marker_type + (1 | population_id) + (1 | species_nonphylo) + (1 | gr(species_phylo, cov = phylo_mat_fit)) 
+         phi ~ PC1_thermal_geographic + PC2_wet_productive + nest_box + marker_type
+   Data: dat_fit (Number of observations: 457) 
+  Draws: 4 chains, each with iter = 10000; warmup = 5000; thin = 1;
+         total post-warmup draws = 20000
+
+Multilevel Hyperparameters:
+~population_id (Number of levels: 175) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.62      0.09     0.46     0.81 1.00     4112     7293
+
+~species_nonphylo (Number of levels: 111) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.76      0.22     0.20     1.13 1.00     1786     1245
+
+~species_phylo (Number of levels: 111) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     1.10      0.35     0.53     1.88 1.00     2312     2687
+
+Regression Coefficients:
+                              Estimate Est.Error l-95% CI u-95% CI Rhat
+Intercept                        -1.92      0.53    -2.97    -0.84 1.00
+phi_Intercept                     4.70      0.65     3.53     6.07 1.00
+PC1_thermal_geographic            0.12      0.06     0.00     0.24 1.00
+PC2_wet_productive                0.07      0.05    -0.02     0.17 1.00
+nest_boxyes                      -0.32      0.27    -0.85     0.21 1.00
+marker_typemicrosatellite         0.21      0.17    -0.12     0.56 1.00
+marker_typeother                  0.26      0.58    -0.88     1.39 1.00
+marker_typeSNPs                   0.36      0.48    -0.59     1.32 1.00
+phi_PC1_thermal_geographic        0.32      0.24    -0.13     0.81 1.00
+phi_PC2_wet_productive           -0.21      0.33    -0.90     0.41 1.00
+phi_nest_boxyes                   0.11      0.59    -1.07     1.28 1.00
+phi_marker_typemicrosatellite    -0.18      0.62    -1.45     0.99 1.00
+phi_marker_typeother             -0.51      0.87    -2.12     1.30 1.00
+phi_marker_typeSNPs               0.11      0.92    -1.65     1.98 1.00
+                              Bulk_ESS Tail_ESS
+Intercept                        16052    12586
+phi_Intercept                    20818    15525
+PC1_thermal_geographic           15129    14358
+PC2_wet_productive               22389    17194
+nest_boxyes                      18226    14821
+marker_typemicrosatellite        13709    15336
+marker_typeother                 21282    15150
+marker_typeSNPs                  21501    15883
+phi_PC1_thermal_geographic       21639    15648
+phi_PC2_wet_productive           15067    14980
+phi_nest_boxyes                  16310    15675
+phi_marker_typemicrosatellite    23893    16591
+phi_marker_typeother             30998    16072
+phi_marker_typeSNPs              37453    14180
+
+Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).

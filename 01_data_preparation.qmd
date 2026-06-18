@@ -2,16 +2,15 @@
 title: "Data preparation"
 ---
 
-# Aim
+## Overview
 
-This page documents the construction of the analytical dataset used in the yearly EPP analyses.
+This chapter documents the preparation of the analytical dataset used in the yearly extra-pair paternity (EPP) analyses. The workflow starts from the analysis input file, checks the response variables, restricts the data to socially monogamous species, defines population-level identifiers, and summarises the final dataset used in the Bayesian models.
 
-The goal of this step is to clean the raw dataset, standardise key variables, define population-level identifiers, restrict the dataset to socially monogamous species, and retain only records with valid brood-count information for modelling.
-
-# Load packages and data
+## Load packages and data
 
 ```{r}
 #| label: setup
+#| echo: false
 #| message: false
 #| warning: false
 
@@ -24,22 +23,23 @@ dat_raw <- readr::read_csv(
 )
 ```
 
-# Raw data summary
+## Raw data summary
 
 ```{r}
 #| label: raw-data-summary
+#| echo: false
 
 raw_summary <- tibble(
   metric = c(
     "Number of records",
-    "Number of studies",
+    "Number of references",
     "Number of species",
     "Number of families",
     "Number of populations / localities"
   ),
   value = c(
     nrow(dat_raw),
-    n_distinct(dat_raw$id),
+    n_distinct(dat_raw$id_reference),
     n_distinct(dat_raw$scientific_name),
     n_distinct(dat_raw$family),
     n_distinct(paste(dat_raw$scientific_name, round(dat_raw$lat, 2), round(dat_raw$long, 2)))
@@ -49,12 +49,31 @@ raw_summary <- tibble(
 knitr::kable(raw_summary)
 ```
 
-# Basic variable cleaning
+## Sampling locations
+
+The geographic distribution of retained EPP records was inspected to evaluate the spatial coverage of the dataset before model fitting.
+
+```{r}
+#| label: sampling-location-map
+#| echo: false
+#| fig-cap: "Geographic distribution of EPP study locations."
+#| fig-width: 9
+#| fig-height: 5.2
+
+if (file.exists("figures/sampling_locations_map.png")) {
+  knitr::include_graphics("figures/sampling_locations_map.png")
+} else {
+  cat("Sampling-location map is not available yet. Render the Figures chapter to create it.")
+}
+```
+
+## Basic variable cleaning
 
 Geographic coordinates, response variables, environmental variables, and breeding-season variables were converted to numeric format where needed. We also created absolute latitude and a population identifier based on species identity and rounded geographic coordinates.
 
 ```{r}
 #| label: basic-cleaning
+#| echo: false
 
 dat_clean <- dat_raw %>%
   mutate(
@@ -90,19 +109,10 @@ dat_clean <- dat_raw %>%
     pre_long_anom_1961_1989_mm_first_month = as.numeric(pre_long_anom_1961_1989_mm_first_month),
     pre_short_anom_5yr_mm_first_month = as.numeric(pre_short_anom_5yr_mm_first_month),
 
-    era5_pre_max_mm_day_first_month = as.numeric(era5_pre_max_mm_day_first_month),
-    era5_pre_mean_mm_day_first_month = as.numeric(era5_pre_mean_mm_day_first_month),
-    era5_pre_sd_mm_day_first_month = as.numeric(era5_pre_sd_mm_day_first_month),
-    era5_pre_sum_mm_first_month = as.numeric(era5_pre_sum_mm_first_month),
-    era5_pre_wet_days_gt1mm_first_month = as.numeric(era5_pre_wet_days_gt1mm_first_month),
-    era5_tmp_mean_C_first_month = as.numeric(era5_tmp_mean_C_first_month),
-    era5_tmp_range_C_first_month = as.numeric(era5_tmp_range_C_first_month),
-    era5_tmp_sd_C_first_month = as.numeric(era5_tmp_sd_C_first_month),
-
     distance_to_coast_km = as.numeric(distance_to_coast_km),
     breeding_season_length_months = as.numeric(breeding_season_length_months),
 
-    id = factor(id),
+    id_reference = factor(id_reference),
     population_id = factor(population_id),
     scientific_name = factor(scientific_name),
     marker_type = factor(marker_type),
@@ -111,14 +121,13 @@ dat_clean <- dat_raw %>%
   )
 ```
 
-# Breeding-system restriction
+## Breeding system restriction
 
-The main analyses are restricted to socially monogamous species.
-
-This restriction is important because EPP is defined relative to social pair bonds. EPP estimates are therefore not directly comparable across systems without stable social pair bonds, or across polyandrous, lekking, or non-pair-bonded mating systems.
+The main analyses are restricted to socially monogamous species. This restriction is important because EPP is defined relative to social pair bonds. EPP estimates are therefore not directly comparable across systems without stable social pair bonds, or across polyandrous, lekking, or non-pair-bonded mating systems.
 
 ```{r}
 #| label: breeding-system-counts
+#| echo: false
 
 dat_clean %>%
   count(breeding_system, sort = TRUE) %>%
@@ -127,6 +136,7 @@ dat_clean %>%
 
 ```{r}
 #| label: monogamy-filter
+#| echo: false
 
 dat_mono <- dat_clean %>%
   filter(breeding_system == "monogamy")
@@ -134,25 +144,25 @@ dat_mono <- dat_clean %>%
 
 ```{r}
 #| label: monogamy-summary
+#| echo: false
 
 dat_mono %>%
   summarise(
     n_records = n(),
-    n_studies = n_distinct(id),
+    n_references = n_distinct(id_reference),
     n_species = n_distinct(scientific_name),
     n_populations = n_distinct(population_id)
   ) %>%
   knitr::kable()
 ```
 
-# Response-variable checks
+## Response variable checks
 
-The response variable is the number of broods with EPP out of the total number of broods sampled.
-
-Records were retained for modelling only when brood counts were available, the total number of sampled broods was greater than zero, and the number of EPP broods did not exceed the total number of sampled broods.
+The response variable is the number of broods with EPP out of the total number of broods sampled. Records were retained for modelling only when brood counts were available, the total number of sampled broods was greater than zero, and the number of EPP broods did not exceed the total number of sampled broods.
 
 ```{r}
 #| label: response-variable-qc
+#| echo: false
 
 response_qc <- dat_mono %>%
   summarise(
@@ -166,10 +176,11 @@ response_qc <- dat_mono %>%
 knitr::kable(response_qc)
 ```
 
-# Final model dataset
+## Final model dataset
 
 ```{r}
 #| label: final-model-dataset
+#| echo: false
 
 dat_model <- dat_mono %>%
   filter(
@@ -182,11 +193,12 @@ dat_model <- dat_mono %>%
 
 ```{r}
 #| label: final-model-dataset-summary
+#| echo: false
 
 dat_model %>%
   summarise(
     n_records = n(),
-    n_studies = n_distinct(id),
+    n_references = n_distinct(id_reference),
     n_species = n_distinct(scientific_name),
     n_populations = n_distinct(population_id),
     total_broods = sum(n_broods_sampled),
@@ -196,26 +208,119 @@ dat_model %>%
   knitr::kable(digits = 3)
 ```
 
-```{r}
-#| label: era5-first-month-coverage
+## Reference-population overlap
 
-era5_coverage <- dat_model %>%
+The overlap between reference identity (`id_reference`) and population identity (`population_id`) is checked directly from the model-ready dataset. This summary was used to evaluate whether reference identity and population identity represented sufficiently distinct grouping structures. Because population identity captures repeated observations from the same species-locality combination, it was retained as the primary repeated-observation grouping factor in the full environmental models.
+
+```{r}
+#| label: reference-population-overlap-data
+#| echo: false
+
+if (file.exists("data/processed/dat_model_phylo.rds")) {
+  overlap_dat <- readRDS("data/processed/dat_model_phylo.rds")
+} else if (file.exists("data/processed/dat_model.rds")) {
+  overlap_dat <- readRDS("data/processed/dat_model.rds")
+} else {
+  overlap_dat <- read_csv("epp_data_June2026.csv", show_col_types = FALSE) %>%
+    mutate(
+      lat_round = round(as.numeric(lat), 2),
+      long_round = round(as.numeric(long), 2),
+      population_id = paste(scientific_name, lat_round, long_round, sep = "_")
+    )
+}
+
+overlap_dat <- overlap_dat %>%
+  mutate(
+    id_reference = if ("id_reference" %in% names(.)) {
+      as.character(id_reference)
+    } else {
+      as.character(id)
+    }
+  ) %>%
+  mutate(
+    population_id = as.character(population_id)
+  ) %>%
+  filter(!is.na(id_reference), !is.na(population_id))
+
+population_overlap <- overlap_dat %>%
+  group_by(population_id) %>%
   summarise(
     n_records = n(),
-    n_with_era5_export = sum(!is.na(era5_weather_dataset)),
-    n_with_precipitation_variability = sum(!is.na(era5_pre_sd_mm_day_first_month)),
-    n_with_temperature_variability = sum(!is.na(era5_tmp_sd_C_first_month))
+    n_references = n_distinct(id_reference),
+    id_references = paste(sort(unique(id_reference)), collapse = "; "),
+    .groups = "drop"
   )
 
-knitr::kable(era5_coverage)
+reference_overlap <- overlap_dat %>%
+  group_by(id_reference) %>%
+  summarise(
+    n_records = n(),
+    n_populations = n_distinct(population_id),
+    .groups = "drop"
+  )
 ```
-
-
-# Save processed dataset
 
 ```{r}
-#| label: save-model-dataset
+#| label: reference-population-overlap-table
+#| echo: false
 
-saveRDS(dat_model, "data/processed/dat_model.rds")
+population_overlap %>%
+  count(n_references, name = "n_populations") %>%
+  mutate(percent_populations = 100 * n_populations / sum(n_populations)) %>%
+  knitr::kable(digits = 2)
 ```
 
+## Environmental window correlations
+
+The main environmental models use environmental values from the first breeding-season month. As a data check, we compared these values with the corresponding full-season summaries for temperature, precipitation, diurnal temperature range, and NDVI. Because the correlations were high, subsequent analyses use the first-month environmental values and do not treat full-season summaries as a separate predictor set.
+
+```{r}
+#| label: first-month-full-season-correlations
+#| echo: false
+
+environment_window_pairs <- tribble(
+  ~variable, ~first_month, ~full_season,
+  "Temperature", "tmp_cru_C_first_month", "tmp_cru_C_full_season",
+  "Precipitation", "pre_cru_mm_first_month", "pre_cru_mm_full_season",
+  "DTR", "dtr_cru_C_first_month", "dtr_cru_C_full_season",
+  "NDVI", "ndvi_first_month_median_30km", "ndvi_full_season_median_30km"
+)
+
+environment_window_correlations <- purrr::pmap_dfr(
+  environment_window_pairs,
+  function(variable, first_month, full_season) {
+    keep <- complete.cases(dat_model[, c(first_month, full_season)])
+    test <- cor.test(
+      dat_model[[first_month]][keep],
+      dat_model[[full_season]][keep],
+      method = "pearson"
+    )
+
+    tibble(
+      variable = variable,
+      n_complete = sum(keep),
+      pearson_r = unname(test$estimate),
+      lower_95_ci = test$conf.int[1],
+      upper_95_ci = test$conf.int[2]
+    )
+  }
+)
+
+environment_window_correlations %>%
+  mutate(across(where(is.numeric), ~ round(.x, 3))) %>%
+  knitr::kable()
+```
+
+```{r}
+#| label: first-month-full-season-correlation-plot
+#| echo: false
+#| fig-cap: "Relationship between first breeding-season month and full-season environmental values."
+#| fig-width: 8
+#| fig-height: 6
+
+if (file.exists("figures/first_month_full_season_correlations.png")) {
+  knitr::include_graphics("figures/first_month_full_season_correlations.png")
+} else {
+  cat("Environmental-window correlation figure is not available yet. Render the Figures chapter to create it.")
+}
+```

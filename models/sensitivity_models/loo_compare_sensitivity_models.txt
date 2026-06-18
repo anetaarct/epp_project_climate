@@ -1,0 +1,20 @@
+
+Direct first-month predictors
+                                 elpd_diff se_diff
+m_sensitivity_first_month_mu_phi   0.0       0.0  
+m_sensitivity_first_month_mu     -25.6       4.9  
+
+PCA dimensionality
+                        elpd_diff se_diff
+m_sensitivity_pca123_mu  0.0       0.0   
+m_sensitivity_pca12_mu  -0.1       0.5   
+[[1]]
+                                 elpd_diff se_diff
+m_sensitivity_first_month_mu_phi   0.0       0.0  
+m_sensitivity_first_month_mu     -25.6       4.9  
+
+[[2]]
+                        elpd_diff se_diff
+m_sensitivity_pca123_mu  0.0       0.0   
+m_sensitivity_pca12_mu  -0.1       0.5   
+

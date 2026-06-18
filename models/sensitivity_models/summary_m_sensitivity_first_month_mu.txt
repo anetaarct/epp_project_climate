@@ -1,0 +1,53 @@
+ Family: beta_binomial 
+  Links: mu = logit 
+Formula: n_epp_broods | trials(n_broods_sampled) ~ tmp_cru_C_first_month_z + pre_cru_mm_first_month_log_z + dtr_cru_C_first_month_z + ndvi_first_month_median_30km_z + abs_latitude_z + distance_to_coast_z + nest_box + marker_type + (1 | population_id) + (1 | species_nonphylo) + (1 | gr(species_phylo, cov = phylo_mat_fit)) 
+   Data: dat_fit (Number of observations: 457) 
+  Draws: 4 chains, each with iter = 10000; warmup = 5000; thin = 1;
+         total post-warmup draws = 20000
+
+Multilevel Hyperparameters:
+~population_id (Number of levels: 175) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.55      0.10     0.37     0.76 1.00     3549     5223
+
+~species_nonphylo (Number of levels: 111) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.74      0.22     0.19     1.09 1.00     1529     1329
+
+~species_phylo (Number of levels: 111) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     1.06      0.34     0.51     1.83 1.00     1875     3076
+
+Regression Coefficients:
+                               Estimate Est.Error l-95% CI u-95% CI Rhat
+Intercept                         -1.91      0.53    -2.96    -0.85 1.00
+tmp_cru_C_first_month_z            0.17      0.12    -0.06     0.41 1.00
+pre_cru_mm_first_month_log_z       0.08      0.06    -0.04     0.21 1.00
+dtr_cru_C_first_month_z            0.12      0.10    -0.06     0.31 1.00
+ndvi_first_month_median_30km_z     0.02      0.07    -0.13     0.16 1.00
+abs_latitude_z                     0.06      0.13    -0.20     0.32 1.00
+distance_to_coast_z                0.02      0.09    -0.16     0.19 1.00
+nest_boxyes                       -0.27      0.26    -0.80     0.24 1.00
+marker_typemicrosatellite          0.24      0.18    -0.10     0.60 1.00
+marker_typeother                   0.37      0.56    -0.74     1.48 1.00
+marker_typeSNPs                    0.41      0.48    -0.55     1.34 1.00
+                               Bulk_ESS Tail_ESS
+Intercept                         11429     9779
+tmp_cru_C_first_month_z           12943    14264
+pre_cru_mm_first_month_log_z      17949    15652
+dtr_cru_C_first_month_z           14716    15085
+ndvi_first_month_median_30km_z    15830    14852
+abs_latitude_z                    11703    13954
+distance_to_coast_z               12422    14146
+nest_boxyes                       13700    13909
+marker_typemicrosatellite         10132    12752
+marker_typeother                  13133    12935
+marker_typeSNPs                   14687    14445
+
+Further Distributional Parameters:
+    Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+phi    25.81      3.51    19.58    33.19 1.00    15782    14784
+
+Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).

@@ -1,102 +1,124 @@
 ---
 title: "Project overview"
-description: "A reproducible workflow for a global comparative analysis of environmental variation and extra-pair paternity in birds."
+
 ---
 
-# Project Overview
+Thisdocuments a reproducible comparative analysis of environmental variation and extra-pair paternity (EPP) in birds. The analysis uses population-level estimates of the proportion of sampled broods containing at least one extra-pair young.
 
-This book documents the reproducible workflow for a global comparative analysis of environmental variation and extra-pair paternity (EPP) in birds.
+```{=html}
+<div class="overview-roadmap">
+<div class="overview-row overview-row-top">
+  <div class="overview-step">1</div>
+  <div class="overview-icon" aria-hidden="true">&#9633;</div>
+  <div class="overview-copy">
+    <div class="overview-heading">Project overview</div>
+    <p>Comparative analysis of population-level extra-pair paternity in birds, linked to sampling effort, population identity, species identity, phylogeny, location, breeding-season timing, and environmental data.</p>
+  </div>
+  <div class="overview-question">
+    <div class="overview-subheading">Main question</div>
+    <p>Do population-level EPP rates vary along broad environmental gradients related to temperature, precipitation, thermal variability, productivity, latitude, and distance to coast?</p>
+  </div>
+</div>
 
-The project focuses on annual, population-level estimates of EPP in socially monogamous bird species. Each record represents a population-level estimate of the proportion of broods containing at least one extra-pair young in a defined study year or study period, linked to geographic coordinates, breeding-season timing, environmental variables, and phylogenetic information.
+<div class="overview-row overview-row-strategy">
+  <div class="overview-step">2</div>
+  <div class="overview-icon" aria-hidden="true">&#8756;</div>
+  <div class="overview-copy">
+    <div class="overview-heading">Analytical strategy</div>
+    <p>Six environmental and geographic variables are summarised using PCA, producing two broad environmental-geographic axes.</p>
+  </div>
+  <div class="overview-pca">
+    <div class="overview-pill">PCA of six variables</div>
+    <div class="overview-pc-card">
+      <div class="overview-subheading">PC1: thermal-geographic gradient</div>
+      <p>warmer, more thermally variable, lower-latitude, more inland environments</p>
+    </div>
+    <div class="overview-pc-card">
+      <div class="overview-subheading">PC2: wet-productivity gradient</div>
+      <p>wetter and more productive environments</p>
+    </div>
+  </div>
+</div>
 
-::: {.callout-tip title="Main Aim"}
-The main aim is to test whether spatial and temporal variation in EPP is associated with climatic conditions, climatic variability, habitat productivity, and environmental anomalies.
-:::
+<div class="overview-row overview-row-models">
+  <div class="overview-step">3</div>
+  <div class="overview-icon" aria-hidden="true">&#8942;</div>
+  <div class="overview-copy">
+    <div class="overview-heading">Model roadmap</div>
+    <p>The model set focuses on full environmental models with mean-only and mean-scale versions, supported by direct-predictor sensitivity analyses.</p>
+  </div>
+  <div class="overview-model-grid">
+    <div class="overview-model-card primary">
+      <span class="model-letter">A</span>
+      <div class="overview-subheading">Main models</div>
+      <p>Three full environmental model groups: environmental PCA, short anomaly, and long anomaly.</p>
+      <div class="model-formula">mean-only and mean-scale beta-binomial models</div>
+      <p>Methodological controls are included in the full environmental models and evaluated again in sensitivity models.</p>
+    </div>
+    <div class="overview-model-card">
+      <span class="model-letter">B</span>
+      <div class="overview-subheading">Scale component</div>
+      <p>Each hypothesis group is fitted with a constant precision model and a scale model.</p>
+      <div class="model-formula">mean model + optional phi model</div>
+      <p>The scale component tests whether predictors are associated with residual precision and overdispersion.</p>
+    </div>
+    <div class="overview-model-card">
+      <span class="model-letter">C</span>
+      <div class="overview-subheading">Sensitivity models</div>
+      <p>Direct environmental-geographic predictors replace PCA axes and anomaly-only formulations.</p>
+      <div class="model-formula">plus nest_box and marker_type</div>
+      <p>These models check whether conclusions depend on modelling choices and methodological controls.</p>
+    </div>
+  </div>
+</div>
 
-## Scope of the Dataset
+<div class="overview-row overview-row-core">
+  <div class="overview-step">4</div>
+  <div class="overview-icon" aria-hidden="true">&#8862;</div>
+  <div class="overview-copy">
+    <div class="overview-heading">Core model structure</div>
+    <p>All Bayesian models use the same response and repeated-observation structure.</p>
+  </div>
+  <div class="overview-core-grid">
+    <div><strong>Response:</strong><br>broods with EPP / total broods sampled</div>
+    <div><strong>Likelihood:</strong><br>beta-binomial</div>
+    <div><strong>Random effects:</strong><br>population identity, species identity, phylogenetic relatedness</div>
+    <code>(1 | population_id) + (1 | species_nonphylo) + (1 | gr(species_phylo, cov = phylo_mat))</code>
+  </div>
+</div>
 
-The analysis is restricted to records that meet the criteria below. These rules keep the dataset comparable across species, populations, and study systems.
+<div class="overview-row overview-row-workflow">
+  <div class="overview-step">5</div>
+  <div class="overview-icon" aria-hidden="true">&#8635;</div>
+  <div class="overview-copy">
+    <div class="overview-heading">Workflow and reproducibility</div>
+    <p>The Quarto book reads saved model objects and figures, allowing transparent rendering after models are run on Totoro.</p>
+  </div>
+  <div class="overview-flow">
+    <span>Data preparation</span>
+    <span>Phylogenetic matching</span>
+    <span>Environmental PCA</span>
+    <span>Model fitting</span>
+    <span>Saved outputs and figures</span>
+  </div>
+</div>
+</div>
+```
 
-::: {.callout-important title="Inclusion Criteria"}
-- The species is classified as socially monogamous.
-- The EPP estimate is available for a known year or study period.
-- The number of sampled broods and the number of broods with EPP are known.
-- Geographic coordinates are available or can be assigned reliably.
-- The breeding season can be linked to monthly environmental data.
-- The species can be matched to the taxonomic and phylogenetic backbone used in the analysis.
-:::
+## Analytical strategy
 
-## Predictor Groups
+The main analysis is organised around three full environmental model groups. These models test whether broad environmental-geographic gradients, short-term climate anomalies, and long-term climate anomalies are associated with population-level EPP. Each group is fitted as a mean-only beta-binomial mixed model and as a mean-scale model, with methodological controls included in the model set.
 
-Environmental predictors are organized into four broad groups.
+The environmental PCA summarises six environmental and geographic variables. The two primary axes are interpreted as PC1, a thermal-geographic gradient, and PC2, a wet-productivity gradient.
 
-::: {.reader-grid}
-::: {.reader-card}
-### Mean Climatic Conditions
+## Model roadmap
 
-Seasonal or monthly temperature and precipitation values linked to each EPP record.
-:::
+The **main environmental models** chapter presents the three primary hypothesis groups: an environmental PCA model, a short-anomaly model, and a long-anomaly model. Each group is fitted with and without a scale component.
 
-::: {.reader-card}
-### Climatic Variability
+The scale component asks whether environmental predictors and methodological controls are associated not only with mean EPP, but also with residual precision and overdispersion in EPP.
 
-Measures such as diurnal temperature range or within-season variation in temperature and precipitation.
-:::
+The **sensitivity models** chapter uses environmental-geographic predictors directly, rather than PCA axes or anomaly-only models
 
-::: {.reader-card}
-### Environmental Anomalies
+## Reproducibility
 
-Short-term and long-term deviations from local climatic baselines.
-:::
-
-::: {.reader-card}
-### Habitat Productivity
-
-NDVI-based measures of vegetation productivity during the relevant breeding-season window.
-:::
-:::
-
-## Additional Covariates
-
-The models also include methodological, geographic, and biological covariates where appropriate.
-
-::: {.callout-note title="Covariates Considered in the Models"}
-- Marker type
-- Nest box use
-- Absolute latitude
-- Distance to coast
-- Species identity
-- Population identity
-- Phylogenetic relatedness among species
-:::
-
-## Workflow
-
-The book is organized as a reproducible research workflow, moving from raw data preparation to analytical outputs.
-
-::: {.chapter-map}
-1. **Data preparation** - cleaning the raw EPP dataset and checking response variables, breeding-system categories, coordinates, dates, and sampling effort.
-2. **Taxonomic matching and phylogeny** - matching species names to the taxonomic backbone and preparing the phylogenetic covariance matrix.
-3. **Environmental variables** - linking each EPP record to climate and NDVI data using location, year, and breeding-season timing.
-4. **Exploratory analyses** - summarising sample sizes, missing data, predictor distributions, and correlations among environmental variables.
-5. **Overall model diagnostics** - evaluating the random-effect structure used in the EPP models.
-6. **Environmental models** - fitting beta-binomial models of EPP while accounting for population, species, and phylogenetic non-independence.
-7. **Figures** - producing model summaries, posterior predictions, and manuscript-ready figures.
-:::
-
-## Key Terms
-
-::: {.definition-list}
-**Extra-pair paternity (EPP)**  
-The occurrence of offspring within a socially monogamous brood that are sired by a male other than the social father.
-
-**Population-level estimate**  
-An EPP estimate associated with a particular population, study site, year, or study period.
-
-**Environmental anomaly**  
-A deviation in environmental conditions from a relevant long-term baseline.
-:::
-
-::: {.callout-caution title="Reproducibility Principle"}
-Every analytical decision should be traceable from raw input data to final figures, tables, and model outputs.
-:::
+The workflow first documents data preparation and phylogenetic matching, then describes the common model structure, constructs the environmental PCA, fits the full environmental models, evaluates the scale component, and presents sensitivity analyses and figures.

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis"
 subtitle: "A reproducible workflow for a global comparative analysis"
 author: "Aneta Arct, Santiago Ortega, Agnieszka Gudowska, Karolina Skorb, Monika Gronowska, Magdalena Zagalska-Neubauer, Dorota Kotowska, Szymon M. Drobniak, Malgorzata Lagisz, Shinichi Nakagawa"
@@ -76,10 +76,14 @@ format:
   color: #6e8aa0;
 }
 
+.project-meta-item:first-child {
+  flex: 1 1 520px;
+}
+
 .project-meta-value {
   display: block;
   color: #1f2d2a;
-  font-weight: 650;
+  font-weight: 400;
 }
 
 .project-hero-graphic {

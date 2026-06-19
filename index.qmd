@@ -22,9 +22,9 @@ format:
 .project-hero {
   max-width: 820px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 230px;
-  gap: 1.8rem;
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) 285px;
+  gap: 1.35rem;
+  align-items: start;
   background: linear-gradient(135deg, #f4fbf8 0%, #f8fafc 70%);
   border: 1px solid #d8e6e1;
   border-left: 7px solid #4f8f7f;
@@ -90,8 +90,8 @@ format:
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 210px;
-  border-radius: 20px;
+  min-height: 130px;
+  border-radius: 18px;
   background: #ffffff;
   border: 1px solid #dfe7e4;
 }
@@ -99,6 +99,12 @@ format:
 .project-hero-graphic svg {
   width: 170px;
   height: 170px;
+}
+.project-hero-graphic img {
+  display: block;
+  width: min(94%, 270px);
+  max-height: 300px;
+  object-fit: contain;
 }
 
 @media (max-width: 850px) {
@@ -108,12 +114,17 @@ format:
   }
 
   .project-hero-graphic {
-    min-height: 150px;
+    min-height: 130px;
   }
 
   .project-hero-graphic svg {
     width: 130px;
     height: 130px;
+  }
+
+  .project-hero-graphic img {
+    width: min(86%, 210px);
+    max-height: 220px;
   }
 }
 /* --- overall page spacing --- */
@@ -275,20 +286,7 @@ format:
     </div>
   </div>
   <div class="project-hero-graphic" aria-hidden="true">
-    <svg viewBox="0 0 160 160" role="img">
-      <circle cx="80" cy="80" r="67" fill="#f4fbf8" stroke="#d8e6e1" stroke-width="2"/>
-      <path d="M35 101 C53 80, 72 70, 101 72" fill="none" stroke="#d8e6e1" stroke-width="5" stroke-linecap="round"/>
-      <path d="M45 88 C58 56, 86 42, 119 50 C101 56, 85 69, 75 91 C65 89, 55 88, 45 88 Z" fill="#4f8f7f"/>
-      <path d="M72 90 C86 65, 106 54, 129 59 C112 69, 100 83, 94 106 C86 99, 79 94, 72 90 Z" fill="#2f5d53" opacity="0.92"/>
-      <path d="M48 88 C39 91, 32 96, 27 103 C39 104, 50 101, 58 94 Z" fill="#b68b45"/>
-      <circle cx="111" cy="53" r="3.2" fill="#1f2d2a"/>
-      <path d="M121 50 L139 43 L128 58 Z" fill="#b68b45"/>
-      <path d="M78 106 C82 119, 76 128, 66 134" fill="none" stroke="#6e8aa0" stroke-width="4" stroke-linecap="round"/>
-      <path d="M86 105 C94 118, 93 129, 88 138" fill="none" stroke="#6e8aa0" stroke-width="4" stroke-linecap="round"/>
-      <path d="M55 134 L102 134" stroke="#b68b45" stroke-width="5" stroke-linecap="round"/>
-      <circle cx="48" cy="88" r="5" fill="#ffffff" opacity="0.45"/>
-      <path d="M58 80 C67 76, 75 76, 86 79" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-    </svg>
+    <img class="project-hero-bird" src="figures/site/geometric_bird_d.png" alt="" />
   </div>
 </div>
 

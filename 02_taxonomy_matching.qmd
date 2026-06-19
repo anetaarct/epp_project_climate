@@ -1,4 +1,4 @@
----
+﻿---
 title: "Taxonomy and phylogeny"
 ---
 
@@ -10,7 +10,9 @@ This chapter prepares the taxonomic and phylogenetic structure used in the Bayes
 
 ```{r}
 #| label: setup
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
 #| message: false
 #| warning: false
 
@@ -31,7 +33,11 @@ The phylogenetic analyses use a Clements-matched avian tree described by McTavis
 
 ```{r}
 #| label: tree-overview
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
+#| message: false
+#| warning: false
 
 tree
 ```
@@ -42,7 +48,11 @@ The cleaned EPP dataset contains species names matched to the Clements taxonomic
 
 ```{r}
 #| label: species-summary
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
+#| message: false
+#| warning: false
 
 species_data <- dat_model %>%
   distinct(Clements_name) %>%
@@ -71,7 +81,11 @@ We verified that all species included in the analytical dataset were represented
 
 ```{r}
 #| label: species-names-check
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
+#| message: false
+#| warning: false
 
 missing_from_tree <- setdiff(
   species_data,
@@ -87,7 +101,11 @@ if (length(missing_from_tree) > 0) {
 
 ```{r}
 #| label: missing-summary
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
+#| message: false
+#| warning: false
 
 tibble(
   n_species_missing_from_tree = length(missing_from_tree)
@@ -103,7 +121,11 @@ The full phylogenetic tree contains many species not included in the EPP dataset
 
 ```{r}
 #| label: prune-tree
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
+#| message: false
+#| warning: false
 
 tree_pruned <- ape::drop.tip(
   tree,
@@ -113,14 +135,18 @@ tree_pruned <- ape::drop.tip(
 
 ```{r}
 #| label: pruned-tree-overview
-#| echo: false
+#| echo: true
 
 tree_pruned
 ```
 
 ```{r}
 #| label: pruned-tree-summary
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
+#| message: false
+#| warning: false
 
 tibble(
   metric = c(
@@ -141,7 +167,12 @@ The pruned phylogeny was also used to visualise where the species with the highe
 
 ```{r}
 #| label: high-epp-phylogeny-figure
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
+#| message: false
+#| warning: false
+
 #| fig-cap: "Phylogenetic distribution of species with the highest observed species-level EPP."
 #| fig-width: 8
 #| fig-height: 8
@@ -161,7 +192,11 @@ To implement this structure in `brms`, the pruned phylogeny was converted into a
 
 ```{r}
 #| label: phylogenetic-correlation-matrix
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
+#| message: false
+#| warning: false
 
 phylo_mat <- ape::vcv.phylo(
   tree_pruned,
@@ -173,7 +208,7 @@ dim(phylo_mat)
 
 ```{r}
 #| label: phylo-matrix-preview
-#| echo: false
+#| echo: true
 
 phylo_mat[1:5, 1:5]
 ```
@@ -189,7 +224,11 @@ Including both random effects allows the models to partition variation attributa
 
 ```{r}
 #| label: add-phylo-columns
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
+#| message: false
+#| warning: false
 
 dat_model_phylo <- dat_model %>%
   mutate(
@@ -205,7 +244,11 @@ dat_model_phylo <- dat_model %>%
 
 ```{r}
 #| label: phylo-dataset-summary
-#| echo: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show setup code"
+#| message: false
+#| warning: false
 
 dat_model_phylo %>%
   summarise(
@@ -221,7 +264,8 @@ dat_model_phylo %>%
 ## Output files
 
 | File | Description |
-|----|----|
+|------------------------------------|------------------------------------|
 | `dat_model_phylo.rds` | Analytical dataset with phylogenetic grouping variables |
 | `tree_pruned.rds` | Pruned phylogenetic tree containing only species included in the study |
 | `phylo_mat.rds` | Phylogenetic correlation matrix used in Bayesian models |
+

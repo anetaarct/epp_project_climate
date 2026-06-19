@@ -8,15 +8,15 @@ This chapter defines the final primary environmental model set. The primary mode
 
 - The PCA models tested whether broad environmental-geographic gradients were associated with EPP.
 
-- The short-anomaly models tested whether recent deviations from local climatic conditions were associated with EPP.
+- The short-anomaly models tested whether recent deviations from local climatic conditions, measured over the five-year period preceding the breeding record, were associated with EPP.
 
 - The long-anomaly models tested whether deviations from the 1961-1989 climatic baseline were associated with EPP.
 
-Each hypothesis group was fitted as a mean-only model and as a location-scale model, allowing environmental predictors to affect the expected EPP rate and, in the mean-scale version, allowing environmental predictors and methodological controls to affect residual dispersion. Methodological controls are `nest_box` and `marker_type`. All models use the same random-effect structure for population, non-phylogenetic species identity, and phylogenetic species covariance.
+Each hypothesis group is presented as a mean-only model, allowing environmental predictors and methodological controls to affect the expected EPP rate while using a single global precision parameter (`phi ~ 1`). Methodological controls are nest box and marker type. All models use the same random-effect structure for population, non-phylogenetic species identity, and phylogenetic species covariance. Exploratory location-scale versions of these models are presented in a separate chapter.
 
 ```{r}
 #| label: main-env-setup
-#| include: false
+#| echo: true
 
 library(dplyr)
 library(readr)
@@ -43,16 +43,14 @@ fixed_effects_file <- first_existing(c(
 
 summary_files <- list(
   pca_mu = first_existing(c(file.path(model_dir, "summary_m_main_pca_mu.txt"))),
-  pca_mu_phi = first_existing(c(file.path(model_dir, "summary_m_main_pca_mu_phi.txt"))),
   short_mu = first_existing(c(file.path(model_dir, "summary_m_main_short_mu.txt"))),
-  short_mu_phi = first_existing(c(file.path(model_dir, "summary_m_main_short_mu_phi.txt"))),
-  long_mu = first_existing(c(file.path(model_dir, "summary_m_main_long_mu.txt"))),
-  long_mu_phi = first_existing(c(file.path(model_dir, "summary_m_main_long_mu_phi.txt")))
+  long_mu = first_existing(c(file.path(model_dir, "summary_m_main_long_mu.txt")))
 )
 
 figure_files <- list(
   pca_effects = "figures/main_model_pca_effects.png",
   pca_mu_forest = "figures/main_pca_mean_forest_plot.png",
+  pca_controls = "figures/main_pca_controls_effects.png",
   short_mu_forest = "figures/main_short_mean_forest_plot.png",
   long_mu_forest = "figures/main_long_mean_forest_plot.png"
 )
@@ -76,11 +74,11 @@ show_saved_figure <- function(figure_file, missing_message) {
 
 ## Model set
 
-| Hypothesis group | Mean-only model | Mean-scale model |
-|----|----|----|
-| Environmental PCA | Mean: `PC1_thermal_geographic + PC2_wet_productive + nest_box + marker_type`; `phi ~ 1` | same mean model; `phi ~ PC1_thermal_geographic + PC2_wet_productive + nest_box + marker_type` |
-| Short anomaly | Mean: `tmp_short_anom_5yr_C_first_month_z + pre_short_anom_5yr_mm_first_month_z + abs_latitude_z + distance_to_coast_z + nest_box + marker_type`; `phi ~ 1` | same mean model; `phi ~ tmp_short_anom_5yr_C_first_month_z + pre_short_anom_5yr_mm_first_month_z + nest_box + marker_type` |
-| Long anomaly | Mean: `tmp_long_anom_1961_1989_C_first_month_z + pre_long_anom_1961_1989_mm_first_month_z + abs_latitude_z + distance_to_coast_z + nest_box + marker_type`; `phi ~ 1` | same mean model; `phi ~ tmp_long_anom_1961_1989_C_first_month_z + pre_long_anom_1961_1989_mm_first_month_z + nest_box + marker_type` |
+| Hypothesis group | Mean-only model |
+|----|----|
+| Environmental PCA | `PC1_thermal_geographic + PC2_wet_productive + nest_box + marker_type`; `phi ~ 1` |
+| Short anomaly | `tmp_short_anom_5yr_C_first_month_z + pre_short_anom_5yr_mm_first_month_z + abs_latitude_z + distance_to_coast_z + nest_box + marker_type`; `phi ~ 1` |
+| Long anomaly | `tmp_long_anom_1961_1989_C_first_month_z + pre_long_anom_1961_1989_mm_first_month_z + abs_latitude_z + distance_to_coast_z + nest_box + marker_type`; `phi ~ 1` |
 
 ## Environmental PCA model
 
@@ -113,7 +111,7 @@ m_main_pca_mu <- brms::brm(
 
 ```{r}
 #| label: main-pca-mu-summary
-#| echo: false
+#| echo: true
 #| results: asis
 
 show_saved_summary(summary_files$pca_mu, "Show summary for the Environmental PCA mean-only model")
@@ -121,7 +119,7 @@ show_saved_summary(summary_files$pca_mu, "Show summary for the Environmental PCA
 
 ```{r}
 #| label: main-pca-effects-panel
-#| echo: false
+#| echo: true
 #| fig-width: 9
 #| fig-height: 4.8
 
@@ -132,9 +130,22 @@ show_saved_figure(
 ```
 
 Lines show posterior mean predicted EPP, shaded ribbons show 95% credible intervals, and pale points show observed population-level EPP values as background context.
+
+```{r}
+#| label: main-pca-controls-effects
+#| echo: true
+#| fig-width: 8
+#| fig-height: 3.6
+
+show_saved_figure(
+  figure_files$pca_controls,
+  ""
+)
+```
+
 ```{r}
 #| label: main-pca-mu-forest
-#| echo: false
+#| echo: true
 #| fig-width: 8
 #| fig-height: 3.2
 
@@ -144,52 +155,8 @@ show_saved_figure(
 )
 ```
 
-Points show posterior fixed-effect estimates and horizontal intervals show 95% credible intervals on the logit scale.
+Fixed-effect summary for the Environmental PCA mean-only model. Points show posterior estimates and horizontal intervals show 95% credible intervals on the logit scale. Categorical effects are contrasts against the reference groups: nest box = no and marker type = DNA fingerprinting; Nest box compares records with nest-box use to records without nest-box use.
 
-## Environmental PCA location-scale model
-
-```{r}
-#| label: main-pca-mu-phi-code
-#| eval: false
-
-m_main_pca_mu_phi <- brms::brm(
-  brms::bf(
-    n_epp_broods | trials(n_broods_sampled) ~
-      PC1_thermal_geographic +
-      PC2_wet_productive +
-      nest_box +
-      marker_type +
-      (1 | population_id) +
-      (1 | species_nonphylo) +
-      (1 | gr(species_phylo, cov = phylo_mat_fit)),
-
-    phi ~
-      PC1_thermal_geographic +
-      PC2_wet_productive +
-      nest_box +
-      marker_type
-  ),
-  data = dat_fit,
-  data2 = list(phylo_mat_fit = phylo_mat_fit),
-  family = brms::beta_binomial(link = "logit", link_phi = "log"),
-  prior = priors_mu_phi,
-  chains = 4,
-  cores = 4,
-  iter = 10000,
-  warmup = 5000,
-  control = list(adapt_delta = 0.99, max_treedepth = 15),
-  seed = 1402,
-  save_pars = brms::save_pars(all = TRUE)
-)
-```
-
-```{r}
-#| label: main-pca-mu-phi-summary
-#| echo: false
-#| results: asis
-
-show_saved_summary(summary_files$pca_mu_phi, "Show summary for the Environmental PCA location-scale model")
-```
 
 ## Short-anomaly model
 
@@ -224,7 +191,7 @@ m_main_short_mu <- brms::brm(
 
 ```{r}
 #| label: main-short-mu-summary
-#| echo: false
+#| echo: true
 #| results: asis
 
 show_saved_summary(summary_files$short_mu, "Show summary for the short-anomaly mean-only model")
@@ -232,7 +199,7 @@ show_saved_summary(summary_files$short_mu, "Show summary for the short-anomaly m
 
 ```{r}
 #| label: main-short-mu-forest
-#| echo: false
+#| echo: true
 #| fig-width: 8
 #| fig-height: 3.8
 
@@ -242,54 +209,8 @@ show_saved_figure(
 )
 ```
 
-Points show posterior fixed-effect estimates and horizontal intervals show 95% credible intervals on the logit scale.
+Fixed-effect summary for the short-anomaly mean-only model. Points show posterior estimates and horizontal intervals show 95% credible intervals on the logit scale. Categorical effects are contrasts against the reference groups: nest box = no and marker type = DNA fingerprinting; Nest box compares records with nest-box use to records without nest-box use.
 
-## Short-anomaly location-scale model
-
-```{r}
-#| label: main-short-mu-phi-code
-#| eval: false
-
-m_main_short_mu_phi <- brms::brm(
-  brms::bf(
-    n_epp_broods | trials(n_broods_sampled) ~
-      tmp_short_anom_5yr_C_first_month_z +
-      pre_short_anom_5yr_mm_first_month_z +
-      abs_latitude_z +
-      distance_to_coast_z +
-      nest_box +
-      marker_type +
-      (1 | population_id) +
-      (1 | species_nonphylo) +
-      (1 | gr(species_phylo, cov = phylo_mat_fit)),
-
-    phi ~
-      tmp_short_anom_5yr_C_first_month_z +
-      pre_short_anom_5yr_mm_first_month_z +
-      nest_box +
-      marker_type
-  ),
-  data = dat_fit,
-  data2 = list(phylo_mat_fit = phylo_mat_fit),
-  family = brms::beta_binomial(link = "logit", link_phi = "log"),
-  prior = priors_mu_phi,
-  chains = 4,
-  cores = 4,
-  iter = 10000,
-  warmup = 5000,
-  control = list(adapt_delta = 0.99, max_treedepth = 15),
-  seed = 1404,
-  save_pars = brms::save_pars(all = TRUE)
-)
-```
-
-```{r}
-#| label: main-short-mu-phi-summary
-#| echo: false
-#| results: asis
-
-show_saved_summary(summary_files$short_mu_phi, "Show summary for the short-anomaly location-scale model")
-```
 
 ## Long-anomaly model
 
@@ -324,7 +245,7 @@ m_main_long_mu <- brms::brm(
 
 ```{r}
 #| label: main-long-mu-summary
-#| echo: false
+#| echo: true
 #| results: asis
 
 show_saved_summary(summary_files$long_mu, "Show summary for the long-anomaly mean-only model")
@@ -332,7 +253,7 @@ show_saved_summary(summary_files$long_mu, "Show summary for the long-anomaly mea
 
 ```{r}
 #| label: main-long-mu-forest
-#| echo: false
+#| echo: true
 #| fig-width: 8
 #| fig-height: 3.8
 
@@ -342,102 +263,34 @@ show_saved_figure(
 )
 ```
 
-Points show posterior fixed-effect estimates and horizontal intervals show 95% credible intervals on the logit scale.
-
-## Long-anomaly location-scale model
-
-```{r}
-#| label: main-long-mu-phi-code
-#| eval: false
-
-m_main_long_mu_phi <- brms::brm(
-  brms::bf(
-    n_epp_broods | trials(n_broods_sampled) ~
-      tmp_long_anom_1961_1989_C_first_month_z +
-      pre_long_anom_1961_1989_mm_first_month_z +
-      abs_latitude_z +
-      distance_to_coast_z +
-      nest_box +
-      marker_type +
-      (1 | population_id) +
-      (1 | species_nonphylo) +
-      (1 | gr(species_phylo, cov = phylo_mat_fit)),
-
-    phi ~
-      tmp_long_anom_1961_1989_C_first_month_z +
-      pre_long_anom_1961_1989_mm_first_month_z +
-      nest_box +
-      marker_type
-  ),
-  data = dat_fit,
-  data2 = list(phylo_mat_fit = phylo_mat_fit),
-  family = brms::beta_binomial(link = "logit", link_phi = "log"),
-  prior = priors_mu_phi,
-  chains = 4,
-  cores = 4,
-  iter = 10000,
-  warmup = 5000,
-  control = list(adapt_delta = 0.99, max_treedepth = 15),
-  seed = 1406,
-  save_pars = brms::save_pars(all = TRUE)
-)
-```
-
-```{r}
-#| label: main-long-mu-phi-summary
-#| echo: false
-#| results: asis
-
-show_saved_summary(summary_files$long_mu_phi, "Show summary for the long-anomaly location-scale model")
-```
+Fixed-effect summary for the long-anomaly mean-only model. Points show posterior estimates and horizontal intervals show 95% credible intervals on the logit scale. Categorical effects are contrasts against the reference groups: nest box = no and marker type = DNA fingerprinting; Nest box compares records with nest-box use to records without nest-box use.
 
 
 ## Fixed effects
 
 ```{r}
 #| label: main-env-fixed-effects
-#| echo: false
+#| echo: true
+#| results: asis
 
 if (!is.na(fixed_effects_file)) {
-  read_csv(fixed_effects_file, show_col_types = FALSE) %>%
-    mutate(across(where(is.numeric), ~ round(.x, 3))) %>%
-    kable()
-} else {
-  cat("Fixed-effect summaries for the main environmental models are not available yet.")
+  fixed_effects_table <- read_csv(fixed_effects_file, show_col_types = FALSE) %>%
+    mutate(
+      model = gsub("Short anomaly", "Short-anomaly", model, fixed = TRUE),
+      model = gsub("Long anomaly", "Long-anomaly", model, fixed = TRUE)
+    ) %>%
+    filter(component == "mu", model %in% c(
+      "Environmental PCA mean-only",
+      "Short-anomaly mean-only",
+      "Long-anomaly mean-only"
+    )) %>%
+    mutate(across(where(is.numeric), ~ round(.x, 3)))
+
+  cat("<details><summary>Show fixed-effect table</summary>\n\n")
+  cat(knitr::kable(fixed_effects_table, format = "html"))
+  cat("\n</details>\n")
 }
 ```
-
-## Predictive support for location-scale models
-
-Pairwise LOO comparisons are used to evaluate whether adding a scale component improves predictive performance relative to the corresponding mean-only model. The table below reports whether the required LOO objects are available for each hypothesis group. Complete pairwise comparisons are shown only when both the mean-only and location-scale LOO objects are present.
-
-```{r}
-#| label: main-location-scale-loo-availability
-#| echo: false
-
-loo_pairs <- tibble::tribble(
-  ~hypothesis_group, ~mean_only_loo, ~location_scale_loo,
-  "Environmental PCA", file.path(model_dir, "loo_m_main_pca_mu.rds"), file.path(model_dir, "loo_m_main_pca_mu_phi.rds"),
-  "Short anomaly", file.path(model_dir, "loo_m_main_short_mu.rds"), file.path(model_dir, "loo_m_main_short_mu_phi.rds"),
-  "Long anomaly", file.path(model_dir, "loo_m_main_long_mu.rds"), file.path(model_dir, "loo_m_main_long_mu_phi.rds")
-) %>%
-  mutate(
-    mean_only_available = file.exists(mean_only_loo),
-    location_scale_available = file.exists(location_scale_loo),
-    comparison_available = mean_only_available & location_scale_available
-  ) %>%
-  select(
-    `Hypothesis group` = hypothesis_group,
-    `Mean-only LOO available` = mean_only_available,
-    `Location-scale LOO available` = location_scale_available,
-    `Pairwise comparison available` = comparison_available
-  )
-
-loo_pairs %>%
-  kable()
-```
-
-At present, the main environmental model summaries and fitted model objects are available, but the full set of LOO objects required for all three mean-only versus location-scale comparisons is not complete. Once these LOO objects are saved, this section can be expanded into a direct support table for the scale component.
 
 
 

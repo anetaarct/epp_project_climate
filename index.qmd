@@ -1,124 +1,450 @@
+﻿---
+title: "Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis"
+subtitle: "A reproducible workflow for a global comparative analysis"
+author: "Aneta Arct, Santiago Ortega, Agnieszka Gudowska, Karolina Skorb, Monika Gronowska, Magdalena Zagalska-Neubauer, Dorota Kotowska, Szymon M. Drobniak, Malgorzata Lagisz, Shinichi Nakagawa"
+execute:
+  echo: false
+format:
+  html:
+    toc: false
+    page-layout: full
+    code-tools: false
+    code-fold: false
 ---
-title: "Project overview"
-
----
-
-Thisdocuments a reproducible comparative analysis of environmental variation and extra-pair paternity (EPP) in birds. The analysis uses population-level estimates of the proportion of sampled broods containing at least one extra-pair young.
 
 ```{=html}
-<div class="overview-roadmap">
-<div class="overview-row overview-row-top">
-  <div class="overview-step">1</div>
-  <div class="overview-icon" aria-hidden="true">&#9633;</div>
-  <div class="overview-copy">
-    <div class="overview-heading">Project overview</div>
-    <p>Comparative analysis of population-level extra-pair paternity in birds, linked to sampling effort, population identity, species identity, phylogeny, location, breeding-season timing, and environmental data.</p>
+<style>
+#title-block-header,
+.quarto-title-block {
+  display: none;
+}
+
+.project-hero {
+  max-width: 820px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 1.8rem;
+  align-items: stretch;
+  background: linear-gradient(135deg, #f4fbf8 0%, #f8fafc 70%);
+  border: 1px solid #d8e6e1;
+  border-left: 7px solid #4f8f7f;
+  border-radius: 24px;
+  padding: 2rem 2rem 1.85rem 2rem;
+  margin: 0.4rem 0 2rem 0;
+  box-shadow: 0 8px 24px rgba(31, 45, 42, 0.08);
+}
+
+.project-hero h1 {
+  margin: 0 0 0.45rem 0;
+  max-width: 900px;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  line-height: 1.08;
+  color: #1f2d2a;
+  font-weight: 760;
+}
+
+.project-hero .project-subtitle {
+  margin: 0 0 1.15rem 0;
+  font-size: clamp(1.08rem, 1.9vw, 1.45rem);
+  line-height: 1.4;
+  color: #2f5d53;
+  font-style: italic;
+}
+
+.project-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+}
+
+.project-meta-item {
+  background: #ffffff;
+  border: 1px solid #dfe7e4;
+  border-radius: 14px;
+  padding: 0.7rem 0.9rem;
+  min-width: 150px;
+}
+
+.project-meta-label {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #6e8aa0;
+}
+
+.project-meta-value {
+  display: block;
+  color: #1f2d2a;
+  font-weight: 650;
+}
+
+.project-hero-graphic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 210px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #dfe7e4;
+}
+
+.project-hero-graphic svg {
+  width: 170px;
+  height: 170px;
+}
+
+@media (max-width: 850px) {
+  .project-hero {
+    grid-template-columns: 1fr;
+    padding: 1.55rem;
+  }
+
+  .project-hero-graphic {
+    min-height: 150px;
+  }
+
+  .project-hero-graphic svg {
+    width: 130px;
+    height: 130px;
+  }
+}
+/* --- overall page spacing --- */
+.page-intro {
+  max-width: 980px;
+  margin-bottom: 1.8rem;
+}
+
+.page-intro p {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: #33423f;
+  margin-bottom: 0.8rem;
+}
+
+.main-question-box {
+  max-width: 980px;
+  margin: 1.2rem 0 2rem 0;
+  background: #f4fbf8;
+  border-left: 5px solid #4f8f7f;
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+}
+
+.main-question-box strong {
+  display: block;
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+  color: #2f5d53;
+  margin-bottom: 0.35rem;
+}
+
+.main-question-box p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: #23312e;
+}
+
+/* --- section title --- */
+.structure-title {
+  margin-top: 2.2rem;
+  margin-bottom: 1.2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2d2a;
+}
+
+/* --- cards grid --- */
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.35rem;
+  margin-top: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.chapter-card {
+  background: #ffffff;
+  border: 1px solid #dfe7e4;
+  border-radius: 18px;
+  padding: 1.35rem 1.35rem 1.25rem 1.35rem;
+  min-height: 260px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chapter-card:hover {
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.chapter-card .chapter-number {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #1f2d2a;
+  margin-bottom: 0.65rem;
+}
+
+.chapter-card .chapter-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #1f2d2a;
+  margin-bottom: 0.8rem;
+}
+
+.chapter-card p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #33423f;
+  margin-bottom: 0.9rem;
+}
+
+.chapter-card ul {
+  margin: 0.1rem 0 0.9rem 1rem;
+  padding: 0;
+  color: #33423f;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.chapter-link {
+  margin-top: auto;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.chapter-link a {
+  text-decoration: none;
+}
+
+.chapter-link a:hover {
+  text-decoration: underline;
+}
+
+/* highlighted cards */
+.highlight-main {
+  background: #f4fbf8;
+  border-left: 5px solid #4f8f7f;
+}
+
+.highlight-sensitivity {
+  background: #fffaf1;
+  border-left: 5px solid #b68b45;
+}
+
+.highlight-overview {
+  background: #f8fafc;
+  border-left: 5px solid #6e8aa0;
+}
+
+.project-note {
+  max-width: 980px;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #4c5a57;
+}
+</style>
+```
+
+```{=html}
+<div class="project-hero">
+  <div>
+    <h1>Environmental variation and extra-pair paternity in birds</h1>
+    <div class="project-subtitle">A reproducible workflow for a global comparative meta-analysis</div>
+    <div class="project-hero-meta">
+      <div class="project-meta-item">
+        <span class="project-meta-label">Author</span>
+        <span class="project-meta-value">Aneta Arct, Santiago Ortega, Agnieszka Gudowska, Karolina Skorb, Monika Gronowska, Magdalena Zagalska-Neubauer, Dorota Kotowska, Szymon M. Drobniak, Malgorzata Lagisz, Shinichi Nakagawa</span>
+      </div>
+      <div class="project-meta-item">
+        <span class="project-meta-label">Published</span>
+        <span class="project-meta-value">June 18, 2026</span>
+      </div>
+    </div>
   </div>
-  <div class="overview-question">
-    <div class="overview-subheading">Main question</div>
-    <p>Do population-level EPP rates vary along broad environmental gradients related to temperature, precipitation, thermal variability, productivity, latitude, and distance to coast?</p>
+  <div class="project-hero-graphic" aria-hidden="true">
+    <svg viewBox="0 0 160 160" role="img">
+      <circle cx="80" cy="80" r="67" fill="#f4fbf8" stroke="#d8e6e1" stroke-width="2"/>
+      <path d="M35 101 C53 80, 72 70, 101 72" fill="none" stroke="#d8e6e1" stroke-width="5" stroke-linecap="round"/>
+      <path d="M45 88 C58 56, 86 42, 119 50 C101 56, 85 69, 75 91 C65 89, 55 88, 45 88 Z" fill="#4f8f7f"/>
+      <path d="M72 90 C86 65, 106 54, 129 59 C112 69, 100 83, 94 106 C86 99, 79 94, 72 90 Z" fill="#2f5d53" opacity="0.92"/>
+      <path d="M48 88 C39 91, 32 96, 27 103 C39 104, 50 101, 58 94 Z" fill="#b68b45"/>
+      <circle cx="111" cy="53" r="3.2" fill="#1f2d2a"/>
+      <path d="M121 50 L139 43 L128 58 Z" fill="#b68b45"/>
+      <path d="M78 106 C82 119, 76 128, 66 134" fill="none" stroke="#6e8aa0" stroke-width="4" stroke-linecap="round"/>
+      <path d="M86 105 C94 118, 93 129, 88 138" fill="none" stroke="#6e8aa0" stroke-width="4" stroke-linecap="round"/>
+      <path d="M55 134 L102 134" stroke="#b68b45" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="48" cy="88" r="5" fill="#ffffff" opacity="0.45"/>
+      <path d="M58 80 C67 76, 75 76, 86 79" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+    </svg>
   </div>
 </div>
 
-<div class="overview-row overview-row-strategy">
-  <div class="overview-step">2</div>
-  <div class="overview-icon" aria-hidden="true">&#8756;</div>
-  <div class="overview-copy">
-    <div class="overview-heading">Analytical strategy</div>
-    <p>Six environmental and geographic variables are summarised using PCA, producing two broad environmental-geographic axes.</p>
-  </div>
-  <div class="overview-pca">
-    <div class="overview-pill">PCA of six variables</div>
-    <div class="overview-pc-card">
-      <div class="overview-subheading">PC1: thermal-geographic gradient</div>
-      <p>warmer, more thermally variable, lower-latitude, more inland environments</p>
-    </div>
-    <div class="overview-pc-card">
-      <div class="overview-subheading">PC2: wet-productivity gradient</div>
-      <p>wetter and more productive environments</p>
-    </div>
-  </div>
+<div class="page-intro">
+<p>
+This book documents a reproducible comparative analysis of environmental variation and extra-pair paternity (EPP) in birds. The analysis uses population-level estimates of the proportion of sampled broods containing at least one extra-pair young and links them to environmental conditions, geography, species identity, phylogeny, and sampling structure.
+</p>
+
+<p>
+The project is organised around three main environmental model groups: an environmental PCA model, a short-anomaly model, and a long-anomaly model. Each model group is fitted in two versions: a mean-only beta-binomial model and a location-scale beta-binomial model. All models include methodological controls for nest-box use and genetic marker type.
+</p>
 </div>
 
-<div class="overview-row overview-row-models">
-  <div class="overview-step">3</div>
-  <div class="overview-icon" aria-hidden="true">&#8942;</div>
-  <div class="overview-copy">
-    <div class="overview-heading">Model roadmap</div>
-    <p>The model set focuses on full environmental models with mean-only and mean-scale versions, supported by direct-predictor sensitivity analyses.</p>
-  </div>
-  <div class="overview-model-grid">
-    <div class="overview-model-card primary">
-      <span class="model-letter">A</span>
-      <div class="overview-subheading">Main models</div>
-      <p>Three full environmental model groups: environmental PCA, short anomaly, and long anomaly.</p>
-      <div class="model-formula">mean-only and mean-scale beta-binomial models</div>
-      <p>Methodological controls are included in the full environmental models and evaluated again in sensitivity models.</p>
-    </div>
-    <div class="overview-model-card">
-      <span class="model-letter">B</span>
-      <div class="overview-subheading">Scale component</div>
-      <p>Each hypothesis group is fitted with a constant precision model and a scale model.</p>
-      <div class="model-formula">mean model + optional phi model</div>
-      <p>The scale component tests whether predictors are associated with residual precision and overdispersion.</p>
-    </div>
-    <div class="overview-model-card">
-      <span class="model-letter">C</span>
-      <div class="overview-subheading">Sensitivity models</div>
-      <p>Direct environmental-geographic predictors replace PCA axes and anomaly-only formulations.</p>
-      <div class="model-formula">plus nest_box and marker_type</div>
-      <p>These models check whether conclusions depend on modelling choices and methodological controls.</p>
-    </div>
-  </div>
+<div class="main-question-box">
+  <strong>Main question</strong>
+  <p>Do population-level EPP rates vary along broad environmental gradients related to temperature, precipitation, thermal variability, productivity, latitude, and distance to coast?</p>
 </div>
 
-<div class="overview-row overview-row-core">
-  <div class="overview-step">4</div>
-  <div class="overview-icon" aria-hidden="true">&#8862;</div>
-  <div class="overview-copy">
-    <div class="overview-heading">Core model structure</div>
-    <p>All Bayesian models use the same response and repeated-observation structure.</p>
+<div class="structure-title">Website structure</div>
+
+<div class="chapter-grid">
+
+  <div class="chapter-card highlight-overview">
+    <div>
+      <div class="chapter-number">1.</div>
+      <div class="chapter-title">Environmental data sources</div>
+      <p>
+        Description of the climate, productivity, and geographic datasets used to characterise breeding-season environmental conditions.
+      </p>
+    </div>
+    <div class="chapter-link">
+      <a href="./00_environmental_data_sources.html">Open chapter</a>
+    </div>
   </div>
-  <div class="overview-core-grid">
-    <div><strong>Response:</strong><br>broods with EPP / total broods sampled</div>
-    <div><strong>Likelihood:</strong><br>beta-binomial</div>
-    <div><strong>Random effects:</strong><br>population identity, species identity, phylogenetic relatedness</div>
-    <code>(1 | population_id) + (1 | species_nonphylo) + (1 | gr(species_phylo, cov = phylo_mat))</code>
+
+  <div class="chapter-card">
+    <div>
+      <div class="chapter-number">2.</div>
+      <div class="chapter-title">Data preparation</div>
+      <p>
+        Construction of the analytical dataset linking EPP records to sampling effort, breeding timing, location, and environmental predictors.
+      </p>
+    </div>
+    <div class="chapter-link">
+      <a href="./01_data_preparation.html">Open chapter</a>
+    </div>
   </div>
+
+  <div class="chapter-card">
+    <div>
+      <div class="chapter-number">3.</div>
+      <div class="chapter-title">Taxonomy and phylogeny</div>
+      <p>
+        Taxonomic harmonisation and preparation of the phylogenetic covariance matrix used in the comparative models.
+      </p>
+    </div>
+    <div class="chapter-link">
+      <a href="./02_taxonomy_matching.html">Open chapter</a>
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <div>
+      <div class="chapter-number">4.</div>
+      <div class="chapter-title">Environmental PCA</div>
+      <p>
+        Six correlated environmental-geographic predictors are summarised into two broad axes: a thermal-geographic gradient and a wet-productivity gradient.
+      </p>
+    </div>
+    <div class="chapter-link">
+      <a href="./04_pca_for_environmental_predictors.html">Open chapter</a>
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <div>
+      <div class="chapter-number">5.</div>
+      <div class="chapter-title">Model structure and rationale</div>
+      <p>
+        Description of the beta-binomial framework, response structure, random effects, methodological controls, and the role of mean-only versus location-scale models.
+      </p>
+    </div>
+    <div class="chapter-link">
+      <a href="./03_overall_model.html">Open chapter</a>
+    </div>
+  </div>
+
+  <div class="chapter-card highlight-main">
+    <div>
+      <div class="chapter-number">6.</div>
+      <div class="chapter-title">Main environmental models</div>
+      <p>
+        Three main model groups are fitted:
+      </p>
+      <ul>
+        <li>Environmental PCA model (PC1 + PC2)</li>
+        <li>Short anomaly model</li>
+        <li>Long anomaly model</li>
+      </ul>
+      <p>
+        Each group includes methodological controls and is fitted as both a mean-only and a location-scale model.
+      </p>
+    </div>
+    <div class="chapter-link">
+      <a href="./05_location_scale_models.html">Open chapter</a>
+    </div>
+  </div>
+
+  <div class="chapter-card highlight-sensitivity">
+    <div>
+      <div class="chapter-number">7.</div>
+      <div class="chapter-title">Sensitivity models</div>
+      <p>
+        Sensitivity analyses replace the PCA axes with direct environmental-geographic predictors such as temperature, precipitation, thermal variability, NDVI, latitude, and distance to coast.
+      </p>
+    </div>
+    <div class="chapter-link">
+      <a href="./06_sensitivity_models.html">Open chapter</a>
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <div>
+      <div class="chapter-number">8.</div>
+      <div class="chapter-title">Location-scale models</div>
+      <p>
+        Exploratory models evaluate whether environmental and methodological predictors explain variation in the beta-binomial precision parameter.
+      </p>
+    </div>
+    <div class="chapter-link">
+      <a href="./07_location_scale_models.html">Open chapter</a>
+    </div>
+  </div>
+
+  <div class="chapter-card">
+    <div>
+      <div class="chapter-number">9.</div>
+      <div class="chapter-title">Figures</div>
+      <p>
+        Final figures, model summaries, and visual outputs used to interpret environmental effects and present the main results.
+      </p>
+    </div>
+    <div class="chapter-link">
+      <a href="./07_figures.html">Open chapter</a>
+    </div>
+  </div>
+
 </div>
 
-<div class="overview-row overview-row-workflow">
-  <div class="overview-step">5</div>
-  <div class="overview-icon" aria-hidden="true">&#8635;</div>
-  <div class="overview-copy">
-    <div class="overview-heading">Workflow and reproducibility</div>
-    <p>The Quarto book reads saved model objects and figures, allowing transparent rendering after models are run on Totoro.</p>
-  </div>
-  <div class="overview-flow">
-    <span>Data preparation</span>
-    <span>Phylogenetic matching</span>
-    <span>Environmental PCA</span>
-    <span>Model fitting</span>
-    <span>Saved outputs and figures</span>
-  </div>
-</div>
+<div class="project-note">
 </div>
 ```
 
-## Analytical strategy
 
-The main analysis is organised around three full environmental model groups. These models test whether broad environmental-geographic gradients, short-term climate anomalies, and long-term climate anomalies are associated with population-level EPP. Each group is fitted as a mean-only beta-binomial mixed model and as a mean-scale model, with methodological controls included in the model set.
 
-The environmental PCA summarises six environmental and geographic variables. The two primary axes are interpreted as PC1, a thermal-geographic gradient, and PC2, a wet-productivity gradient.
 
-## Model roadmap
 
-The **main environmental models** chapter presents the three primary hypothesis groups: an environmental PCA model, a short-anomaly model, and a long-anomaly model. Each group is fitted with and without a scale component.
 
-The scale component asks whether environmental predictors and methodological controls are associated not only with mean EPP, but also with residual precision and overdispersion in EPP.
 
-The **sensitivity models** chapter uses environmental-geographic predictors directly, rather than PCA axes or anomaly-only models
 
-## Reproducibility
 
-The workflow first documents data preparation and phylogenetic matching, then describes the common model structure, constructs the environmental PCA, fits the full environmental models, evaluates the scale component, and presents sensitivity analyses and figures.
+
+

@@ -1,11 +1,11 @@
-project:
+﻿project:
   type: book
   output-dir: docs
 
 book:
-  title: "Environmental variation and extra-pair paternity in birds"
-  subtitle: "A reproducible workflow for a climate-focused comparative analysis"
-  author: "Aneta Arct et al. 2026"
+  title: "Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis"
+  subtitle: "A reproducible workflow for a global comparative analysis"
+  author: "Aneta Arct, Santiago Ortega, Agnieszka Gudowska, Karolina Skorb, Monika Gronowska, Magdalena Zagalska-Neubauer, Dorota Kotowska, Szymon M. Drobniak, Malgorzata Lagisz, Shinichi Nakagawa"
   date: today
   chapters:
     - index.qmd
@@ -16,7 +16,15 @@ book:
     - 04_pca_for_environmental_predictors.qmd
     - 05_location_scale_models.qmd
     - 06_sensitivity_models.qmd
+    - 07_location_scale_models.qmd
     - 07_figures.qmd
+  sidebar:
+    style: docked
+    collapse-level: 1
+
+execute:
+  message: false
+  warning: false
 
 format:
   html:

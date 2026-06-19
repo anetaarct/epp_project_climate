@@ -1,0 +1,13 @@
+model,loo_status
+m_main_pca_mu_phi,"error: the compiled object from C++ code for this model is invalid, possible reasons:
+  - compiled with save_dso=FALSE;
+  - compiled on a different platform;
+  - does not exist (created from reading csv files)."
+m_main_short_mu_phi,"error: the compiled object from C++ code for this model is invalid, possible reasons:
+  - compiled with save_dso=FALSE;
+  - compiled on a different platform;
+  - does not exist (created from reading csv files)."
+m_main_long_mu_phi,"error: the compiled object from C++ code for this model is invalid, possible reasons:
+  - compiled with save_dso=FALSE;
+  - compiled on a different platform;
+  - does not exist (created from reading csv files)."

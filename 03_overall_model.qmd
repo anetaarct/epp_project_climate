@@ -1,4 +1,4 @@
----
+﻿---
 title: "Overall model structure"
 ---
 
@@ -8,7 +8,7 @@ This chapter defines the common statistical structure used across the Bayesian m
 
 ```{r}
 #| label: model-structure-setup
-#| echo: false
+#| echo: true
 #| message: false
 #| warning: false
 
@@ -143,7 +143,7 @@ m_overall_population <- brms::brm(
 
 ```{r}
 #| label: overall-model-result
-#| echo: false
+#| echo: true
 #| results: asis
 
 if (!is.na(overall_summary_file)) {
@@ -159,7 +159,7 @@ if (!is.na(overall_summary_file)) {
 
 ```{r}
 #| label: overall-model-diagnostics
-#| echo: false
+#| echo: true
 
 if (!is.na(overall_diagnostics_file)) {
   read_csv(overall_diagnostics_file, show_col_types = FALSE) %>%
@@ -169,3 +169,4 @@ if (!is.na(overall_diagnostics_file)) {
   invisible(NULL)
 }
 ```
+

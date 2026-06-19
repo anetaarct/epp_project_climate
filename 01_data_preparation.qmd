@@ -1,16 +1,16 @@
----
+﻿---
 title: "Data preparation"
 ---
 
 ## Overview
 
-This chapter documents the preparation of the analytical dataset used in the yearly extra-pair paternity (EPP) analyses. The workflow starts from the analysis input file, checks the response variables, restricts the data to socially monogamous species, defines population-level identifiers, and summarises the final dataset used in the Bayesian models.
+This chapter documents the preparation of the analytical dataset used in the analyses. The workflow starts from the analysis input file, checks the response variables, restricts the data to socially monogamous species, defines population-level identifiers, and summarises the final dataset used in the Bayesian models.
 
 ## Load packages and data
 
 ```{r}
 #| label: setup
-#| echo: false
+#| echo: true
 #| message: false
 #| warning: false
 
@@ -27,7 +27,7 @@ dat_raw <- readr::read_csv(
 
 ```{r}
 #| label: raw-data-summary
-#| echo: false
+#| echo: true
 
 raw_summary <- tibble(
   metric = c(
@@ -55,7 +55,7 @@ The geographic distribution of retained EPP records was inspected to evaluate th
 
 ```{r}
 #| label: sampling-location-map
-#| echo: false
+#| echo: true
 #| fig-cap: "Geographic distribution of EPP study locations."
 #| fig-width: 9
 #| fig-height: 5.2
@@ -73,7 +73,7 @@ Geographic coordinates, response variables, environmental variables, and breedin
 
 ```{r}
 #| label: basic-cleaning
-#| echo: false
+#| echo: true
 
 dat_clean <- dat_raw %>%
   mutate(
@@ -127,7 +127,7 @@ The main analyses are restricted to socially monogamous species. This restrictio
 
 ```{r}
 #| label: breeding-system-counts
-#| echo: false
+#| echo: true
 
 dat_clean %>%
   count(breeding_system, sort = TRUE) %>%
@@ -136,7 +136,7 @@ dat_clean %>%
 
 ```{r}
 #| label: monogamy-filter
-#| echo: false
+#| echo: true
 
 dat_mono <- dat_clean %>%
   filter(breeding_system == "monogamy")
@@ -144,7 +144,7 @@ dat_mono <- dat_clean %>%
 
 ```{r}
 #| label: monogamy-summary
-#| echo: false
+#| echo: true
 
 dat_mono %>%
   summarise(
@@ -162,7 +162,7 @@ The response variable is the number of broods with EPP out of the total number o
 
 ```{r}
 #| label: response-variable-qc
-#| echo: false
+#| echo: true
 
 response_qc <- dat_mono %>%
   summarise(
@@ -180,7 +180,7 @@ knitr::kable(response_qc)
 
 ```{r}
 #| label: final-model-dataset
-#| echo: false
+#| echo: true
 
 dat_model <- dat_mono %>%
   filter(
@@ -193,7 +193,7 @@ dat_model <- dat_mono %>%
 
 ```{r}
 #| label: final-model-dataset-summary
-#| echo: false
+#| echo: true
 
 dat_model %>%
   summarise(
@@ -214,7 +214,7 @@ The overlap between reference identity (`id_reference`) and population identity 
 
 ```{r}
 #| label: reference-population-overlap-data
-#| echo: false
+#| echo: true
 
 if (file.exists("data/processed/dat_model_phylo.rds")) {
   overlap_dat <- readRDS("data/processed/dat_model_phylo.rds")
@@ -262,7 +262,7 @@ reference_overlap <- overlap_dat %>%
 
 ```{r}
 #| label: reference-population-overlap-table
-#| echo: false
+#| echo: true
 
 population_overlap %>%
   count(n_references, name = "n_populations") %>%
@@ -276,7 +276,7 @@ The main environmental models use environmental values from the first breeding-s
 
 ```{r}
 #| label: first-month-full-season-correlations
-#| echo: false
+#| echo: true
 
 environment_window_pairs <- tribble(
   ~variable, ~first_month, ~full_season,
@@ -313,7 +313,7 @@ environment_window_correlations %>%
 
 ```{r}
 #| label: first-month-full-season-correlation-plot
-#| echo: false
+#| echo: true
 #| fig-cap: "Relationship between first breeding-season month and full-season environmental values."
 #| fig-width: 8
 #| fig-height: 6
@@ -324,3 +324,4 @@ if (file.exists("figures/first_month_full_season_correlations.png")) {
   cat("Environmental-window correlation figure is not available yet. Render the Figures chapter to create it.")
 }
 ```
+

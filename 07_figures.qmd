@@ -4,7 +4,7 @@ title: "Figures"
 
 ```{r}
 #| label: figures-setup
-#| echo: false
+#| echo: true
 #| message: false
 #| warning: false
 
@@ -18,6 +18,11 @@ library(purrr)
 
 dir.create("figures", recursive = TRUE, showWarnings = FALSE)
 
+plot_green <- "#2f6f73"
+plot_green_light <- "#9fb9bd"
+plot_rust <- "#b35c35"
+plot_neutral <- "#5f6f72"
+
 first_existing <- function(paths) {
   existing <- paths[file.exists(paths)]
   if (length(existing) == 0) {
@@ -30,7 +35,6 @@ sensitivity_model_dir <- "models/sensitivity_models"
 ```
 
 This chapter collects figures used in the  workflow.
-
 ## Sampling Locations
 
 This map shows the geographic distribution of population-level EPP records included in the model-ready dataset. Point colour represents the observed proportion of broods containing at least one extra-pair young, while point size represents the number of sampled broods. The figure is intended to show the spatial coverage of the dataset and the uneven distribution of sampling effort across regions.
@@ -77,8 +81,8 @@ if (!is.na(dat_location_file)) {
       ) +
       coord_quickmap(xlim = c(-180, 180), ylim = c(-60, 85), expand = FALSE) +
       scale_colour_gradient(
-        low = "#2f6f73",
-        high = "#b35c35",
+        low = plot_green,
+        high = plot_rust,
         labels = scales::percent_format(accuracy = 1)
       ) +
       scale_size_continuous(range = c(1, 4), trans = "sqrt") +
@@ -101,8 +105,8 @@ if (!is.na(dat_location_file)) {
       geom_point(alpha = 0.72) +
       coord_quickmap(xlim = c(-180, 180), ylim = c(-60, 85), expand = FALSE) +
       scale_colour_gradient(
-        low = "#2f6f73",
-        high = "#b35c35",
+        low = plot_green,
+        high = plot_rust,
         labels = scales::percent_format(accuracy = 1)
       ) +
       scale_size_continuous(range = c(1, 4), trans = "sqrt") +
@@ -137,7 +141,7 @@ if (!is.na(dat_location_file)) {
 
 ```{r}
 #| label: fig-sampling-location-map
-#| echo: false
+#| echo: true
 #| fig-width: 9
 #| fig-height: 5.2
 
@@ -195,7 +199,7 @@ if (file.exists(tree_file) &&
   )
 
   top_species <- high_epp_species$species_phylo
-  tip_colours <- ifelse(tree_pruned$tip.label %in% top_species, "#b35c35", "grey55")
+  tip_colours <- ifelse(tree_pruned$tip.label %in% top_species, plot_rust, "grey55")
 
   make_phylogeny_plot <- function() {
     ape::plot.phylo(
@@ -218,7 +222,7 @@ if (file.exists(tree_file) &&
     legend(
       "topleft",
       legend = c("Top species-level EPP", "Other species"),
-      pt.bg = c("#b35c35", "grey55"),
+      pt.bg = c(plot_rust, "grey55"),
       pch = 21,
       pt.cex = c(1.1, 0.7),
       bty = "n",
@@ -229,7 +233,7 @@ if (file.exists(tree_file) &&
       "bottomleft",
       legend = gsub("_", " ", top_species),
       pch = 21,
-      pt.bg = "#b35c35",
+      pt.bg = plot_rust,
       bty = "n",
       cex = 0.55,
       title = "Highest EPP species"
@@ -250,7 +254,7 @@ if (file.exists(tree_file) &&
 
 ```{r}
 #| label: fig-high-epp-phylogeny
-#| echo: false
+#| echo: true
 #| fig-width: 8
 #| fig-height: 8
 
@@ -304,8 +308,8 @@ if (file.exists(dat_model_file)) {
     environment_window_plot_data,
     aes(x = first_month, y = full_season)
   ) +
-    geom_point(alpha = 0.35, size = 1.4, colour = "#2f6f73") +
-    geom_smooth(method = "lm", se = FALSE, linewidth = 0.7, colour = "#b35c35") +
+    geom_point(alpha = 0.35, size = 1.4, colour = plot_green) +
+    geom_smooth(method = "lm", se = FALSE, linewidth = 0.7, colour = plot_rust) +
     facet_wrap(~ variable, scales = "free", ncol = 2) +
     labs(
       x = "First-month value",
@@ -334,7 +338,7 @@ if (file.exists(dat_model_file)) {
 
 ```{r}
 #| label: fig-first-full-season
-#| echo: false
+#| echo: true
 #| fig-width: 8
 #| fig-height: 6
 
@@ -377,9 +381,9 @@ if (!is.na(variance_file)) {
   fig_pca_variance <- variance_explained %>%
     mutate(PC = factor(PC, levels = PC)) %>%
     ggplot(aes(x = PC, y = variance_explained)) +
-    geom_col(width = 0.7, fill = "#2f6f73") +
-    geom_point(aes(y = cumulative_variance), colour = "#b35c35", size = 2) +
-    geom_line(aes(y = cumulative_variance, group = 1), colour = "#b35c35") +
+    geom_col(width = 0.7, fill = plot_green) +
+    geom_point(aes(y = cumulative_variance), colour = plot_rust, size = 2) +
+    geom_line(aes(y = cumulative_variance, group = 1), colour = plot_rust) +
     scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
     labs(x = NULL, y = "Variance explained") +
     theme_minimal(base_size = 11)
@@ -434,7 +438,7 @@ if (!is.na(loadings_file)) {
     scale_fill_gradient2(
       low = "#6b8fb5",
       mid = "#f7f4ef",
-      high = "#b35c35",
+      high = plot_rust,
       midpoint = 0
     ) +
     labs(x = "Loading", y = NULL) +
@@ -508,7 +512,7 @@ if (exists("fig_pca_variance") && exists("fig_pca_loadings")) {
 
 ```{r}
 #| label: fig-environmental-pca
-#| echo: false
+#| echo: true
 #| fig-width: 10.5
 #| fig-height: 4.8
 
@@ -522,9 +526,9 @@ if (file.exists("figures/pca_environmental_pca.png")) {
 This figure is used in the PCA chapter. Panel A shows variance explained by each component, and Panel B shows variable loadings used to interpret the retained environmental-geographic gradients.
 
 
-## Main Mean-Only Forest Plots
+## Main models plots
 
-These figures summarise fixed-effect estimates from the three mean-only main environmental models. Points show posterior estimates and horizontal intervals show 95% credible intervals on the logit scale. Intervals overlapping zero indicate effects with substantial posterior uncertainty.
+These figures summarise the main model visual outputs, including fixed-effect estimates from the three mean-only main environmental models and model-predicted effects for methodological controls in the PCA model. Points show posterior estimates and horizontal intervals show 95% credible intervals on the logit scale. Intervals overlapping zero indicate effects with substantial posterior uncertainty. Categorical effects are contrasts against the reference groups: nest box = no and marker type = DNA fingerprinting; the Nest box estimate compares records with nest-box use to records without nest-box use.
 
 ```{r}
 #| label: create-main-mean-forest-plots
@@ -540,8 +544,8 @@ main_fixed_effects_file <- file.path(
 main_mean_models <- tribble(
   ~model, ~file_stem, ~title,
   "Environmental PCA mean-only", "main_pca_mean_forest_plot", "Environmental PCA mean-only",
-  "Short anomaly mean-only", "main_short_mean_forest_plot", "Short anomaly mean-only",
-  "Long anomaly mean-only", "main_long_mean_forest_plot", "Long anomaly mean-only"
+  "Short-anomaly mean-only", "main_short_mean_forest_plot", "Short-anomaly mean-only",
+  "Long-anomaly mean-only", "main_long_mean_forest_plot", "Long-anomaly mean-only"
 )
 
 main_predictor_labels <- c(
@@ -559,23 +563,52 @@ main_predictor_labels <- c(
   "Marker: other" = "Marker: other"
 )
 
+main_predictor_order <- list(
+  "Environmental PCA mean-only" = c(
+    "PC1 thermal-geographic", "PC2 wet-productivity",
+    "Nest box", "Marker: microsatellite", "Marker: SNPs", "Marker: other"
+  ),
+  "Short-anomaly mean-only" = c(
+    "Short temperature anomaly", "Short precipitation anomaly",
+    "Absolute latitude", "Distance to coast",
+    "Nest box", "Marker: microsatellite", "Marker: SNPs", "Marker: other"
+  ),
+  "Long-anomaly mean-only" = c(
+    "Long temperature anomaly", "Long precipitation anomaly",
+    "Absolute latitude", "Distance to coast",
+    "Nest box", "Marker: microsatellite", "Marker: SNPs", "Marker: other"
+  )
+)
+
 if (file.exists(main_fixed_effects_file)) {
   main_fixed_effects <- read_csv(main_fixed_effects_file, show_col_types = FALSE) %>%
-    filter(component == "mu", model %in% main_mean_models$model) %>%
     mutate(
-      predictor = recode(predictor, !!!main_predictor_labels),
-      predictor = factor(predictor, levels = rev(unique(predictor)))
-    )
+      model = gsub("Short anomaly", "Short-anomaly", model, fixed = TRUE),
+      model = gsub("Long anomaly", "Long-anomaly", model, fixed = TRUE),
+      predictor = recode(predictor, !!!main_predictor_labels)
+    ) %>%
+    filter(component == "mu", model %in% main_mean_models$model)
 
-  make_main_mean_forest <- function(model_name, file_stem, title) {
+  make_main_mean_forest <- function(model, file_stem, title) {
+    predictor_levels <- main_predictor_order[[model]]
     plot_data <- main_fixed_effects %>%
-      filter(model == model_name) %>%
-      mutate(predictor = factor(as.character(predictor), levels = rev(as.character(predictor))))
+      filter(.data$model == .env$model) %>%
+      mutate(
+        predictor = factor(
+          predictor,
+          levels = rev(predictor_levels[predictor_levels %in% predictor])
+        )
+      )
+
+    if (nrow(plot_data) == 0) {
+      cat("No fixed-effect estimates found for ", model, ".\n", sep = "")
+      return(invisible(NULL))
+    }
 
     fig <- ggplot(plot_data, aes(x = estimate, y = predictor)) +
       geom_vline(xintercept = 0, linetype = "dashed", linewidth = 0.4, colour = "grey45") +
-      geom_segment(aes(x = lower, xend = upper, y = predictor, yend = predictor), linewidth = 0.75, colour = "grey45") +
-      geom_point(size = 2.5, shape = 21, fill = "white", colour = "grey25", stroke = 0.8) +
+      geom_segment(aes(x = lower, xend = upper, y = predictor, yend = predictor), linewidth = 0.8, colour = plot_green) +
+      geom_point(size = 2.6, shape = 21, fill = plot_rust, colour = "white", stroke = 0.8) +
       labs(
         title = title,
         x = "Fixed-effect estimate on logit scale",
@@ -583,7 +616,7 @@ if (file.exists(main_fixed_effects_file)) {
       ) +
       theme_minimal(base_size = 11) +
       theme(
-        plot.title = element_text(hjust = 0.5, colour = "grey25", face = "plain"),
+        plot.title = element_text(hjust = 0.5, colour = plot_green, face = "plain"),
         axis.text.y = element_text(colour = "grey25"),
         axis.text.x = element_text(colour = "grey25"),
         panel.grid.minor = element_blank(),
@@ -614,8 +647,122 @@ if (file.exists(main_fixed_effects_file)) {
 ```
 
 ```{r}
+#| label: create-main-pca-controls-effects
+#| eval: false
+#| message: false
+#| warning: false
+
+main_pca_mu_model_file <- file.path(
+  "models/main_environmental_models",
+  "m_main_pca_mu.rds"
+)
+main_pca_data_file <- file.path(
+  "models/main_environmental_models",
+  "dat_main_environmental_models.rds"
+)
+
+if (file.exists(main_pca_mu_model_file) && file.exists(main_pca_data_file)) {
+  main_pca_mu_model <- readRDS(main_pca_mu_model_file)
+  dat_main_pca <- readRDS(main_pca_data_file) %>%
+    mutate(
+      nest_box = factor(nest_box),
+      marker_type = factor(marker_type),
+      population_id = factor(population_id),
+      species_nonphylo = factor(species_nonphylo),
+      species_phylo = factor(species_phylo)
+    )
+
+  ref_row <- dat_main_pca[1, , drop = FALSE]
+  ref_row$PC1_thermal_geographic <- 0
+  ref_row$PC2_wet_productive <- 0
+  ref_row$n_broods_sampled <- 1
+  ref_row$n_epp_broods <- 0
+  ref_row$nest_box <- factor("no", levels = levels(dat_main_pca$nest_box))
+  ref_row$marker_type <- factor("DNA fingerprinting", levels = levels(dat_main_pca$marker_type))
+
+  nest_newdata <- ref_row[rep(1, length(levels(dat_main_pca$nest_box))), , drop = FALSE]
+  nest_newdata$nest_box <- factor(levels(dat_main_pca$nest_box), levels = levels(dat_main_pca$nest_box))
+  nest_newdata$panel <- "Nest-box use"
+  nest_newdata$level <- as.character(nest_newdata$nest_box)
+
+  marker_newdata <- ref_row[rep(1, length(levels(dat_main_pca$marker_type))), , drop = FALSE]
+  marker_newdata$marker_type <- factor(levels(dat_main_pca$marker_type), levels = levels(dat_main_pca$marker_type))
+  marker_newdata$panel <- "Marker type"
+  marker_newdata$level <- as.character(marker_newdata$marker_type)
+
+  summarize_predictions <- function(newdata) {
+    epred <- brms::posterior_epred(
+      main_pca_mu_model,
+      newdata = newdata,
+      re_formula = NA
+    )
+
+    bind_rows(lapply(seq_len(ncol(epred)), function(i) {
+      tibble(
+        panel = newdata$panel[i],
+        level = newdata$level[i],
+        estimate = median(epred[, i]),
+        lower = quantile(epred[, i], 0.025),
+        upper = quantile(epred[, i], 0.975)
+      )
+    }))
+  }
+
+  main_pca_controls_plot_data <- bind_rows(
+    summarize_predictions(nest_newdata),
+    summarize_predictions(marker_newdata)
+  ) %>%
+    mutate(
+      level = factor(
+        level,
+        levels = c("no", "yes", "DNA fingerprinting", "microsatellite", "SNPs", "other"),
+        labels = c("No", "Yes", "DNA fingerprinting", "Microsatellite", "SNPs", "Other")
+      ),
+      panel = factor(panel, levels = c("Nest-box use", "Marker type"))
+    )
+
+  fig_main_pca_controls <- ggplot(
+    main_pca_controls_plot_data,
+    aes(x = level, y = estimate)
+  ) +
+    geom_linerange(aes(ymin = lower, ymax = upper), linewidth = 0.8, colour = plot_green) +
+    geom_point(size = 2.8, shape = 21, fill = plot_rust, colour = "white", stroke = 0.8) +
+    facet_wrap(~ panel, scales = "free_x", nrow = 1) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1), limits = c(0, NA)) +
+    labs(
+      x = NULL,
+      y = "Predicted EPP probability"
+    ) +
+    theme_minimal(base_size = 11) +
+    theme(
+      strip.text = element_text(colour = plot_green, face = "plain"),
+      axis.text.x = element_text(colour = "grey25", angle = 20, hjust = 1),
+      axis.text.y = element_text(colour = "grey25"),
+      panel.grid.minor = element_blank(),
+      panel.grid.major.x = element_blank(),
+      panel.grid.major.y = element_line(colour = "grey90")
+    )
+
+  ggsave(
+    "figures/main_pca_controls_effects.png",
+    fig_main_pca_controls,
+    width = 8,
+    height = 3.6,
+    dpi = 300
+  )
+
+  ggsave(
+    "figures/main_pca_controls_effects.pdf",
+    fig_main_pca_controls,
+    width = 8,
+    height = 3.6
+  )
+}
+```
+
+```{r}
 #| label: fig-main-pca-mean-forest
-#| echo: false
+#| echo: true
 #| fig-width: 8
 #| fig-height: 3.2
 
@@ -627,8 +774,19 @@ if (file.exists("figures/main_pca_mean_forest_plot.png")) {
 ```
 
 ```{r}
+#| label: fig-main-pca-controls-effects
+#| echo: true
+#| fig-width: 8
+#| fig-height: 3.6
+
+if (file.exists("figures/main_pca_controls_effects.png")) {
+  include_graphics("figures/main_pca_controls_effects.png")
+}
+```
+
+```{r}
 #| label: fig-main-short-mean-forest
-#| echo: false
+#| echo: true
 #| fig-width: 8
 #| fig-height: 3.8
 
@@ -641,7 +799,7 @@ if (file.exists("figures/main_short_mean_forest_plot.png")) {
 
 ```{r}
 #| label: fig-main-long-mean-forest
-#| echo: false
+#| echo: true
 #| fig-width: 8
 #| fig-height: 3.8
 
@@ -656,7 +814,7 @@ These figures are used in the main-environmental-model chapter. Points show post
 
 ## Sensitivity Environmental Effects
 
-This figure shows model-predicted EPP along the four direct environmental predictors from the mean-only sensitivity model. The fitted lines represent posterior mean predictions and shaded intervals show 95% credible intervals. Raw population-level EPP values are shown lightly in the background only to indicate the distribution of observations across each predictor.
+These figures show model-predicted EPP from the mean-only sensitivity model. The first panel focuses on the direct environmental predictors. The second panel shows the methodological moderators: nest-box use and genetic marker type. Fitted lines represent posterior mean predictions and shaded intervals show 95% credible intervals for continuous predictors; points and intervals show posterior predictions for categorical predictors. Raw population-level EPP values are shown lightly in the background for the environmental predictors only.
 
 ```{r}
 #| label: create-sensitivity-environmental-effects
@@ -751,18 +909,18 @@ if (file.exists(sensitivity_mu_model_file) &&
       aes(x = x, y = observed_epp),
       alpha = 0.12,
       size = 0.8,
-      colour = "grey35"
+      colour = plot_green
     ) +
     geom_ribbon(
       data = sensitivity_effect_plot_data,
       aes(x = x, ymin = lower, ymax = upper),
-      fill = "#9fb9bd",
+      fill = plot_green_light,
       alpha = 0.35
     ) +
     geom_line(
       data = sensitivity_effect_plot_data,
       aes(x = x, y = estimate),
-      colour = "#b35c35",
+      colour = plot_rust,
       linewidth = 0.8
     ) +
     facet_wrap(
@@ -778,7 +936,7 @@ if (file.exists(sensitivity_mu_model_file) &&
     theme_minimal(base_size = 11) +
     theme(
       panel.grid.minor = element_blank(),
-      strip.text = element_text(colour = "grey25")
+      strip.text = element_text(colour = plot_green)
     )
 
   ggsave(
@@ -802,7 +960,7 @@ if (file.exists(sensitivity_mu_model_file) &&
 
 ```{r}
 #| label: fig-sensitivity-environmental-effects
-#| echo: false
+#| echo: true
 #| fig-width: 8.5
 #| fig-height: 5.8
 
@@ -813,7 +971,135 @@ if (file.exists("figures/sensitivity_environmental_effects.png")) {
 }
 ```
 
-This figure is used in the sensitivity-model chapter. Lines show posterior mean predicted EPP, shaded ribbons show 95% credible intervals, and pale points show observed population-level values as background context.
+```{r}
+#| label: create-sensitivity-methodological-controls-predictions
+#| eval: false
+#| message: false
+#| warning: false
+
+sensitivity_mu_model_file <- "models/sensitivity_models/m_sensitivity_first_month_mu.rds"
+sensitivity_data_file <- "models/sensitivity_models/dat_sensitivity_models.rds"
+
+if (file.exists(sensitivity_mu_model_file) && file.exists(sensitivity_data_file)) {
+  sensitivity_mu_model <- readRDS(sensitivity_mu_model_file)
+  dat_sensitivity_controls <- readRDS(sensitivity_data_file) %>%
+    mutate(
+      nest_box = factor(nest_box),
+      marker_type = factor(marker_type),
+      population_id = factor(population_id),
+      species_nonphylo = factor(species_nonphylo),
+      species_phylo = factor(species_phylo)
+    )
+
+  ref_row <- dat_sensitivity_controls[1, , drop = FALSE]
+  ref_row$tmp_cru_C_first_month_z <- 0
+  ref_row$pre_cru_mm_first_month_log_z <- 0
+  ref_row$dtr_cru_C_first_month_z <- 0
+  ref_row$ndvi_first_month_median_30km_z <- 0
+  ref_row$abs_latitude_z <- 0
+  ref_row$distance_to_coast_z <- 0
+  ref_row$n_broods_sampled <- 1
+  ref_row$n_epp_broods <- 0
+  ref_row$nest_box <- factor("no", levels = levels(dat_sensitivity_controls$nest_box))
+  ref_row$marker_type <- factor("DNA fingerprinting", levels = levels(dat_sensitivity_controls$marker_type))
+
+  nest_newdata <- ref_row[rep(1, length(levels(dat_sensitivity_controls$nest_box))), , drop = FALSE]
+  nest_newdata$nest_box <- factor(levels(dat_sensitivity_controls$nest_box), levels = levels(dat_sensitivity_controls$nest_box))
+  nest_newdata$panel <- "Nest-box use"
+  nest_newdata$level <- as.character(nest_newdata$nest_box)
+
+  marker_newdata <- ref_row[rep(1, length(levels(dat_sensitivity_controls$marker_type))), , drop = FALSE]
+  marker_newdata$marker_type <- factor(levels(dat_sensitivity_controls$marker_type), levels = levels(dat_sensitivity_controls$marker_type))
+  marker_newdata$panel <- "Marker type"
+  marker_newdata$level <- as.character(marker_newdata$marker_type)
+
+  summarize_control_predictions <- function(newdata) {
+    predictions <- brms::posterior_epred(
+      sensitivity_mu_model,
+      newdata = newdata,
+      re_formula = NA,
+      allow_new_levels = TRUE
+    )
+
+    as_tibble(t(predictions)) %>%
+      mutate(row_id = row_number()) %>%
+      pivot_longer(-row_id, values_to = "predicted_epp") %>%
+      group_by(row_id) %>%
+      summarise(
+        estimate = mean(predicted_epp),
+        lower = quantile(predicted_epp, 0.025),
+        upper = quantile(predicted_epp, 0.975),
+        .groups = "drop"
+      ) %>%
+      bind_cols(newdata %>% select(panel, level))
+  }
+
+  sensitivity_control_predictions <- bind_rows(
+    summarize_control_predictions(nest_newdata),
+    summarize_control_predictions(marker_newdata)
+  ) %>%
+    mutate(
+      panel = factor(panel, levels = c("Nest-box use", "Marker type")),
+      level = recode(level, no = "No", yes = "Yes", .default = level)
+    )
+
+  fig_sensitivity_methodological_controls <- ggplot(
+    sensitivity_control_predictions,
+    aes(x = level, y = estimate)
+  ) +
+    geom_pointrange(
+      aes(ymin = lower, ymax = upper),
+      linewidth = 0.65,
+      size = 0.55,
+      color = plot_green
+    ) +
+    facet_wrap(~ panel, scales = "free_x", nrow = 1) +
+    scale_y_continuous(
+      labels = scales::percent_format(accuracy = 1),
+      limits = c(0, NA)
+    ) +
+    labs(
+      x = NULL,
+      y = "Predicted EPP"
+    ) +
+    theme_minimal(base_size = 12) +
+    theme(
+      panel.grid.minor = element_blank(),
+      panel.grid.major.x = element_blank(),
+      strip.text = element_text(face = "bold", colour = plot_green),
+      axis.text.x = element_text(angle = 25, hjust = 1),
+      plot.margin = margin(8, 10, 8, 10)
+    )
+
+  ggsave(
+    "figures/sensitivity_methodological_controls_predictions.png",
+    fig_sensitivity_methodological_controls,
+    width = 8,
+    height = 3.4,
+    dpi = 300
+  )
+
+  ggsave(
+    "figures/sensitivity_methodological_controls_predictions.pdf",
+    fig_sensitivity_methodological_controls,
+    width = 8,
+    height = 3.4
+  )
+}
+```
+
+```{r}
+#| label: fig-sensitivity-methodological-controls-predictions
+#| echo: true
+#| fig-width: 8
+#| fig-height: 3.4
+
+if (file.exists("figures/sensitivity_methodological_controls_predictions.png")) {
+  include_graphics("figures/sensitivity_methodological_controls_predictions.png")
+}
+```
+
+The second panel shows model-predicted EPP for methodological moderators in the mean-only sensitivity model. Points show posterior predicted means and vertical intervals show 95% credible intervals. Reference levels are nest box = no and marker type = DNA fingerprinting.
 
 ## Sensitivity Fixed Effects
 
@@ -832,10 +1118,10 @@ sensitivity_mu_model_file <- file.path(
 )
 
 sensitivity_fixed_effect_terms <- c(
-  b_tmp_cru_C_first_month_z = "First-month mean temperature",
-  b_pre_cru_mm_first_month_log_z = "First-month precipitation (log)",
-  b_dtr_cru_C_first_month_z = "First-month DTR",
-  b_ndvi_first_month_median_30km_z = "First-month NDVI",
+  b_tmp_cru_C_first_month_z = "Mean temperature",
+  b_pre_cru_mm_first_month_log_z = "Precipitation (log)",
+  b_dtr_cru_C_first_month_z = "DTR",
+  b_ndvi_first_month_median_30km_z = "NDVI",
   b_abs_latitude_z = "Absolute latitude",
   b_distance_to_coast_z = "Distance to coast",
   b_nest_boxyes = "Nest box",
@@ -875,31 +1161,30 @@ if (file.exists(sensitivity_mu_model_file) &&
     names(sensitivity_fixed_effect_terms) %in% available_terms
   ]
 
-  sensitivity_draws_matrix <- as.matrix(sensitivity_draws[, term_order, drop = FALSE])
+  sensitivity_fixed_effects_plot <- sensitivity_fixed_effects %>%
+    filter(term %in% term_order) %>%
+    mutate(
+      predictor = factor(
+        predictor,
+        levels = rev(unname(sensitivity_fixed_effect_terms[term_order]))
+      )
+    )
 
-  fig_sensitivity_fixed_effects <- bayesplot::mcmc_intervals(
-    sensitivity_draws_matrix,
-    pars = term_order,
-    prob = 0.8,
-    prob_outer = 0.95,
-    point_est = "median",
-    outer_size = 0.7,
-    inner_size = 1.8,
-    point_size = 2.4
+  fig_sensitivity_fixed_effects <- ggplot(
+    sensitivity_fixed_effects_plot,
+    aes(x = estimate, y = predictor)
   ) +
-    geom_vline(xintercept = 0, linewidth = 0.4, linetype = "dashed", colour = "grey45") +
-    scale_y_discrete(
-      limits = rev(term_order),
-      labels = sensitivity_fixed_effect_terms
-    ) +
+    geom_vline(xintercept = 0, linetype = "dashed", linewidth = 0.4, colour = "grey45") +
+    geom_segment(aes(x = lower, xend = upper, y = predictor, yend = predictor), linewidth = 0.8, colour = plot_green) +
+    geom_point(size = 2.6, shape = 21, fill = plot_rust, colour = "white", stroke = 0.8) +
     labs(
-      title = "First-month mean-only",
-      x = NULL,
+      title = "Sensitivity mean-only",
+      x = "Fixed-effect estimate on logit scale",
       y = NULL
     ) +
-    bayesplot::theme_default(base_size = 11) +
+    theme_minimal(base_size = 11) +
     theme(
-      plot.title = element_text(hjust = 0.5, colour = "grey25", face = "plain"),
+      plot.title = element_text(hjust = 0.5, colour = plot_green, face = "plain"),
       axis.text.y = element_text(colour = "grey25"),
       axis.text.x = element_text(colour = "grey25"),
       panel.grid.minor = element_blank(),
@@ -911,7 +1196,7 @@ if (file.exists(sensitivity_mu_model_file) &&
     "figures/sensitivity_fixed_effects_forest_plot.png",
     fig_sensitivity_fixed_effects,
     width = 9,
-    height = 3.2,
+    height = 3.8,
     dpi = 300
   )
 
@@ -919,7 +1204,7 @@ if (file.exists(sensitivity_mu_model_file) &&
     "figures/sensitivity_fixed_effects_forest_plot.pdf",
     fig_sensitivity_fixed_effects,
     width = 9,
-    height = 3.2
+    height = 3.8
   )
 } else {
   cat("Sensitivity fixed-effect figure will be generated after the model object and bayesplot are available.")
@@ -927,7 +1212,7 @@ if (file.exists(sensitivity_mu_model_file) &&
 ```
 ```{r}
 #| label: fig-sensitivity-fixed-effects
-#| echo: false
+#| echo: true
 #| fig-width: 9
 #| fig-height: 3.2
 
@@ -938,7 +1223,19 @@ if (file.exists("figures/sensitivity_fixed_effects_forest_plot.png")) {
 }
 ```
 
-This figure is used in the sensitivity-model chapter. Points show posterior fixed-effect estimates and horizontal bars show 95% credible intervals; intervals overlapping zero indicate effects with substantial posterior uncertainty.
+This figure is used in the sensitivity-model chapter. Points show posterior fixed-effect estimates and horizontal bars show 95% credible intervals; intervals overlapping zero indicate effects with substantial posterior uncertainty. Categorical effects are contrasts against the reference groups: nest box = no and marker type = DNA fingerprinting; the Nest box estimate compares records with nest-box use to records without nest-box use.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

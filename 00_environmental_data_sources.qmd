@@ -4,62 +4,50 @@ title: "Environmental data sources"
 
 ## Overview
 
-:::: {.callout-note title="Repository Principle"}
-::: {.callout-note title="Repository Principle"}
-This chapter documents the environmental and geographic data sources used in the analysis of extra-pair paternity (EPP) in birds. The repository contains the final analysis-ready dataset, metadata, model code, and workflow documentation. Large external climate and remote-sensing products are documented here, but are not redistributed.
+This chapter documents the data sources used to construct the environmental and geographic predictors in the EPP climate analysis. It separates two things: the source products from which variables were derived, and the repository files needed to reproduce the analyses from the processed data.
 
-The analyses reported in this project can be reproduced from the processed files included in the repository. Full re-extraction of the environmental variables from raw source products would additionally require access to the original CRU climate files and to the Google Earth Engine products used for NDVI extraction.
-:::
-::::
-
-The final dataset used in the analyses is:
-
-``` text
-epp_data_June2026.csv
-```
-
-Variable definitions are provided in:
-
-``` text
-metadata_June2026.csv
-```
-
-These files contain the EPP records, taxonomy, geographic information, breeding-season timing, environmental variables, and derived covariates used by the models.
-
-## Main environmental data sources
+## Data sources
 
 ```{r}
 #| label: main-environmental-data-sources
-#| echo: false
+#| echo: true
 
 source_table <- data.frame(
   `Data component` = c(
+    "EPP records and metadata",
     "Monthly climate",
+    "Climate anomalies",
     "NDVI",
     "Distance to coast",
     "Taxonomy",
     "Phylogeny"
   ),
-  `Variables in the final dataset` = c(
-    "tmp_*, pre_*, dtr_*, short- and long-term anomaly variables",
+  `Variables or objects used` = c(
+    "n_epp_broods, n_broods_sampled, species, population, location, breeding timing",
+    "tmp_*, pre_*, dtr_*",
+    "short- and long-term temperature and precipitation anomaly variables",
     "ndvi_first_month_median_30km; ndvi_full_season_median_30km",
     "distance_to_coast_km",
-    "Clements_name",
-    "species_phylo; phylo_mat"
+    "Clements_name; species_phylo; species_nonphylo",
+    "summary_dated_clements.nex; phylo_mat"
   ),
-  `Source and extraction route` = c(
-    "CRU monthly climate for the breeding-season month or season",
+  `Source or extraction route` = c(
+    "Compiled EPP dataset prepared for this project",
+    "CRU monthly climate products for the breeding-season month or season",
+    "Derived from CRU climate products relative to local baseline conditions",
     "NOAA NDVI extracted around study coordinates in Google Earth Engine",
     "Derived from study coordinates",
     "Clements Checklist v2025",
-    "Clements-matched tree: phylogeny/summary_dated_clements.nex"
+    "Clements-matched dated avian phylogeny"
   ),
   `Repository status` = c(
+    "Included in final analysis-ready files",
     "Derived variables included; raw CRU files not redistributed",
-    "Derived variables included; extraction script provided",
+    "Derived variables included; raw CRU files not redistributed",
+    "Derived variables included; Google Earth Engine products not redistributed",
     "Final values included",
     "Matched taxonomy included",
-    "Tree file included; phylo_mat saved in data/processed/phylo_mat.rds"
+    "Tree/covariance objects included where needed for modelling"
   ),
   check.names = FALSE
 )
@@ -67,91 +55,48 @@ source_table <- data.frame(
 knitr::kable(source_table)
 ```
 
-## CRU climate variables
+## Files needed to reproduce the analysis
 
-Monthly climate variables were derived from external CRU climate data before being merged into the final EPP dataset. The raw CRU files are not included in the GitHub repository because they are external data products and may be large, versioned, or subject to their own distribution terms.
+```{r}
+#| label: reproducibility-files
+#| echo: true
 
-The CRU data source is documented here:
+reproducibility_files <- data.frame(
+  `File or folder` = c(
+    "epp_data_June2026.csv",
+    "metadata_June2026.csv",
+    "data/processed/dat_model_phylo.rds",
+    "data/processed/phylo_mat.rds",
+    "phylogeny/summary_dated_clements.nex",
+    "models/",
+    "figures/",
+    "*.qmd files and _quarto.yml",
+    "scripts/"
+  ),
+  `Purpose` = c(
+    "Final analysis-ready dataset containing EPP records, environmental predictors, geography, taxonomy, and derived covariates",
+    "Variable definitions and dataset metadata",
+    "Model-ready dataset with phylogenetic species identifiers",
+    "Phylogenetic covariance matrix used in Bayesian models",
+    "Source phylogenetic tree used to construct the covariance matrix",
+    "Saved model summaries, diagnostics, LOO outputs, and lightweight model outputs used by the book",
+    "Saved figures called by the Quarto chapters",
+    "Book chapters and rendering configuration",
+    "R scripts used to fit models and create saved outputs"
+  ),
+  check.names = FALSE
+)
 
-``` text
-https://crudata.uea.ac.uk/cru/data/hrg/
+knitr::kable(reproducibility_files)
 ```
 
-The extraction used the CRU folders/products corresponding to:
+The analyses reported in this project can be reproduced from the processed files included in the repository. Full re-extraction of environmental variables from raw source products would additionally require access to the original CRU climate files and the Google Earth Engine products used for NDVI extraction.
 
-- `tmp` - mean temperature;
-- `pre` - precipitation;
-- `dtr` - diurnal temperature range.
-
-The final dataset includes the derived climate variables needed for the analyses:
-
-- mean temperature for the selected breeding-season window and the full breeding season;
-- precipitation for the selected breeding-season window and the full breeding season;
-- diurnal temperature range for the selected breeding-season window and the full breeding season;
-- short-term 5-year temperature and precipitation anomalies;
-- long-term 1961-1989 temperature and precipitation anomalies.
-
-::: {.callout-important title="Climate Reproducibility"}
-The published analyses can be rerun from `epp_data_June2026.csv` without downloading the raw CRU files. Full re-extraction of the climate variables would require access to the same external CRU data and the local extraction workflow used to generate the derived variables.
-:::
-
-## NDVI extraction
-
-NDVI was used as a proxy for habitat productivity around each study location. The final variables describe median NDVI within a 30 km buffer around the EPP study coordinates for the selected breeding-season window and, where relevant, the full breeding season.
-
-The NDVI values were extracted using Google Earth Engine. The JavaScript script used for the NDVI extraction is provided in the GitHub repository with the environmental extraction scripts.
-
-The final NDVI variables included in `epp_data_June2026.csv` are:
-
-- `ndvi_first_month_median_30km`;
-- `ndvi_full_season_median_30km`;
-
-## Taxonomy and phylogeny
-
-Species names were matched using the Clements Checklist v2025:
-
-``` text
-data_raw/Clements_v2025-October-2025.csv
-```
-
-Species names were then linked to the Clements-matched phylogenetic tree described by McTavish et al. (2025):
-
-``` text
-phylogeny/summary_dated_clements.nex
-```
-
-The tree was pruned to the retained species and converted to `data/processed/phylo_mat.rds`. The phylogenetic effect in the Bayesian models is:
-
-``` text
-(1 | gr(species_phylo, cov = phylo_mat))
-```
-
-Source citation:
-
-``` text
-McTavish, E. J., Gerbracht, J. A., Holder, M. T., Iliff, M. J., Lepage, D., Rasmussen, P. C., ... & Miller, E. T. (2025). A complete and dynamic tree of birds. Proceedings of the National Academy of Sciences, 122(18), e2409658122.
-```
-
-## Reproducibility
-
-To reproduce the models reported in this project, a user needs:
-
-- `epp_data_June2026.csv`;
-- `metadata_June2026.csv`;
-- `phylogeny/summary_dated_clements.nex`
-- `data/processed/dat_model_phylo.rds`;
-- `data/processed/phylo_mat.rds`;
-- the Quarto files documenting the workflow.
-
-To reproduce the environmental extraction from raw source products, a user would additionally need access to the CRU climate files and the cloud-hosted Google Earth Engine products used for NDVI.
-
-## Computational Environment
-
-The analyses and Quarto book were prepared in R. The exact R version and platform used for rendering are reported below.
+## Computational environment
 
 ```{r}
 #| label: computational-environment
-#| echo: false
+#| echo: true
 
 environment_summary <- data.frame(
   item = c(
@@ -169,4 +114,3 @@ environment_summary <- data.frame(
 knitr::kable(environment_summary)
 ```
 
-The main R packages used across the workflow include `brms`, `dplyr`, `ggplot2`, `posterior`, `ape`, `phytools`, `knitr`, and `quarto`.

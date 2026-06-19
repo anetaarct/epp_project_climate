@@ -1,4 +1,4 @@
----
+﻿---
 title: "PCA for environmental predictors"
 ---
 
@@ -10,7 +10,7 @@ The PCA is fitted to complete cases for the selected environmental-geographic va
 
 ```{r}
 #| label: pca-setup
-#| include: false
+#| echo: true
 
 library(dplyr)
 library(readr)
@@ -29,7 +29,7 @@ dat_model_phylo <- readRDS("data/processed/dat_model_phylo.rds")
 
 ```{r}
 #| label: pca-input-variables-table
-#| echo: false
+#| echo: true
 
 tibble(
   `Data component` = c(
@@ -76,7 +76,7 @@ The sign of a PCA axis is arbitrary. PC1 is oriented so that higher values corre
 
 ```{r}
 #| label: pca-construction-code
-#| echo: false
+#| echo: true
 
 
 library(dplyr)
@@ -172,7 +172,7 @@ variance_explained <- tibble(
 
 ```{r}
 #| label: pca-variance-table
-#| echo: false
+#| echo: true
 
 variance_explained %>%
   mutate(
@@ -186,7 +186,7 @@ variance_explained %>%
 
 ```{r}
 #| label: pca-loadings-table
-#| echo: false
+#| echo: true
 
 loadings %>%
   select(variable, PC1_thermal_geographic, PC2_wet_productive, everything()) %>%
@@ -196,7 +196,7 @@ loadings %>%
 
 ```{r}
 #| label: pca-save-outputs
-#| include: false
+#| echo: true
 
 dir.create(pca_model_set_dir, recursive = TRUE, showWarnings = FALSE)
 
@@ -218,7 +218,7 @@ saveRDS(
 
 ```{r}
 #| label: environmental-pca-panel-figure
-#| echo: false
+#| echo: true
 #| fig-cap: "Environmental PCA. Panel A shows variance explained by the principal components; panel B shows loadings of the input variables on PC1 and PC2."
 #| fig-width: 10.5
 #| fig-height: 4.8
@@ -237,3 +237,4 @@ Based on the loadings, PC1 was interpreted as a **thermal-geographic gradient**.
 Based on the loadings, PC2 was interpreted as a **wet-productivity gradient** after orienting the axis. In this dataset, higher PC2 values correspond to wetter sites with higher NDVI.
 
 These two axes are used as the main environmental predictors in the beta-binomial EPP models.
+

@@ -1,0 +1,203 @@
+---
+title: "Preregistered zero-inflated beta-binomial models"
+---
+
+```{r}
+#| label: zi-setup
+#| include: false
+library(dplyr)
+library(knitr)
+
+model_dir <- "models/zero_inflated_models"
+read_result <- function(name) utils::read.csv(file.path(model_dir, name), check.names = FALSE)
+result_files <- c(
+  "zero_inflation_parameter.csv", "all_fixed_effects_zero_inflated.csv",
+  "fixed_effects_standard_vs_zero_inflated.csv",
+  "loo_standard_vs_zero_inflated_reloo.csv",
+  "reloo_diagnostics_zero_inflated_comparisons.csv",
+  "reloo_vs_moment_match_comparison_change.csv",
+  "diagnostics_zero_inflated_models.csv", "posterior_predictive_zero_counts.csv"
+)
+models_ready <- all(file.exists(file.path(model_dir, result_files)))
+if (models_ready) {
+  zi_parameter <- read_result("zero_inflation_parameter.csv")
+  coefficients <- read_result("all_fixed_effects_zero_inflated.csv")
+  comparison <- read_result("fixed_effects_standard_vs_zero_inflated.csv")
+  loo_comparison <- read_result("loo_standard_vs_zero_inflated_reloo.csv")
+  reloo_diagnostics <- read_result("reloo_diagnostics_zero_inflated_comparisons.csv")
+  reloo_change <- read_result("reloo_vs_moment_match_comparison_change.csv")
+  diagnostics <- read_result("diagnostics_zero_inflated_models.csv")
+  zero_ppc <- read_result("posterior_predictive_zero_counts.csv")
+
+  zi_reloo <- loo_comparison |>
+    filter(version == "zero_inflated") |>
+    mutate(model_kind = factor(model_kind, levels = c("pca", "short", "long"))) |>
+    arrange(model_kind)
+  zi_reloo_change <- reloo_change |>
+    filter(version == "zero_inflated") |>
+    mutate(model_kind = factor(model_kind, levels = c("pca", "short", "long"))) |>
+    arrange(model_kind)
+  if (nrow(zi_reloo) != 3L || any(zi_reloo$elpd_diff >= 0)) {
+    stop("The exact-reloo result changed the written zero-inflation interpretation.")
+  }
+}
+marker_zeros <- read_result("zero_records_by_marker_type.csv")
+prior_audit <- read_result("priors_mu_automatic_verification.csv")
+pareto_audit_summary_file <- file.path("models/pareto_k_audit", "pareto_k_model_summary.csv")
+pareto_audit_high_file <- file.path("models/pareto_k_audit", "pareto_k_unique_high_observations.csv")
+```
+
+## Why fit a zero-inflated model when the zero PPC already passes?
+
+This analysis implements the preregistered primary family without changing any of the existing main models. The diagnostic result preceding the refit is important: the standard beta-binomial PCA model observed 48 zero-EPP records but predicted a mean of 53.7 (95% posterior-predictive interval 41--66; posterior predictive probability of a count no larger than observed = 0.21). Thus the standard model already reproduces the zeros and, if anything, slightly overpredicts them. The zero-inflated fits below are retained because they were preregistered, not because the data show unexplained excess zeros.
+
+Zeros also occurred mainly in small samples: the median sample was 11.5 broods for zero records and 23 for non-zero records, and no zero occurred above 50 sampled broods. This pattern is consistent with beta-binomial sampling variation. The raw marker contrast points in the registered direction but is not a controlled marker effect: DNA fingerprinting had 18.2% zero records and microsatellites 8.4%. Marker type is associated with study era and taxonomic composition, so these percentages are descriptive only.
+
+```{r}
+#| label: zi-marker-table
+kable(marker_zeros, digits = 2, caption = "Observed zero records by marker type (descriptive).")
+```
+
+## Model specification and reproducibility safeguards
+
+The PCA, short-anomaly, and long-anomaly mean models use `zero_inflated_beta_binomial(link = "logit", link_phi = "log", link_zi = "logit")`. Every other element is held fixed: the exact saved 441-row model frame, predictors, phylogenetic covariance, three random intercepts, four chains, 10,000 iterations (5,000 warm-up), `adapt_delta = 0.99`, and maximum tree depth 15. New seeds are 1601, 1603, and 1605.
+
+The original `priors_mu` block was reproduced literally and automatically compared with the parsed assignment in the unchanged main-model script. This is an executable equality check rather than a manual assertion.
+
+```{r}
+#| label: zi-prior-audit
+kable(prior_audit, caption = "Automatic prior-reproduction check.")
+```
+
+The additional zero-inflation intercept received a Normal(-2, 1.5) prior on the logit scale. Its prior median is 0.119 on the probability scale, while its width allows probabilities close to zero as well as appreciable inflation. Because a logit parameter maps continuously to the open interval (0, 1), its credible interval cannot literally include zero. Evidence against a needed structural-zero component must instead come from posterior concentration near zero, the zero-count PPC, and out-of-sample predictive comparison.
+
+## Estimated structural-zero probabilities
+
+```{r}
+#| label: zi-parameter-table
+kable(
+  if (models_ready) zi_parameter else data.frame(status = "Model fitting is queued; no estimate is reported yet."),
+  digits = 3,
+  caption = "Posterior structural-zero probability in each preregistered model."
+)
+```
+
+All three posterior structural-zero probabilities were approximately 0.0056,
+with 95% CrIs from about 0.0008 to 0.016. In each model, roughly 87% of the
+posterior mass lay below 0.01 and all of it lay below 0.05. This is
+concentration very near zero, not evidence for a substantial structural-zero
+process.
+
+## All population-level coefficients
+
+All coefficients are reported; no backward elimination was performed. Continuous coefficients are on their fitted standardized scales. Factor coefficients are contrasts against the reference level used in the unchanged main model frame.
+
+```{r}
+#| label: zi-all-coefficients
+kable(
+  if (models_ready) coefficients else data.frame(status = "Model fitting is queued; no coefficients are reported yet."),
+  digits = 3,
+  caption = "Population-level coefficients from the zero-inflated models (posterior median, 95% credible interval, and probability of direction)."
+)
+```
+
+## Did substantive estimates change?
+
+The table pairs each zero-inflated coefficient with the corresponding standard beta-binomial coefficient. `delta` is zero-inflated minus standard on the logit scale. A change is flagged as material only if the absolute posterior-median shift exceeds 0.1 and the 95% interval for the shift excludes zero; the full continuous comparison is retained so this reporting threshold does not replace interpretation.
+
+```{r}
+#| label: zi-side-by-side
+kable(
+  if (models_ready) comparison else data.frame(status = "Model fitting is queued; no comparison is reported yet."),
+  digits = 3,
+  caption = "Standard versus zero-inflated fixed effects."
+)
+```
+
+No fixed-effect coefficient met the prespecified material-change criterion.
+
+## Predictive comparison
+
+LOO `r if (models_ready) "was" else "will be"` computed separately for each zero-inflated model and compared only with its standard counterpart fitted to the identical 441 observations. Initial PSIS-LOO estimates used moment matching. For the manuscript comparison, within each of the six fitted models, every observation with Pareto $k > 0.7$ was then replaced by an exact leave-one-out refit (`reloo`). This required `r if (models_ready) sum(reloo_diagnostics$n_exact_refits) else "pending"` refits in total: `r if (models_ready) sum(reloo_diagnostics$n_exact_refits[reloo_diagnostics$version == "standard"]) else "pending"` for the standard models and `r if (models_ready) sum(reloo_diagnostics$n_exact_refits[reloo_diagnostics$version == "zero_inflated"]) else "pending"` for the zero-inflated models. Each refit retained the original priors, formula, random effects, and sampler settings.
+
+```{r}
+#| label: zi-loo
+kable(
+  if (models_ready) {
+    loo_comparison |>
+      select(model_kind, version, elpd_diff, se_diff, elpd_loo, se_elpd_loo,
+             p_loo, looic)
+  } else {
+    data.frame(status = "Exact reloo is queued; LOO is not available yet.")
+  },
+  digits = 2,
+  caption = "Exact-reloo comparison: zero-inflated versus standard beta-binomial."
+)
+```
+
+The standard beta-binomial was favoured in every matched comparison: the
+zero-inflated fits had exact-reloo ELPD differences of
+`r if (models_ready) sprintf("%.2f", zi_reloo$elpd_diff[zi_reloo$model_kind == "pca"]) else "pending"`
+(PCA),
+`r if (models_ready) sprintf("%.2f", zi_reloo$elpd_diff[zi_reloo$model_kind == "short"]) else "pending"`
+(short anomaly), and
+`r if (models_ready) sprintf("%.2f", zi_reloo$elpd_diff[zi_reloo$model_kind == "long"]) else "pending"`
+(long anomaly). Together with the passing zero-count PPC and the near-zero
+structural-zero posterior, this shows that the preregistered zero-inflation
+component is unnecessary for these data. Relative to moment matching, exact
+refitting made the zero-inflated-minus-standard ELPD difference more negative
+by `r if (models_ready) sprintf("%.2f", -zi_reloo_change$reloo_minus_moment_match_elpd_diff[zi_reloo_change$model_kind == "pca"]) else "pending"`,
+`r if (models_ready) sprintf("%.2f", -zi_reloo_change$reloo_minus_moment_match_elpd_diff[zi_reloo_change$model_kind == "short"]) else "pending"`, and
+`r if (models_ready) sprintf("%.2f", -zi_reloo_change$reloo_minus_moment_match_elpd_diff[zi_reloo_change$model_kind == "long"]) else "pending"`
+ELPD units for the PCA, short-anomaly, and long-anomaly pairs, respectively;
+thus `reloo` strengthened rather than reversed the original conclusion.
+
+Before exact refitting, each zero-inflated model had 6--8 observations above
+0.7; the PCA and long-anomaly models each had one above 1. None came from the
+five best-studied populations, while tropical records were again more frequent
+among the flagged cases than in the full frame. These observations motivated
+`reloo`; after their pointwise contributions were replaced by exact
+leave-one-out estimates, no unresolved Pareto-$k$ value above 0.7 remained in
+any of the six LOO objects used in the comparison.
+
+```{r}
+#| label: zi-pareto-audit
+if (file.exists(pareto_audit_summary_file)) {
+  zi_pareto_summary <- utils::read.csv(pareto_audit_summary_file, check.names = FALSE) |>
+    filter(analysis == "zero_inflated") |>
+    select(model, max_pareto_k, n_pareto_k_gt_0_7, n_pareto_k_gt_1,
+           n_high_tropical, proportion_high_tropical,
+           n_high_top5_population, median_population_records_high)
+  kable(zi_pareto_summary, digits = 3,
+        caption = "Observation-level Pareto-k audit for zero-inflated models.")
+}
+```
+
+```{r}
+#| label: zi-reloo-diagnostics
+if (models_ready) {
+  reloo_diagnostics |>
+    select(model_kind, version, n_exact_refits, max_pareto_k_before,
+           n_pareto_k_gt_1_before, n_pareto_k_gt_0_7_after,
+           reloo_minus_psis_elpd, elapsed_minutes) |>
+    kable(digits = 3,
+          caption = "Exact-reloo coverage and change from moment-matched PSIS-LOO.")
+}
+```
+
+```{r}
+#| label: zi-zero-ppc
+kable(if (models_ready) zero_ppc else data.frame(status = "Model fitting is queued; posterior predictions are not available yet."), digits = 2, caption = "Observed and posterior-predictive zero counts.")
+```
+
+## Sampler diagnostics
+
+```{r}
+#| label: zi-diagnostics
+kable(if (models_ready) diagnostics else data.frame(status = "Model fitting is queued; sampler diagnostics are not available yet."), digits = 3, caption = "Sampler and posterior diagnostics.")
+```
+
+All three fits converged well (maximum R-hat 1.003, minimum ESS above 1,300,
+no divergences, no maximum-treedepth hits, and no reported fit warnings).
+
+The raw fits, summaries, coefficient comparison, zero-count checks, original moment-matched LOO objects, exact-reloo objects, pointwise replacement audits, prior audit, and session information are retained under `models/zero_inflated_models/` and `logs/` without overwriting the standard models.

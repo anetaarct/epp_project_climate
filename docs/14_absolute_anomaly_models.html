@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>14&nbsp; Absolute climate-anomaly sensitivity models – Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./15_exploratory_location_scale_models.html" rel="next">
+<link href="./13_withinseason_h1.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c614dc152840027ed1d225942eae4f22.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./14_absolute_anomaly_models.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Absolute climate-anomaly sensitivity models</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_environmental_data_sources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Environmental data sources</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_data_preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data preparation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_taxonomy_phylogeny.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Taxonomy and phylogeny</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_overall_model_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Overall model structure</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_environmental_pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">PCA for environmental predictors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_main_environmental_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Main environmental mean models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_registered_direct_predictor_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Registered direct-predictor model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_anomaly_latitude_interactions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Confirmatory temperature-anomaly × latitude models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_within_between_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Within- and between-population temperature-anomaly effects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_seasonal_temperature_variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Seasonal temperature variability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_br_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Comparison with Botero &amp; Rubenstein (2012)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_zero_inflated_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Preregistered zero-inflated beta-binomial models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_withinseason_h1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Preregistered within-season climatic variability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14_absolute_anomaly_models.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Absolute climate-anomaly sensitivity models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_exploratory_location_scale_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Exploratory location-scale models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16_figures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Figures</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-this-sensitivity-analysis-is-needed" id="toc-why-this-sensitivity-analysis-is-needed" class="nav-link active" data-scroll-target="#why-this-sensitivity-analysis-is-needed"><span class="header-section-number">14.1</span> Why this sensitivity analysis is needed</a></li>
+  <li><a href="#model-specification" id="toc-model-specification" class="nav-link" data-scroll-target="#model-specification"><span class="header-section-number">14.2</span> Model specification</a></li>
+  <li><a href="#posterior-estimates" id="toc-posterior-estimates" class="nav-link" data-scroll-target="#posterior-estimates"><span class="header-section-number">14.3</span> Posterior estimates</a></li>
+  <li><a href="#precision-diagnostics-and-loo-caution" id="toc-precision-diagnostics-and-loo-caution" class="nav-link" data-scroll-target="#precision-diagnostics-and-loo-caution"><span class="header-section-number">14.4</span> Precision, diagnostics, and LOO caution</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Absolute climate-anomaly sensitivity models</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="why-this-sensitivity-analysis-is-needed" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="why-this-sensitivity-analysis-is-needed"><span class="header-section-number">14.1</span> Why this sensitivity analysis is needed</h2>
+<p>The current primary anomaly models use signed differences: study-year climate minus the local short- or long-term baseline. An earlier project draft instead used absolute deviations. These are different hypotheses. A signed coefficient contrasts warmer with cooler conditions, or wetter with drier conditions, whereas an absolute-deviation coefficient asks whether EPP changes as climate moves farther from its baseline in either direction. This additive sensitivity analysis fits the earlier interpretation explicitly without changing or overwriting the signed-anomaly models.</p>
+<p>For each of the four first-breeding-month anomaly variables, the absolute value was taken on its raw scale and the resulting magnitude was then standardized within the unchanged 441-record main-model frame. No records were added, dropped, or imputed.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(frame_counts, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Model frame for the absolute-anomaly sensitivity analysis."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Model frame for the absolute-anomaly sensitivity analysis.</caption>
+<colgroup>
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 73%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">n_records</th>
+<th style="text-align: right;">n_populations</th>
+<th style="text-align: right;">n_species</th>
+<th style="text-align: left;">transformation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">441</td>
+<td style="text-align: right;">171</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: left;">absolute value of signed first-month anomaly, then z-standardized on the unchanged model frame</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(transformation, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Executable audit of the absolute-value transformations and scaling."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Executable audit of the absolute-value transformations and scaling.</caption>
+<colgroup>
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">source_variable</th>
+<th style="text-align: left;">absolute_variable</th>
+<th style="text-align: left;">standardized_variable</th>
+<th style="text-align: right;">n_records</th>
+<th style="text-align: right;">n_negative_source</th>
+<th style="text-align: right;">n_zero_source</th>
+<th style="text-align: right;">n_positive_source</th>
+<th style="text-align: right;">minimum_absolute_deviation</th>
+<th style="text-align: right;">mean_absolute_deviation</th>
+<th style="text-align: right;">maximum_absolute_deviation</th>
+<th style="text-align: right;">scaling_center</th>
+<th style="text-align: right;">scaling_sd</th>
+<th style="text-align: right;">max_abs_transformation_error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">tmp_short_anom_5yr_C_first_month</td>
+<td style="text-align: left;">tmp_short_anom_5yr_C_first_month_abs</td>
+<td style="text-align: left;">tmp_short_anom_5yr_C_first_month_abs_z</td>
+<td style="text-align: right;">441</td>
+<td style="text-align: right;">216</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">224</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.074</td>
+<td style="text-align: right;">4.280</td>
+<td style="text-align: right;">1.074</td>
+<td style="text-align: right;">0.812</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pre_short_anom_5yr_mm_first_month</td>
+<td style="text-align: left;">pre_short_anom_5yr_mm_first_month_abs</td>
+<td style="text-align: left;">pre_short_anom_5yr_mm_first_month_abs_z</td>
+<td style="text-align: right;">441</td>
+<td style="text-align: right;">241</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">193</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">25.785</td>
+<td style="text-align: right;">245.340</td>
+<td style="text-align: right;">25.785</td>
+<td style="text-align: right;">26.629</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tmp_long_anom_1961_1989_C_first_month</td>
+<td style="text-align: left;">tmp_long_anom_1961_1989_C_first_month_abs</td>
+<td style="text-align: left;">tmp_long_anom_1961_1989_C_first_month_abs_z</td>
+<td style="text-align: right;">441</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">316</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">1.214</td>
+<td style="text-align: right;">4.572</td>
+<td style="text-align: right;">1.214</td>
+<td style="text-align: right;">0.888</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pre_long_anom_1961_1989_mm_first_month</td>
+<td style="text-align: left;">pre_long_anom_1961_1989_mm_first_month_abs</td>
+<td style="text-align: left;">pre_long_anom_1961_1989_mm_first_month_abs_z</td>
+<td style="text-align: right;">441</td>
+<td style="text-align: right;">249</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">188</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">24.019</td>
+<td style="text-align: right;">263.779</td>
+<td style="text-align: right;">24.019</td>
+<td style="text-align: right;">25.207</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="model-specification" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="model-specification"><span class="header-section-number">14.2</span> Model specification</h2>
+<p>Two beta-binomial phylogenetic models were fitted. The short model contains the absolute magnitudes of the five-year temperature and precipitation anomalies; the long model contains the absolute magnitudes of the 1961–1989 anomalies. Both retain absolute latitude, distance to coast, nest-box use, marker type, and the same population, species, and phylogenetic random intercepts as the matching signed models:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_epp_broods <span class="sc">|</span> <span class="fu">trials</span>(n_broods_sampled) <span class="sc">~</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  absolute_temperature_anomaly_z <span class="sc">+</span> absolute_precipitation_anomaly_z <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  abs_latitude_z <span class="sc">+</span> distance_to_coast_z <span class="sc">+</span> nest_box <span class="sc">+</span> marker_type <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">|</span> population_id) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> species_nonphylo) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">|</span> <span class="fu">gr</span>(species_phylo, <span class="at">cov =</span> phylo_mat_fit))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The literal <code>priors_mu</code> block was verified against the main fitting script: Normal(0, 2) for the intercept, Normal(0, 1) for fixed effects, and Exponential(1) for random-effect standard deviations and beta-binomial precision. Each model used four chains, 10,000 iterations (5,000 warmup), <code>adapt_delta = 0.99</code>, <code>max_treedepth = 15</code>, and new seeds 2001 and 2002. All coefficients are retained; no backward elimination was performed.</p>
+</section>
+<section id="posterior-estimates" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="posterior-estimates"><span class="header-section-number">14.3</span> Posterior estimates</h2>
+<p>Posterior means, 95% credible intervals, and probability of direction are reported for every population-level coefficient. Probability of direction is the larger posterior probability that a coefficient lies above or below zero; no significance threshold is applied.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>effect_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_Intercept =</span> <span class="st">"Intercept"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_tmp_short_anom_5yr_C_first_month_abs_z =</span> <span class="st">"Absolute short temperature anomaly"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_pre_short_anom_5yr_mm_first_month_abs_z =</span> <span class="st">"Absolute short precipitation anomaly"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_tmp_long_anom_1961_1989_C_first_month_abs_z =</span> <span class="st">"Absolute long temperature anomaly"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_pre_long_anom_1961_1989_mm_first_month_abs_z =</span> <span class="st">"Absolute long precipitation anomaly"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_abs_latitude_z =</span> <span class="st">"Absolute latitude"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_distance_to_coast_z =</span> <span class="st">"Distance to coast"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_nest_boxyes =</span> <span class="st">"Nest box: yes"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_marker_typemicrosatellite =</span> <span class="st">"Marker: microsatellite"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_marker_typeSNP =</span> <span class="st">"Marker: SNP"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_marker_typeSNPs =</span> <span class="st">"Marker: SNPs"</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_marker_typeother =</span> <span class="st">"Marker: other"</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>effects_display <span class="ot">&lt;-</span> effects <span class="sc">|&gt;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predictor =</span> <span class="fu">unname</span>(effect_labels[term]),</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">predictor =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(predictor), term, predictor)) <span class="sc">|&gt;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(model, predictor, estimate, lower, upper, probability_of_direction)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(effects_display, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"All fixed effects from the absolute-anomaly sensitivity models."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>All fixed effects from the absolute-anomaly sensitivity models.</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 37%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">model</th>
+<th style="text-align: left;">predictor</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+<th style="text-align: right;">probability_of_direction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-1.890</td>
+<td style="text-align: right;">-2.956</td>
+<td style="text-align: right;">-0.822</td>
+<td style="text-align: right;">0.999</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">Absolute short temperature anomaly</td>
+<td style="text-align: right;">0.024</td>
+<td style="text-align: right;">-0.060</td>
+<td style="text-align: right;">0.106</td>
+<td style="text-align: right;">0.713</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">Absolute short precipitation anomaly</td>
+<td style="text-align: right;">-0.006</td>
+<td style="text-align: right;">-0.102</td>
+<td style="text-align: right;">0.088</td>
+<td style="text-align: right;">0.553</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">Absolute latitude</td>
+<td style="text-align: right;">-0.106</td>
+<td style="text-align: right;">-0.313</td>
+<td style="text-align: right;">0.101</td>
+<td style="text-align: right;">0.842</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">Distance to coast</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">-0.131</td>
+<td style="text-align: right;">0.198</td>
+<td style="text-align: right;">0.660</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">Nest box: yes</td>
+<td style="text-align: right;">-0.369</td>
+<td style="text-align: right;">-0.890</td>
+<td style="text-align: right;">0.156</td>
+<td style="text-align: right;">0.917</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">Marker: microsatellite</td>
+<td style="text-align: right;">0.188</td>
+<td style="text-align: right;">-0.154</td>
+<td style="text-align: right;">0.540</td>
+<td style="text-align: right;">0.859</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">Marker: other</td>
+<td style="text-align: right;">0.261</td>
+<td style="text-align: right;">-0.819</td>
+<td style="text-align: right;">1.324</td>
+<td style="text-align: right;">0.685</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">Marker: SNPs</td>
+<td style="text-align: right;">0.430</td>
+<td style="text-align: right;">-0.516</td>
+<td style="text-align: right;">1.360</td>
+<td style="text-align: right;">0.820</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">-1.902</td>
+<td style="text-align: right;">-2.968</td>
+<td style="text-align: right;">-0.841</td>
+<td style="text-align: right;">0.999</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">Absolute long temperature anomaly</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">-0.028</td>
+<td style="text-align: right;">0.132</td>
+<td style="text-align: right;">0.898</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">Absolute long precipitation anomaly</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">-0.084</td>
+<td style="text-align: right;">0.106</td>
+<td style="text-align: right;">0.587</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">Absolute latitude</td>
+<td style="text-align: right;">-0.107</td>
+<td style="text-align: right;">-0.313</td>
+<td style="text-align: right;">0.096</td>
+<td style="text-align: right;">0.846</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">Distance to coast</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">-0.134</td>
+<td style="text-align: right;">0.202</td>
+<td style="text-align: right;">0.664</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">Nest box: yes</td>
+<td style="text-align: right;">-0.352</td>
+<td style="text-align: right;">-0.875</td>
+<td style="text-align: right;">0.173</td>
+<td style="text-align: right;">0.907</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">Marker: microsatellite</td>
+<td style="text-align: right;">0.195</td>
+<td style="text-align: right;">-0.145</td>
+<td style="text-align: right;">0.546</td>
+<td style="text-align: right;">0.865</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">Marker: other</td>
+<td style="text-align: right;">0.293</td>
+<td style="text-align: right;">-0.791</td>
+<td style="text-align: right;">1.369</td>
+<td style="text-align: right;">0.703</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">Marker: SNPs</td>
+<td style="text-align: right;">0.456</td>
+<td style="text-align: right;">-0.476</td>
+<td style="text-align: right;">1.376</td>
+<td style="text-align: right;">0.836</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(key_effects, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Absolute temperature- and precipitation-anomaly coefficients."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Absolute temperature- and precipitation-anomaly coefficients.</caption>
+<colgroup>
+<col style="width: 10%">
+<col style="width: 34%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+<th style="text-align: right;">prob_positive</th>
+<th style="text-align: right;">prob_negative</th>
+<th style="text-align: right;">probability_of_direction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">b_tmp_short_anom_5yr_C_first_month_abs_z</td>
+<td style="text-align: right;">0.024</td>
+<td style="text-align: right;">-0.060</td>
+<td style="text-align: right;">0.106</td>
+<td style="text-align: right;">0.713</td>
+<td style="text-align: right;">0.287</td>
+<td style="text-align: right;">0.713</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: left;">b_pre_short_anom_5yr_mm_first_month_abs_z</td>
+<td style="text-align: right;">-0.006</td>
+<td style="text-align: right;">-0.102</td>
+<td style="text-align: right;">0.088</td>
+<td style="text-align: right;">0.447</td>
+<td style="text-align: right;">0.553</td>
+<td style="text-align: right;">0.553</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">b_tmp_long_anom_1961_1989_C_first_month_abs_z</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">-0.028</td>
+<td style="text-align: right;">0.132</td>
+<td style="text-align: right;">0.898</td>
+<td style="text-align: right;">0.102</td>
+<td style="text-align: right;">0.898</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: left;">b_pre_long_anom_1961_1989_mm_first_month_abs_z</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">-0.084</td>
+<td style="text-align: right;">0.106</td>
+<td style="text-align: right;">0.587</td>
+<td style="text-align: right;">0.413</td>
+<td style="text-align: right;">0.587</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The four magnitude coefficients above test whether increasingly unusual first-month climate, irrespective of direction, is associated with EPP. Their posterior intervals all included zero. The short-term magnitude coefficients were 0.024 (95% CrI -0.060 to 0.106; pd = 0.713) for temperature and -0.006 (-0.102 to 0.088; pd = 0.553) for precipitation. The long-term coefficients were 0.051 (-0.028 to 0.132; pd = 0.898) for temperature and 0.011 (-0.084 to 0.106; pd = 0.587) for precipitation. Thus there is no precise evidence that EPP changes with the magnitude of either climatic departure. These models do not change the definition or interpretation of the primary signed-anomaly coefficients.</p>
+</section>
+<section id="precision-diagnostics-and-loo-caution" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="precision-diagnostics-and-loo-caution"><span class="header-section-number">14.4</span> Precision, diagnostics, and LOO caution</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(phi, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Beta-binomial precision parameters."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Beta-binomial precision parameters.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">model</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: right;">24.512</td>
+<td style="text-align: right;">18.502</td>
+<td style="text-align: right;">31.845</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: right;">24.592</td>
+<td style="text-align: right;">18.604</td>
+<td style="text-align: right;">31.916</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(diagnostics, <span class="at">digits =</span> <span class="dv">2</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Sampler diagnostics."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Sampler diagnostics.</caption>
+<colgroup>
+<col style="width: 17%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 25%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">model</th>
+<th style="text-align: right;">max_rhat</th>
+<th style="text-align: right;">min_bulk_ess</th>
+<th style="text-align: right;">min_tail_ess</th>
+<th style="text-align: right;">divergent_transitions</th>
+<th style="text-align: right;">treedepth_hits</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2456.35</td>
+<td style="text-align: right;">3207.16</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2284.93</td>
+<td style="text-align: right;">2002.37</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(loo_diagnostics, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Pareto-k diagnostics for approximate LOO."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Pareto-k diagnostics for approximate LOO.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">model</th>
+<th style="text-align: right;">max_pareto_k</th>
+<th style="text-align: right;">n_pareto_k_gt_0_7</th>
+<th style="text-align: right;">n_pareto_k_gt_1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: right;">0.953</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: right;">1.081</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Both models mixed well (maximum R-hat below 1.002, minimum bulk ESS above 2,280, minimum tail ESS above 2,000, no divergences, and no maximum-treedepth hits). The approximate LOO diagnostics were much less satisfactory: 27 observations exceeded Pareto <span class="math inline">\(k=0.7\)</span> in the short model and 29 in the long model; two long-model observations exceeded 1. These were inspected rather than treated as a model-ranking result. None came from the five most intensively sampled populations and their median population record count was one. The two cases above 1 were <em>Malurus lamberti</em> and <em>Ardea ibis</em>; the latter is tropical, whereas the former has an unusually large brood sample within a singleton population.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  pareto_audit_summary <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(model, max_pareto_k, n_pareto_k_gt_0_7, n_pareto_k_gt_1,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>           n_high_tropical, proportion_high_tropical,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           n_high_top5_population, median_population_records_high),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Inspected Pareto-k observations in the absolute-anomaly models."</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Inspected Pareto-k observations in the absolute-anomaly models.</caption>
+<colgroup>
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 14%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">model</th>
+<th style="text-align: right;">max_pareto_k</th>
+<th style="text-align: right;">n_pareto_k_gt_0_7</th>
+<th style="text-align: right;">n_pareto_k_gt_1</th>
+<th style="text-align: right;">n_high_tropical</th>
+<th style="text-align: right;">proportion_high_tropical</th>
+<th style="text-align: right;">n_high_top5_population</th>
+<th style="text-align: right;">median_population_records_high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: right;">1.081</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.069</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">absolute_short</td>
+<td style="text-align: right;">0.953</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.185</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  pareto_audit_cases <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">12</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(species, family, order, abs_latitude, tropical,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>           population_record_count, n_broods_sampled, observed_epp_rate,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>           models_high, max_pareto_k),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Twelve largest pointwise Pareto-k values across the two absolute-anomaly models."</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Twelve largest pointwise Pareto-k values across the two absolute-anomaly models.</caption>
+<colgroup>
+<col style="width: 14%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 16%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">species</th>
+<th style="text-align: left;">family</th>
+<th style="text-align: left;">order</th>
+<th style="text-align: right;">abs_latitude</th>
+<th style="text-align: left;">tropical</th>
+<th style="text-align: right;">population_record_count</th>
+<th style="text-align: right;">n_broods_sampled</th>
+<th style="text-align: right;">observed_epp_rate</th>
+<th style="text-align: left;">models_high</th>
+<th style="text-align: right;">max_pareto_k</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Malurus_lamberti</td>
+<td style="text-align: left;">Maluridae</td>
+<td style="text-align: left;">Passeriformes</td>
+<td style="text-align: right;">40.750</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">0.183</td>
+<td style="text-align: left;">absolute_long; absolute_short</td>
+<td style="text-align: right;">1.081</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ardea_ibis</td>
+<td style="text-align: left;">Ardeidae</td>
+<td style="text-align: left;">Pelecaniformes</td>
+<td style="text-align: right;">22.500</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">0.613</td>
+<td style="text-align: left;">absolute_long; absolute_short</td>
+<td style="text-align: right;">1.033</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Anas_platyrhynchos</td>
+<td style="text-align: left;">Anatidae</td>
+<td style="text-align: left;">Anseriformes</td>
+<td style="text-align: right;">49.150</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0.480</td>
+<td style="text-align: left;">absolute_long; absolute_short</td>
+<td style="text-align: right;">0.968</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Troglodytes_aedon</td>
+<td style="text-align: left;">Troglodytidae</td>
+<td style="text-align: left;">Passeriformes</td>
+<td style="text-align: right;">42.469</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">absolute_long; absolute_short</td>
+<td style="text-align: right;">0.953</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spheniscus_humboldti</td>
+<td style="text-align: left;">Spheniscidae</td>
+<td style="text-align: left;">Sphenisciformes</td>
+<td style="text-align: right;">15.370</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">absolute_long; absolute_short</td>
+<td style="text-align: right;">0.915</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chroicocephalus_ridibundus</td>
+<td style="text-align: left;">Laridae</td>
+<td style="text-align: left;">Charadriiformes</td>
+<td style="text-align: right;">48.920</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">0.333</td>
+<td style="text-align: left;">absolute_long; absolute_short</td>
+<td style="text-align: right;">0.887</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Strix_aluco</td>
+<td style="text-align: left;">Strigidae</td>
+<td style="text-align: left;">Strigiformes</td>
+<td style="text-align: right;">46.000</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: right;">0.880</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cinclus_cinclus</td>
+<td style="text-align: left;">Cinclidae</td>
+<td style="text-align: left;">Passeriformes</td>
+<td style="text-align: right;">60.380</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: left;">absolute_long; absolute_short</td>
+<td style="text-align: right;">0.875</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sterna_hirundo</td>
+<td style="text-align: left;">Laridae</td>
+<td style="text-align: left;">Charadriiformes</td>
+<td style="text-align: right;">53.520</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">0.029</td>
+<td style="text-align: left;">absolute_long; absolute_short</td>
+<td style="text-align: right;">0.864</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vermivora_chrysoptera</td>
+<td style="text-align: left;">Parulidae</td>
+<td style="text-align: left;">Passeriformes</td>
+<td style="text-align: right;">44.570</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">0.765</td>
+<td style="text-align: left;">absolute_long; absolute_short</td>
+<td style="text-align: right;">0.846</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ficedula_hypoleuca</td>
+<td style="text-align: left;">Muscicapidae</td>
+<td style="text-align: left;">Passeriformes</td>
+<td style="text-align: right;">56.350</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">0.212</td>
+<td style="text-align: left;">absolute_long; absolute_short</td>
+<td style="text-align: right;">0.843</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Myiopsitta_monachus</td>
+<td style="text-align: left;">Psittacidae</td>
+<td style="text-align: left;">Psittaciformes</td>
+<td style="text-align: right;">31.670</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">0.455</td>
+<td style="text-align: left;">absolute_long</td>
+<td style="text-align: right;">0.828</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>LOO values are therefore retained as diagnostics only. No formal predictive comparison with the signed models is reported. If such a comparison is placed in the submitted manuscript, exact <code>reloo</code> will first be run for the flagged observations.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"figures/absolute_short_pp_check.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/absolute_short_pp_check.png" class="img-fluid figure-img" width="1125"></p>
+<figcaption>Posterior predictive check for the short absolute-anomaly model.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"figures/absolute_long_pp_check.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/absolute_long_pp_check.png" class="img-fluid figure-img" width="1125"></p>
+<figcaption>Posterior predictive check for the long absolute-anomaly model.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./13_withinseason_h1.html" class="pagination-link" aria-label="Preregistered within-season climatic variability">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Preregistered within-season climatic variability</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./15_exploratory_location_scale_models.html" class="pagination-link" aria-label="Exploratory location-scale models">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Exploratory location-scale models</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Absolute climate-anomaly sensitivity models"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-setup</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>model_dir <span class="ot">&lt;-</span> <span class="st">"models/absolute_anomaly_models"</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>read_result <span class="ot">&lt;-</span> <span class="cf">function</span>(name) utils<span class="sc">::</span><span class="fu">read.csv</span>(<span class="fu">file.path</span>(model_dir, name), <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>transformation <span class="ot">&lt;-</span> <span class="fu">read_result</span>(<span class="st">"absolute_anomaly_transformation_audit.csv"</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>frame_counts <span class="ot">&lt;-</span> <span class="fu">read_result</span>(<span class="st">"absolute_anomaly_model_frame_counts.csv"</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>effects <span class="ot">&lt;-</span> <span class="fu">read_result</span>(<span class="st">"fixed_effects_absolute_anomaly_models.csv"</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>diagnostics <span class="ot">&lt;-</span> <span class="fu">read_result</span>(<span class="st">"diagnostics_absolute_anomaly_models.csv"</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="fu">read_result</span>(<span class="st">"phi_absolute_anomaly_models.csv"</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>loo_diagnostics <span class="ot">&lt;-</span> <span class="fu">read_result</span>(<span class="st">"loo_diagnostics_absolute_anomaly_models.csv"</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>pareto_audit_summary <span class="ot">&lt;-</span> utils<span class="sc">::</span><span class="fu">read.csv</span>(</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"models/pareto_k_audit/pareto_k_model_summary.csv"</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(analysis <span class="sc">==</span> <span class="st">"absolute_anomaly"</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>pareto_audit_cases <span class="ot">&lt;-</span> utils<span class="sc">::</span><span class="fu">read.csv</span>(</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"models/pareto_k_audit/pareto_k_unique_high_observations.csv"</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(analysis <span class="sc">==</span> <span class="st">"absolute_anomaly"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(max_pareto_k))</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why this sensitivity analysis is needed</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>The current primary anomaly models use signed differences: study-year climate</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>minus the local short- or long-term baseline. An earlier project draft instead</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>used absolute deviations. These are different hypotheses. A signed coefficient</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>contrasts warmer with cooler conditions, or wetter with drier conditions,</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>whereas an absolute-deviation coefficient asks whether EPP changes as climate</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>moves farther from its baseline in either direction. This additive sensitivity</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>analysis fits the earlier interpretation explicitly without changing or</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>overwriting the signed-anomaly models.</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>For each of the four first-breeding-month anomaly variables, the absolute value</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>was taken on its raw scale and the resulting magnitude was then standardized</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>within the unchanged 441-record main-model frame. No records were added,</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>dropped, or imputed.</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-frame</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(frame_counts, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Model frame for the absolute-anomaly sensitivity analysis."</span>)</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-transformation</span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(transformation, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Executable audit of the absolute-value transformations and scaling."</span>)</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## Model specification</span></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>Two beta-binomial phylogenetic models were fitted. The short model contains the</span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>absolute magnitudes of the five-year temperature and precipitation anomalies;</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>the long model contains the absolute magnitudes of the 1961--1989 anomalies.</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>Both retain absolute latitude, distance to coast, nest-box use, marker type,</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>and the same population, species, and phylogenetic random intercepts as the</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>matching signed models:</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>n_epp_broods <span class="sc">|</span> <span class="fu">trials</span>(n_broods_sampled) <span class="sc">~</span></span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>  absolute_temperature_anomaly_z <span class="sc">+</span> absolute_precipitation_anomaly_z <span class="sc">+</span></span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>  abs_latitude_z <span class="sc">+</span> distance_to_coast_z <span class="sc">+</span> nest_box <span class="sc">+</span> marker_type <span class="sc">+</span></span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">|</span> population_id) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> species_nonphylo) <span class="sc">+</span></span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">|</span> <span class="fu">gr</span>(species_phylo, <span class="at">cov =</span> phylo_mat_fit))</span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>The literal <span class="in">`priors_mu`</span> block was verified against the main fitting script:</span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>Normal(0, 2) for the intercept, Normal(0, 1) for fixed effects, and</span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>Exponential(1) for random-effect standard deviations and beta-binomial</span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>precision. Each model used four chains, 10,000 iterations (5,000 warmup),</span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a><span class="in">`adapt_delta = 0.99`</span>, <span class="in">`max_treedepth = 15`</span>, and new seeds 2001 and 2002. All</span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a>coefficients are retained; no backward elimination was performed.</span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## Posterior estimates</span></span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a>Posterior means, 95% credible intervals, and probability of direction are</span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a>reported for every population-level coefficient. Probability of direction is</span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a>the larger posterior probability that a coefficient lies above or below zero;</span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a>no significance threshold is applied.</span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-effects</span></span>
+<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a>effect_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_Intercept =</span> <span class="st">"Intercept"</span>,</span>
+<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_tmp_short_anom_5yr_C_first_month_abs_z =</span> <span class="st">"Absolute short temperature anomaly"</span>,</span>
+<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_pre_short_anom_5yr_mm_first_month_abs_z =</span> <span class="st">"Absolute short precipitation anomaly"</span>,</span>
+<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_tmp_long_anom_1961_1989_C_first_month_abs_z =</span> <span class="st">"Absolute long temperature anomaly"</span>,</span>
+<span id="cb13-106"><a href="#cb13-106" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_pre_long_anom_1961_1989_mm_first_month_abs_z =</span> <span class="st">"Absolute long precipitation anomaly"</span>,</span>
+<span id="cb13-107"><a href="#cb13-107" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_abs_latitude_z =</span> <span class="st">"Absolute latitude"</span>,</span>
+<span id="cb13-108"><a href="#cb13-108" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_distance_to_coast_z =</span> <span class="st">"Distance to coast"</span>,</span>
+<span id="cb13-109"><a href="#cb13-109" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_nest_boxyes =</span> <span class="st">"Nest box: yes"</span>,</span>
+<span id="cb13-110"><a href="#cb13-110" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_marker_typemicrosatellite =</span> <span class="st">"Marker: microsatellite"</span>,</span>
+<span id="cb13-111"><a href="#cb13-111" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_marker_typeSNP =</span> <span class="st">"Marker: SNP"</span>,</span>
+<span id="cb13-112"><a href="#cb13-112" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_marker_typeSNPs =</span> <span class="st">"Marker: SNPs"</span>,</span>
+<span id="cb13-113"><a href="#cb13-113" aria-hidden="true" tabindex="-1"></a>  <span class="at">b_marker_typeother =</span> <span class="st">"Marker: other"</span></span>
+<span id="cb13-114"><a href="#cb13-114" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-115"><a href="#cb13-115" aria-hidden="true" tabindex="-1"></a>effects_display <span class="ot">&lt;-</span> effects <span class="sc">|&gt;</span></span>
+<span id="cb13-116"><a href="#cb13-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predictor =</span> <span class="fu">unname</span>(effect_labels[term]),</span>
+<span id="cb13-117"><a href="#cb13-117" aria-hidden="true" tabindex="-1"></a>         <span class="at">predictor =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(predictor), term, predictor)) <span class="sc">|&gt;</span></span>
+<span id="cb13-118"><a href="#cb13-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(model, predictor, estimate, lower, upper, probability_of_direction)</span>
+<span id="cb13-119"><a href="#cb13-119" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(effects_display, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-120"><a href="#cb13-120" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"All fixed effects from the absolute-anomaly sensitivity models."</span>)</span>
+<span id="cb13-121"><a href="#cb13-121" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-122"><a href="#cb13-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-125"><a href="#cb13-125" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-126"><a href="#cb13-126" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-key-effects</span></span>
+<span id="cb13-127"><a href="#cb13-127" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb13-128"><a href="#cb13-128" aria-hidden="true" tabindex="-1"></a>key_effects <span class="ot">&lt;-</span> effects <span class="sc">|&gt;</span></span>
+<span id="cb13-129"><a href="#cb13-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"_abs_z$"</span>, term))</span>
+<span id="cb13-130"><a href="#cb13-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-131"><a href="#cb13-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-134"><a href="#cb13-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-135"><a href="#cb13-135" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-key-table</span></span>
+<span id="cb13-136"><a href="#cb13-136" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(key_effects, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-137"><a href="#cb13-137" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Absolute temperature- and precipitation-anomaly coefficients."</span>)</span>
+<span id="cb13-138"><a href="#cb13-138" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-139"><a href="#cb13-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-140"><a href="#cb13-140" aria-hidden="true" tabindex="-1"></a>The four magnitude coefficients above test whether increasingly unusual</span>
+<span id="cb13-141"><a href="#cb13-141" aria-hidden="true" tabindex="-1"></a>first-month climate, irrespective of direction, is associated with EPP. Their</span>
+<span id="cb13-142"><a href="#cb13-142" aria-hidden="true" tabindex="-1"></a>posterior intervals all included zero. The short-term magnitude coefficients</span>
+<span id="cb13-143"><a href="#cb13-143" aria-hidden="true" tabindex="-1"></a>were 0.024 (95% CrI -0.060 to 0.106; pd = 0.713) for temperature and -0.006</span>
+<span id="cb13-144"><a href="#cb13-144" aria-hidden="true" tabindex="-1"></a>(-0.102 to 0.088; pd = 0.553) for precipitation. The long-term coefficients</span>
+<span id="cb13-145"><a href="#cb13-145" aria-hidden="true" tabindex="-1"></a>were 0.051 (-0.028 to 0.132; pd = 0.898) for temperature and 0.011 (-0.084 to</span>
+<span id="cb13-146"><a href="#cb13-146" aria-hidden="true" tabindex="-1"></a>0.106; pd = 0.587) for precipitation. Thus there is no precise evidence that</span>
+<span id="cb13-147"><a href="#cb13-147" aria-hidden="true" tabindex="-1"></a>EPP changes with the magnitude of either climatic departure. These models do</span>
+<span id="cb13-148"><a href="#cb13-148" aria-hidden="true" tabindex="-1"></a>not change the definition or interpretation of the primary signed-anomaly</span>
+<span id="cb13-149"><a href="#cb13-149" aria-hidden="true" tabindex="-1"></a>coefficients.</span>
+<span id="cb13-150"><a href="#cb13-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-151"><a href="#cb13-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Precision, diagnostics, and LOO caution</span></span>
+<span id="cb13-152"><a href="#cb13-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-155"><a href="#cb13-155" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-156"><a href="#cb13-156" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-phi</span></span>
+<span id="cb13-157"><a href="#cb13-157" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(phi, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-158"><a href="#cb13-158" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Beta-binomial precision parameters."</span>)</span>
+<span id="cb13-159"><a href="#cb13-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-160"><a href="#cb13-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-163"><a href="#cb13-163" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-164"><a href="#cb13-164" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-diagnostics</span></span>
+<span id="cb13-165"><a href="#cb13-165" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(diagnostics, <span class="at">digits =</span> <span class="dv">2</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-166"><a href="#cb13-166" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Sampler diagnostics."</span>)</span>
+<span id="cb13-167"><a href="#cb13-167" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(loo_diagnostics, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-168"><a href="#cb13-168" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Pareto-k diagnostics for approximate LOO."</span>)</span>
+<span id="cb13-169"><a href="#cb13-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-170"><a href="#cb13-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-171"><a href="#cb13-171" aria-hidden="true" tabindex="-1"></a>Both models mixed well (maximum R-hat below 1.002, minimum bulk ESS above</span>
+<span id="cb13-172"><a href="#cb13-172" aria-hidden="true" tabindex="-1"></a>2,280, minimum tail ESS above 2,000, no divergences, and no maximum-treedepth</span>
+<span id="cb13-173"><a href="#cb13-173" aria-hidden="true" tabindex="-1"></a>hits). The approximate LOO diagnostics were much less satisfactory: 27</span>
+<span id="cb13-174"><a href="#cb13-174" aria-hidden="true" tabindex="-1"></a>observations exceeded Pareto $k=0.7$ in the short model and 29 in the long</span>
+<span id="cb13-175"><a href="#cb13-175" aria-hidden="true" tabindex="-1"></a>model; two long-model observations exceeded 1. These were inspected rather</span>
+<span id="cb13-176"><a href="#cb13-176" aria-hidden="true" tabindex="-1"></a>than treated as a model-ranking result. None came from the five most intensively</span>
+<span id="cb13-177"><a href="#cb13-177" aria-hidden="true" tabindex="-1"></a>sampled populations and their median population record count was one. The two</span>
+<span id="cb13-178"><a href="#cb13-178" aria-hidden="true" tabindex="-1"></a>cases above 1 were *Malurus lamberti* and *Ardea ibis*; the latter is tropical,</span>
+<span id="cb13-179"><a href="#cb13-179" aria-hidden="true" tabindex="-1"></a>whereas the former has an unusually large brood sample within a singleton</span>
+<span id="cb13-180"><a href="#cb13-180" aria-hidden="true" tabindex="-1"></a>population.</span>
+<span id="cb13-181"><a href="#cb13-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-184"><a href="#cb13-184" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-185"><a href="#cb13-185" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-pareto-audit</span></span>
+<span id="cb13-186"><a href="#cb13-186" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(</span>
+<span id="cb13-187"><a href="#cb13-187" aria-hidden="true" tabindex="-1"></a>  pareto_audit_summary <span class="sc">|&gt;</span></span>
+<span id="cb13-188"><a href="#cb13-188" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(model, max_pareto_k, n_pareto_k_gt_0_7, n_pareto_k_gt_1,</span>
+<span id="cb13-189"><a href="#cb13-189" aria-hidden="true" tabindex="-1"></a>           n_high_tropical, proportion_high_tropical,</span>
+<span id="cb13-190"><a href="#cb13-190" aria-hidden="true" tabindex="-1"></a>           n_high_top5_population, median_population_records_high),</span>
+<span id="cb13-191"><a href="#cb13-191" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-192"><a href="#cb13-192" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Inspected Pareto-k observations in the absolute-anomaly models."</span></span>
+<span id="cb13-193"><a href="#cb13-193" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-194"><a href="#cb13-194" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(</span>
+<span id="cb13-195"><a href="#cb13-195" aria-hidden="true" tabindex="-1"></a>  pareto_audit_cases <span class="sc">|&gt;</span></span>
+<span id="cb13-196"><a href="#cb13-196" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">12</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-197"><a href="#cb13-197" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(species, family, order, abs_latitude, tropical,</span>
+<span id="cb13-198"><a href="#cb13-198" aria-hidden="true" tabindex="-1"></a>           population_record_count, n_broods_sampled, observed_epp_rate,</span>
+<span id="cb13-199"><a href="#cb13-199" aria-hidden="true" tabindex="-1"></a>           models_high, max_pareto_k),</span>
+<span id="cb13-200"><a href="#cb13-200" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-201"><a href="#cb13-201" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Twelve largest pointwise Pareto-k values across the two absolute-anomaly models."</span></span>
+<span id="cb13-202"><a href="#cb13-202" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-203"><a href="#cb13-203" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-204"><a href="#cb13-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-205"><a href="#cb13-205" aria-hidden="true" tabindex="-1"></a>LOO values are therefore retained as diagnostics only. No formal predictive</span>
+<span id="cb13-206"><a href="#cb13-206" aria-hidden="true" tabindex="-1"></a>comparison with the signed models is reported. If such a comparison is placed</span>
+<span id="cb13-207"><a href="#cb13-207" aria-hidden="true" tabindex="-1"></a>in the submitted manuscript, exact <span class="in">`reloo`</span> will first be run for the flagged</span>
+<span id="cb13-208"><a href="#cb13-208" aria-hidden="true" tabindex="-1"></a>observations.</span>
+<span id="cb13-209"><a href="#cb13-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-212"><a href="#cb13-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-213"><a href="#cb13-213" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-ppc-short</span></span>
+<span id="cb13-214"><a href="#cb13-214" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Posterior predictive check for the short absolute-anomaly model."</span></span>
+<span id="cb13-215"><a href="#cb13-215" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"figures/absolute_short_pp_check.png"</span>)</span>
+<span id="cb13-216"><a href="#cb13-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-217"><a href="#cb13-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-220"><a href="#cb13-220" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-221"><a href="#cb13-221" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: absolute-anomaly-ppc-long</span></span>
+<span id="cb13-222"><a href="#cb13-222" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Posterior predictive check for the long absolute-anomaly model."</span></span>
+<span id="cb13-223"><a href="#cb13-223" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"figures/absolute_long_pp_check.png"</span>)</span>
+<span id="cb13-224"><a href="#cb13-224" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

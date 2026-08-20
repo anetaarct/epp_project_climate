@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Environmental data sources – Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02_data_preparation.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c614dc152840027ed1d225942eae4f22.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_environmental_data_sources.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Environmental data sources</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_environmental_data_sources.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Environmental data sources</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_data_preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data preparation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_taxonomy_phylogeny.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Taxonomy and phylogeny</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_overall_model_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Overall model structure</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_environmental_pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">PCA for environmental predictors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_main_environmental_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Main environmental mean models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_registered_direct_predictor_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Registered direct-predictor model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_anomaly_latitude_interactions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Confirmatory temperature-anomaly × latitude models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_within_between_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Within- and between-population temperature-anomaly effects</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_seasonal_temperature_variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Seasonal temperature variability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_br_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Comparison with Botero &amp; Rubenstein (2012)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_zero_inflated_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Preregistered zero-inflated beta-binomial models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_withinseason_h1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Preregistered within-season climatic variability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14_absolute_anomaly_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Absolute climate-anomaly sensitivity models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_exploratory_location_scale_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Exploratory location-scale models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16_figures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Figures</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1.1</span> Overview</a></li>
+  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources"><span class="header-section-number">1.2</span> Data sources</a></li>
+  <li><a href="#files-needed-to-reproduce-the-analysis" id="toc-files-needed-to-reproduce-the-analysis" class="nav-link" data-scroll-target="#files-needed-to-reproduce-the-analysis"><span class="header-section-number">1.3</span> Files needed to reproduce the analysis</a>
+  <ul class="collapse">
+  <li><a href="#sanity-check-of-the-stored-study-year-values" id="toc-sanity-check-of-the-stored-study-year-values" class="nav-link" data-scroll-target="#sanity-check-of-the-stored-study-year-values"><span class="header-section-number">1.3.1</span> Sanity check of the stored study-year values</a></li>
+  </ul></li>
+  <li><a href="#cru-ts-product-years-and-grid-cell-provenance" id="toc-cru-ts-product-years-and-grid-cell-provenance" class="nav-link" data-scroll-target="#cru-ts-product-years-and-grid-cell-provenance"><span class="header-section-number">1.4</span> CRU TS product, years, and grid-cell provenance</a></li>
+  <li><a href="#noaa-ndvi-products-and-extraction-scale" id="toc-noaa-ndvi-products-and-extraction-scale" class="nav-link" data-scroll-target="#noaa-ndvi-products-and-extraction-scale"><span class="header-section-number">1.5</span> NOAA NDVI products and extraction scale</a>
+  <ul class="collapse">
+  <li><a href="#ndvi-missingness-and-spatial-selectivity" id="toc-ndvi-missingness-and-spatial-selectivity" class="nav-link" data-scroll-target="#ndvi-missingness-and-spatial-selectivity"><span class="header-section-number">1.5.1</span> NDVI missingness and spatial selectivity</a></li>
+  </ul></li>
+  <li><a href="#climate-anomaly-sign-and-time-windows" id="toc-climate-anomaly-sign-and-time-windows" class="nav-link" data-scroll-target="#climate-anomaly-sign-and-time-windows"><span class="header-section-number">1.6</span> Climate-anomaly sign and time windows</a></li>
+  <li><a href="#computational-environment" id="toc-computational-environment" class="nav-link" data-scroll-target="#computational-environment"><span class="header-section-number">1.7</span> Computational environment</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Environmental data sources</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">1.1</span> Overview</h2>
+<p>This chapter documents the data sources used to construct the environmental and geographic predictors in the EPP climate analysis. It separates two things: the source products from which variables were derived, and the repository files needed to reproduce the analyses from the processed data.</p>
+</section>
+<section id="data-sources" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="data-sources"><span class="header-section-number">1.2</span> Data sources</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>source_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Data component</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EPP records and metadata"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Monthly climate"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Climate anomalies"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NDVI"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Distance to coast"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Taxonomy"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Phylogeny"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Variables or objects used</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_epp_broods, n_broods_sampled, species, population, location, breeding timing"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tmp_*, pre_*, dtr_*"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"short- and long-term temperature and precipitation anomaly variables"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ndvi_first_month_median_30km; ndvi_full_season_median_30km"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"distance_to_coast_km"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Clements_name; species_phylo; species_nonphylo"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"summary_dated_clements.nex; phylo_mat"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Source or extraction route</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Compiled EPP dataset prepared for this project"</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CRU TS v4.09 monthly 0.5-degree climate fields for the breeding-season month or season"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Derived from CRU TS v4.09 relative to local baseline conditions"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NOAA CDR AVHRR NDVI v5 and VIIRS NDVI v1 extracted around study coordinates in Google Earth Engine"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Derived from study coordinates"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Clements Checklist v2025"</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Clements-matched dated avian phylogeny"</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Repository status</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Included in final analysis-ready files"</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Derived variables included; original raw files absent; checked manifest and downloader now provided"</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Derived variables included; original raw files absent; checked manifest and downloader now provided"</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Derived variables included; Google Earth Engine products not redistributed"</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Final values included"</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Matched taxonomy included"</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tree/covariance objects included where needed for modelling"</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(source_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 26%">
+<col style="width: 32%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Data component</th>
+<th style="text-align: left;">Variables or objects used</th>
+<th style="text-align: left;">Source or extraction route</th>
+<th style="text-align: left;">Repository status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">EPP records and metadata</td>
+<td style="text-align: left;">n_epp_broods, n_broods_sampled, species, population, location, breeding timing</td>
+<td style="text-align: left;">Compiled EPP dataset prepared for this project</td>
+<td style="text-align: left;">Included in final analysis-ready files</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Monthly climate</td>
+<td style="text-align: left;">tmp_<em>, pre_</em>, dtr_*</td>
+<td style="text-align: left;">CRU TS v4.09 monthly 0.5-degree climate fields for the breeding-season month or season</td>
+<td style="text-align: left;">Derived variables included; original raw files absent; checked manifest and downloader now provided</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Climate anomalies</td>
+<td style="text-align: left;">short- and long-term temperature and precipitation anomaly variables</td>
+<td style="text-align: left;">Derived from CRU TS v4.09 relative to local baseline conditions</td>
+<td style="text-align: left;">Derived variables included; original raw files absent; checked manifest and downloader now provided</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NDVI</td>
+<td style="text-align: left;">ndvi_first_month_median_30km; ndvi_full_season_median_30km</td>
+<td style="text-align: left;">NOAA CDR AVHRR NDVI v5 and VIIRS NDVI v1 extracted around study coordinates in Google Earth Engine</td>
+<td style="text-align: left;">Derived variables included; Google Earth Engine products not redistributed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Distance to coast</td>
+<td style="text-align: left;">distance_to_coast_km</td>
+<td style="text-align: left;">Derived from study coordinates</td>
+<td style="text-align: left;">Final values included</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Taxonomy</td>
+<td style="text-align: left;">Clements_name; species_phylo; species_nonphylo</td>
+<td style="text-align: left;">Clements Checklist v2025</td>
+<td style="text-align: left;">Matched taxonomy included</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Phylogeny</td>
+<td style="text-align: left;">summary_dated_clements.nex; phylo_mat</td>
+<td style="text-align: left;">Clements-matched dated avian phylogeny</td>
+<td style="text-align: left;">Tree/covariance objects included where needed for modelling</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="files-needed-to-reproduce-the-analysis" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="files-needed-to-reproduce-the-analysis"><span class="header-section-number">1.3</span> Files needed to reproduce the analysis</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>reproducibility_files <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">File or folder</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"epp_data_June2026.csv"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"metadata_June2026.csv"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/processed/dat_model_phylo.rds"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/processed/phylo_mat.rds"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"phylogeny/summary_dated_clements.nex"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"models/"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"models/climate_provenance/"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"figures/"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"*.qmd files and _quarto.yml"</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scripts/"</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Purpose</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Final analysis-ready dataset containing EPP records, environmental predictors, geography, taxonomy, and derived covariates"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variable definitions and dataset metadata"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Model-ready dataset with phylogenetic species identifiers"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Phylogenetic covariance matrix used in Bayesian models"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Source phylogenetic tree used to construct the covariance matrix"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Saved model summaries, diagnostics, LOO outputs, and lightweight model outputs used by the book"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CRU TS v4.09 archive manifest with download URLs and SHA-256 checksums, recovered grid-cell map, and record-level reconstruction audits"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Saved figures called by the Quarto chapters"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Book chapters and rendering configuration"</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"R scripts used to fit models and create saved outputs"</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(reproducibility_files)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">File or folder</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">epp_data_June2026.csv</td>
+<td style="text-align: left;">Final analysis-ready dataset containing EPP records, environmental predictors, geography, taxonomy, and derived covariates</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">metadata_June2026.csv</td>
+<td style="text-align: left;">Variable definitions and dataset metadata</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">data/processed/dat_model_phylo.rds</td>
+<td style="text-align: left;">Model-ready dataset with phylogenetic species identifiers</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">data/processed/phylo_mat.rds</td>
+<td style="text-align: left;">Phylogenetic covariance matrix used in Bayesian models</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">phylogeny/summary_dated_clements.nex</td>
+<td style="text-align: left;">Source phylogenetic tree used to construct the covariance matrix</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">models/</td>
+<td style="text-align: left;">Saved model summaries, diagnostics, LOO outputs, and lightweight model outputs used by the book</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">models/climate_provenance/</td>
+<td style="text-align: left;">CRU TS v4.09 archive manifest with download URLs and SHA-256 checksums, recovered grid-cell map, and record-level reconstruction audits</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">figures/</td>
+<td style="text-align: left;">Saved figures called by the Quarto chapters</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">*.qmd files and _quarto.yml</td>
+<td style="text-align: left;">Book chapters and rendering configuration</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scripts/</td>
+<td style="text-align: left;">R scripts used to fit models and create saved outputs</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The analyses reported in this project can be reproduced from the processed files included in the repository. Full re-extraction of environmental variables requires the CRU archives identified in the checked manifest and the Google Earth Engine products used for NDVI extraction. The large CRU NetCDF archives are not redistributed in this repository.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Raw-climate provenance limitation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Raw-climate provenance limitation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The original repository contained the derived CRU columns but <strong>did not contain the post-1990 monthly NetCDF inputs, the original extraction script, or the original locality-to-cell lookup</strong>. It was therefore not self-contained at the raw-climate level. CRU TS v4.09 and the used grid cells were identified later by exact empirical reconstruction of the stored values. This demonstrates a reproducible source for the columns, but it is a forensic reconstruction rather than proof that the original raw artifacts or extraction log were preserved.</p>
+</div>
+</div>
+<section id="sanity-check-of-the-stored-study-year-values" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="sanity-check-of-the-stored-study-year-values"><span class="header-section-number">1.3.1</span> Sanity check of the stored study-year values</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat_fit_cru_check <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"models/main_environmental_models/dat_main_environmental_models.rds"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>dat_fit_cru_check<span class="sc">$</span>year <span class="ot">&lt;-</span> dat_fit_cru_check<span class="sc">$</span>climate_year</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>stored_cru_check <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">records =</span> <span class="fu">nrow</span>(dat_fit_cru_check),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_year =</span> <span class="fu">min</span>(dat_fit_cru_check<span class="sc">$</span>year, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_year =</span> <span class="fu">max</span>(dat_fit_cru_check<span class="sc">$</span>year, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">records_after_1990 =</span> <span class="fu">sum</span>(dat_fit_cru_check<span class="sc">$</span>year <span class="sc">&gt;</span> <span class="dv">1990</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">records_after_2010 =</span> <span class="fu">sum</span>(dat_fit_cru_check<span class="sc">$</span>year <span class="sc">&gt;</span> <span class="dv">2010</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing_TMP =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(dat_fit_cru_check<span class="sc">$</span>tmp_cru_C_first_month)),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing_PRE =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(dat_fit_cru_check<span class="sc">$</span>pre_cru_mm_first_month)),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing_DTR =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(dat_fit_cru_check<span class="sc">$</span>dtr_cru_C_first_month))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  stored_cru_check,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Completeness of stored study-year CRU variables in the main model frame."</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Completeness of stored study-year CRU variables in the main model frame.</caption>
+<colgroup>
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">records</th>
+<th style="text-align: right;">min_year</th>
+<th style="text-align: right;">max_year</th>
+<th style="text-align: right;">records_after_1990</th>
+<th style="text-align: right;">records_after_2010</th>
+<th style="text-align: right;">missing_TMP</th>
+<th style="text-align: right;">missing_PRE</th>
+<th style="text-align: right;">missing_DTR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">441</td>
+<td style="text-align: right;">1982</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">414</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>warmest_post_2010 <span class="ot">&lt;-</span> dat_fit_cru_check <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">&gt;</span> <span class="dv">2010</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    Clements_name, year, climate_month, lat, long,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    abs_latitude, tmp_cru_C_first_month</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(tmp_cru_C_first_month)) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  utils<span class="sc">::</span><span class="fu">head</span>(<span class="dv">10</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  warmest_post_2010,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Ten warmest stored first-breeding-month records after 2010."</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Ten warmest stored first-breeding-month records after 2010.</caption>
+<colgroup>
+<col style="width: 26%">
+<col style="width: 5%">
+<col style="width: 15%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 14%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Clements_name</th>
+<th style="text-align: right;">year</th>
+<th style="text-align: right;">climate_month</th>
+<th style="text-align: right;">lat</th>
+<th style="text-align: right;">long</th>
+<th style="text-align: right;">abs_latitude</th>
+<th style="text-align: right;">tmp_cru_C_first_month</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Acrocephalus_scirpaceus</td>
+<td style="text-align: right;">2011</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">21.60</td>
+<td style="text-align: right;">51.53</td>
+<td style="text-align: right;">21.60</td>
+<td style="text-align: right;">35.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Prinia_flaviventris</td>
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">23.65</td>
+<td style="text-align: right;">107.07</td>
+<td style="text-align: right;">23.65</td>
+<td style="text-align: right;">25.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Furnarius_rufus</td>
+<td style="text-align: right;">2015</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">-15.76</td>
+<td style="text-align: right;">-47.86</td>
+<td style="text-align: right;">15.76</td>
+<td style="text-align: right;">24.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Furnarius_rufus</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">-15.76</td>
+<td style="text-align: right;">-47.86</td>
+<td style="text-align: right;">15.76</td>
+<td style="text-align: right;">24.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Furnarius_rufus</td>
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">-15.76</td>
+<td style="text-align: right;">-47.86</td>
+<td style="text-align: right;">15.76</td>
+<td style="text-align: right;">23.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ardea_ibis</td>
+<td style="text-align: right;">2011</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">-22.50</td>
+<td style="text-align: right;">-47.58</td>
+<td style="text-align: right;">22.50</td>
+<td style="text-align: right;">21.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Malurus_lamberti</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">-27.27</td>
+<td style="text-align: right;">152.68</td>
+<td style="text-align: right;">27.27</td>
+<td style="text-align: right;">21.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Malurus_lamberti</td>
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">-27.27</td>
+<td style="text-align: right;">152.68</td>
+<td style="text-align: right;">27.27</td>
+<td style="text-align: right;">19.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tyrannus_forficatus</td>
+<td style="text-align: right;">2012</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">34.74</td>
+<td style="text-align: right;">-98.67</td>
+<td style="text-align: right;">34.74</td>
+<td style="text-align: right;">18.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sicalis_flaveola</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">-35.57</td>
+<td style="text-align: right;">-58.02</td>
+<td style="text-align: right;">35.57</td>
+<td style="text-align: right;">18.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The stored variables are therefore complete rather than truncated at 1990. Across the 414 post-1990 records, first-month temperature ranges from -2.0 to 35.6 degrees C, precipitation from 0 to 410.6 mm, and DTR from 3.9 to 19.8 degrees C. The warmest post-2010 observations occur in climatically plausible warm localities and breeding months. This check establishes that the processed values are populated and internally plausible; by itself it cannot identify the CRU release. The release attribution comes from the independent archive reconstruction below, which matches v4.09 rather than v4.10.</p>
+</section>
+</section>
+<section id="cru-ts-product-years-and-grid-cell-provenance" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="cru-ts-product-years-and-grid-cell-provenance"><span class="header-section-number">1.4</span> CRU TS product, years, and grid-cell provenance</h2>
+<p>The temperature (<code>tmp</code>), precipitation (<code>pre</code>), and diurnal temperature range (<code>dtr</code>) variables in the analysis-ready data were extracted from <strong>CRU TS v4.09</strong>, a monthly gridded product at 0.5-degree resolution. The exact official archive release is <code>cruts.2503051245.v4.09</code>; the <a href="https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/">CRU TS v4.09 archive</a> and variable-specific directories for <a href="https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/cruts.2503051245.v4.09/tmp/">temperature</a>, <a href="https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/cruts.2503051245.v4.09/pre/">precipitation</a>, and <a href="https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/cruts.2503051245.v4.09/dtr/">diurnal temperature range</a> are publicly accessible. CRU describes the product and its 0.5-degree monthly grid on its <a href="https://crudata.uea.ac.uk/cru/data/hrg/">high-resolution climate-data page</a>. The product should be cited as Harris et al.&nbsp;(2020), <a href="https://doi.org/10.1038/s41597-020-0453-3">doi:10.1038/s41597-020-0453-3</a>.</p>
+<p>The actual study-year range used by <code>tmp_cru_C_first_month</code>, <code>pre_cru_mm_first_month</code>, and <code>dtr_cru_C_first_month</code> in the 441-record main model frame is <strong>1982–2018</strong>; all three variables are complete over this range. It is not a 1901–2018 extraction. The reconstruction therefore reads the 1981–1990, 1991–2000, 2001–2010, and 2011–2020 archives, with 414 records occurring after 1990. Temperature and precipitation archives for 1961–1980 are additionally required only to calculate the 1961–1989 long baseline and the earliest rolling five-year baselines. These files were absent from the audited repository. The newly checked manifest identifies 16 required archives totalling 701,912,161 bytes (approximately 0.65 GiB) and records every official URL, byte size, and SHA-256 checksum.</p>
+<p>The raw inputs can now be reobtained reproducibly, but they are still not committed to Git because of their size:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>python scripts<span class="op">/</span>download_cru_ts_v409<span class="op">.</span><span class="fu">py</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The downloader stores them under <code>data_raw/cru_ts_4.09/</code>, verifies both byte count and SHA-256 before reporting success, and refuses to replace an existing nonmatching file unless <code>--force</code> is supplied explicitly.</p>
+<p>The original locality-to-cell lookup file was not retained. We therefore recovered the used grid cell empirically for each of 162 unique coordinates by comparing the stored first-month temperature and precipitation series with candidate CRU land cells within 100 km. Candidate cells were ranked first by the number of failures against the 0.01-degree-C/0.1-mm tolerances, then by scaled reconstruction error, and finally by distance. The selected cell reproduces all stored first-month values. Distance is the Haversine great-circle distance from the reported locality coordinates to the centre of the assigned 0.5-degree CRU grid cell, using an Earth radius of 6,371.0088 km. The recovered map is saved rather than recomputed during subsequent extraction. This step matters at coordinates lying exactly on a 0.5-degree cell boundary and at coastal localities, where a generic nearest-cell rule need not select the original land cell.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cru_locality_mapping <span class="ot">&lt;-</span> utils<span class="sc">::</span><span class="fu">read.csv</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"models/climate_provenance/cru_ts_4.09_locality_to_cell_mapping.csv"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>mapping_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">localities =</span> <span class="fu">nrow</span>(cru_locality_mapping),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean_distance_km =</span> <span class="fu">mean</span>(cru_locality_mapping<span class="sc">$</span>locality_to_cell_distance_km),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum_distance_km =</span> <span class="fu">max</span>(cru_locality_mapping<span class="sc">$</span>locality_to_cell_distance_km),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">assignments_over_50_km =</span> <span class="fu">sum</span>(cru_locality_mapping<span class="sc">$</span>locality_to_cell_distance_km <span class="sc">&gt;</span> <span class="dv">50</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  mapping_summary,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Summary of recovered locality-to-CRU-cell assignments."</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Summary of recovered locality-to-CRU-cell assignments.</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 23%">
+<col style="width: 28%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">localities</th>
+<th style="text-align: right;">mean_distance_km</th>
+<th style="text-align: right;">maximum_distance_km</th>
+<th style="text-align: right;">assignments_over_50_km</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">162</td>
+<td style="text-align: right;">19.35</td>
+<td style="text-align: right;">35.96</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mapping_preview <span class="ot">&lt;-</span> cru_locality_mapping <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(locality_to_cell_distance_km)) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    locality, assigned_cru_cell_lat, assigned_cru_cell_lon,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    locality_to_cell_distance_km, n_model_records</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  utils<span class="sc">::</span><span class="fu">head</span>(<span class="dv">10</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  mapping_preview,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"The ten most distant locality-to-cell assignments."</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>The ten most distant locality-to-cell assignments.</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 25%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">locality</th>
+<th style="text-align: right;">assigned_cru_cell_lat</th>
+<th style="text-align: right;">assigned_cru_cell_lon</th>
+<th style="text-align: right;">locality_to_cell_distance_km</th>
+<th style="text-align: right;">n_model_records</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">35.000000, -83.000000</td>
+<td style="text-align: right;">34.75</td>
+<td style="text-align: right;">-82.75</td>
+<td style="text-align: right;">35.957</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">37.000000, -3.000000</td>
+<td style="text-align: right;">36.75</td>
+<td style="text-align: right;">-2.75</td>
+<td style="text-align: right;">35.599</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">40.000000, -3.000000</td>
+<td style="text-align: right;">39.75</td>
+<td style="text-align: right;">-2.75</td>
+<td style="text-align: right;">35.042</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">40.500000, -4.000000</td>
+<td style="text-align: right;">40.25</td>
+<td style="text-align: right;">-3.75</td>
+<td style="text-align: right;">34.947</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">-15.550000, 128.000000</td>
+<td style="text-align: right;">-15.75</td>
+<td style="text-align: right;">128.25</td>
+<td style="text-align: right;">34.801</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">43.000000, -119.000000</td>
+<td style="text-align: right;">42.75</td>
+<td style="text-align: right;">-118.75</td>
+<td style="text-align: right;">34.464</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">43.000000, -84.000000</td>
+<td style="text-align: right;">42.75</td>
+<td style="text-align: right;">-83.75</td>
+<td style="text-align: right;">34.464</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">38.000000, 24.980000</td>
+<td style="text-align: right;">37.75</td>
+<td style="text-align: right;">24.75</td>
+<td style="text-align: right;">34.356</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">46.000000, 6.000000</td>
+<td style="text-align: right;">45.75</td>
+<td style="text-align: right;">6.25</td>
+<td style="text-align: right;">33.873</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">47.000000, 8.000000</td>
+<td style="text-align: right;">46.75</td>
+<td style="text-align: right;">8.25</td>
+<td style="text-align: right;">33.673</td>
+<td style="text-align: right;">4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The mean locality-to-cell distance is 19.35 km, the maximum is 35.96 km, and no assignment exceeds 50 km. The complete table provides the locality coordinates, <code>location_id</code>, population and species identifiers, assigned cell centre, distance, and reconstruction differences for all 162 localities: <a href="models/climate_provenance/cru_ts_4.09_locality_to_cell_mapping.csv">download the complete locality-to-cell mapping</a>. The corresponding post-1990 completeness and range summary is also retained as a <a href="models/climate_provenance/post1990_first_month_climate_sanity_check.csv">machine-readable CSV</a>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cru_provenance_dir <span class="ot">&lt;-</span> <span class="st">"models/climate_provenance"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cru_reconstruction <span class="ot">&lt;-</span> utils<span class="sc">::</span><span class="fu">read.csv</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(cru_provenance_dir, <span class="st">"main_cru_v409_summary.csv"</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>audit_display <span class="ot">&lt;-</span> <span class="fu">subset</span>(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  cru_reconstruction,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  period <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"post_1990"</span>, <span class="st">"all"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>audit_display<span class="sc">$</span>variable <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">tmp_first =</span> <span class="st">"Temperature, first month"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">pre_first =</span> <span class="st">"Precipitation, first month"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">dtr_first =</span> <span class="st">"DTR, first month"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">tmp_full =</span> <span class="st">"Temperature, full season"</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">pre_full =</span> <span class="st">"Precipitation, full season"</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">dtr_full =</span> <span class="st">"DTR, full season"</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>)[audit_display<span class="sc">$</span>variable]</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  audit_display[, <span class="fu">c</span>(</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"period"</span>, <span class="st">"variable"</span>, <span class="st">"n_records_compared"</span>,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"max_absolute_difference"</span>, <span class="st">"n_difference_gt_0_001"</span>,</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_hard_failures"</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  )],</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">9</span>,</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Direct reconstruction of stored CRU variables from CRU TS v4.09."</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Direct reconstruction of stored CRU variables from CRU TS v4.09.</caption>
+<colgroup>
+<col style="width: 8%">
+<col style="width: 22%">
+<col style="width: 16%">
+<col style="width: 20%">
+<col style="width: 18%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">period</th>
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">n_records_compared</th>
+<th style="text-align: right;">max_absolute_difference</th>
+<th style="text-align: right;">n_difference_gt_0_001</th>
+<th style="text-align: right;">n_hard_failures</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">post_1990</td>
+<td style="text-align: left;">Temperature, first month</td>
+<td style="text-align: right;">414</td>
+<td style="text-align: right;">4.00e-09</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">post_1990</td>
+<td style="text-align: left;">Precipitation, first month</td>
+<td style="text-align: right;">414</td>
+<td style="text-align: right;">4.80e-08</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">post_1990</td>
+<td style="text-align: left;">DTR, first month</td>
+<td style="text-align: right;">414</td>
+<td style="text-align: right;">4.00e-09</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">post_1990</td>
+<td style="text-align: left;">Temperature, full season</td>
+<td style="text-align: right;">404</td>
+<td style="text-align: right;">5.00e-09</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">post_1990</td>
+<td style="text-align: left;">Precipitation, full season</td>
+<td style="text-align: right;">404</td>
+<td style="text-align: right;">4.82e-07</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">post_1990</td>
+<td style="text-align: left;">DTR, full season</td>
+<td style="text-align: right;">404</td>
+<td style="text-align: right;">5.00e-09</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">all</td>
+<td style="text-align: left;">Temperature, first month</td>
+<td style="text-align: right;">441</td>
+<td style="text-align: right;">4.00e-09</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">all</td>
+<td style="text-align: left;">Precipitation, first month</td>
+<td style="text-align: right;">441</td>
+<td style="text-align: right;">4.80e-08</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">all</td>
+<td style="text-align: left;">DTR, first month</td>
+<td style="text-align: right;">441</td>
+<td style="text-align: right;">4.00e-09</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">all</td>
+<td style="text-align: left;">Temperature, full season</td>
+<td style="text-align: right;">426</td>
+<td style="text-align: right;">5.00e-09</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">all</td>
+<td style="text-align: left;">Precipitation, full season</td>
+<td style="text-align: right;">426</td>
+<td style="text-align: right;">4.82e-07</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">all</td>
+<td style="text-align: left;">DTR, full season</td>
+<td style="text-align: right;">426</td>
+<td style="text-align: right;">5.00e-09</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>All 441 first-month values and all 426 available full-season values were reproduced to floating-point precision. This includes every one of the 414 post-1990 records. No reconstructed value differed by more than 0.001, and none crossed the prespecified hard thresholds of 0.01 degrees C for temperature/DTR or 0.1 mm for precipitation. The earlier failed within-season check used CRU TS v4.10 and an approximate grid lookup; it was a product-version and cell-mapping mismatch, not evidence that the post-1990 climate values lacked a source.</p>
+<p>For a breeding window wholly within a calendar year, temperature and DTR are means across the named months and precipitation is their sum. For the 63 complete windows whose reported start month is later than the end month (for example, October–January), the <strong>historically stored</strong> full-season fields retained all named months under the record’s single <code>climate_year</code>: October–December and January were read from that same calendar year. Those fields and the corresponding same-year H1 fit are retained only as a provenance audit. In the final preregistered H1 analysis, the full-season means and within-season standard deviations were re-extracted from CRU TS v4.09 using the corrected calendar convention: months through December use <code>climate_year</code>, and January-side months use <code>climate_year + 1</code>. The product and recovered grid-cell mapping were first validated on 22 non-cross-year records from 1982–1990, with maximum absolute differences of <span class="math inline">\(4.0\times10^{-9}\)</span> degrees C and <span class="math inline">\(4.8\times10^{-8}\)</span> mm. This correction affects only full-season variables and H1; the main climate and anomaly models use the first breeding month and therefore require no refitting.</p>
+</section>
+<section id="noaa-ndvi-products-and-extraction-scale" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="noaa-ndvi-products-and-extraction-scale"><span class="header-section-number">1.5</span> NOAA NDVI products and extraction scale</h2>
+<p>The Earth Engine script in <code>ndvi_extraction/EPP_NDVI_NOAA_AVHRR_VIIRS_median_30x30km_first_full_records.js</code> uses two daily NOAA Climate Data Record products:</p>
+<ul>
+<li><strong>NOAA Climate Data Record (CDR) of AVHRR Normalized Difference Vegetation Index (NDVI), Version 5</strong>, Earth Engine collection <a href="https://developers.google.com/earth-engine/datasets/catalog/NOAA_CDR_AVHRR_NDVI_V5"><code>NOAA/CDR/AVHRR/NDVI/V5</code></a> and NOAA dataset <a href="https://doi.org/10.7289/V5ZG6QH9">doi:10.7289/V5ZG6QH9</a>. The Earth Engine collection covers 24 June 1981 through 31 December 2013. It supplies 399 final-model records dated 1982–2013.</li>
+<li><strong>NOAA Climate Data Record (CDR) of VIIRS Normalized Difference Vegetation Index (NDVI), Version 1</strong>, Earth Engine collection <a href="https://developers.google.com/earth-engine/datasets/catalog/NOAA_CDR_VIIRS_NDVI_V1"><code>NOAA/CDR/VIIRS/NDVI/V1</code></a> and NOAA dataset <a href="https://doi.org/10.25921/gakh-st76">doi:10.25921/gakh-st76</a>. The collection begins on 1 January 2014 and is continuing; it supplies the 42 final-model records dated 2014–2018.</li>
+</ul>
+<p>Both products provide daily NDVI on the same <strong>0.05-degree by 0.05-degree global grid</strong>. Earth Engine reports a nominal band pixel size of <strong>5,566 m</strong>. Throughout this project, a <em>pixel</em> means one native 0.05-degree NOAA CDR grid cell at this nominal scale. It does not mean a native 375-m or 750-m VIIRS sensor observation, and it does not mean the complete 30-by-30-km extraction window. Because the source grid is geographic, 0.05 degrees is the defining spatial resolution and the physical east–west width of a grid cell decreases with latitude.</p>
+<p>The script masks daily cells flagged as cloud, cloud shadow, water, sunglint, night, or invalid channel data and applies the catalog scale factor of 0.0001. For each record it constructs a square extending 15 km from the study coordinate in each direction. It then calculates the temporal median of valid daily NDVI <strong>separately for every native product pixel</strong> over the first breeding month or complete breeding window, followed by the arithmetic mean of those pixel-level medians across the 30-by-30-km square using <code>scale = 5566</code>. Consequently, despite the historical column names, <code>ndvi_first_month_median_30km</code> and <code>ndvi_full_season_median_30km</code> are temporal-pixel medians followed by a spatial mean; they are not spatial medians of the 30-km window.</p>
+<section id="ndvi-missingness-and-spatial-selectivity" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="ndvi-missingness-and-spatial-selectivity"><span class="header-section-number">1.5.1</span> NDVI missingness and spatial selectivity</h3>
+<p>Among the 571 response-complete records considered for the common environmental model frame, first-month NDVI was unavailable for 111. The extraction audit separated these cases without an unresolved remainder: 60 records could not be submitted with the required inputs because coordinates or the first breeding month were missing, while 51 had complete inputs but returned a null NDVI value because no valid pixel remained in the 30-by-30-km window after quality masking. The latter category is important because water, cloud, shadow, sunglint, night, and invalid-channel masks do not remove study systems at random.</p>
+<p>At the species level, the complete-case restriction reduced the dataset from 153 to 110 Clements species. Thirty-three of these 43 lost species had no usable NDVI record: 17 lacked extraction inputs for every record, 15 returned no valid pixel for every record, and one had both failure mechanisms across its records. The other 10 species had at least one NDVI value and were removed by another model-frame requirement. Nine of the 15 species lost entirely after NDVI masking belonged to unequivocal seabird families; the masked set also included island and high-latitude populations. Consequently, the environmental models under-represent marine, island, and polar study systems. This is a limitation on their ecological scope of inference, not only a loss of sample size. Record- and species-level classifications are retained in <a href="data/processed/ndvi_missingness_audit.csv"><code>ndvi_missingness_audit.csv</code></a> and <a href="data/processed/ndvi_species_loss_audit.csv"><code>ndvi_species_loss_audit.csv</code></a>.</p>
+<p>The loss was also <strong>phylogenetically structured at the order level</strong>, rather than being dispersed evenly across the avian tree. Among Clements species, Suliformes declined from six represented species before environmental complete-case filtering to none in the final 441-record frame, Procellariiformes from nine to three, and Sphenisciformes from six to two. Thus, one order was removed completely and two marine orders lost most of their representation. This structural thinning is relevant to interpretation of the phylogenetic variance component and strengthens the limitation on inference to marine and polar lineages.</p>
+</section>
+</section>
+<section id="climate-anomaly-sign-and-time-windows" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="climate-anomaly-sign-and-time-windows"><span class="header-section-number">1.6</span> Climate-anomaly sign and time windows</h2>
+<p>Climate anomalies are stored as signed differences: the CRU value in the study year minus the corresponding local baseline, never as an absolute deviation. For climate variable <span class="math inline">\(x\)</span>, locality <span class="math inline">\(i\)</span>, breeding month or window <span class="math inline">\(m\)</span>, and study year <span class="math inline">\(y\)</span>,</p>
+<p><span class="math display">\[
+A^{\mathrm{short}}_{i,m,y}=x_{i,m,y}-\frac{1}{5}\sum_{t=y-5}^{y-1}x_{i,m,t},
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+A^{\mathrm{long}}_{i,m,y}=x_{i,m,y}-\frac{1}{29}\sum_{t=1961}^{1989}x_{i,m,t}.
+\]</span></p>
+<p>Thus positive temperature anomalies denote warmer conditions and positive precipitation anomalies wetter conditions than the relevant local baseline. The primary anomaly models use only the first reported breeding-season month. A direct CRU TS v4.09 reconstruction reproduced every stored short- and long-baseline value and every signed anomaly for all 441 first-month records (and all 426 available full-season records), with no absolute difference greater than 0.001. Exact definitions, sign interpretation, standardization, and the independent algebraic identity check are also given in <a href="06_main_environmental_models.html#sec-climate-anomaly-definitions" class="quarto-xref"><span>Section 6.2</span></a>.</p>
+</section>
+<section id="computational-environment" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="computational-environment"><span class="header-section-number">1.7</span> Computational environment</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>environment_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">item =</span> <span class="fu">c</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"R (primary model fit)"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"R (later sensitivity and exact-reloo fits)"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"brms"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Stan interface"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Stan headers"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"loo"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cmdstanr"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Primary-fit platform"</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">c</span>(</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"4.5.1"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"4.5.3"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2.23.0"</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rstan 2.32.7"</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"StanHeaders 2.32.10"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2.9.0"</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not used"</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x86_64-w64-mingw32/x64; Windows 11 x64"</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  environment_summary,</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Software or platform"</span>, <span class="st">"Version or specification"</span>),</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Audited software environment used for model fitting and LOO evaluation."</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Audited software environment used for model fitting and LOO evaluation.</caption>
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Software or platform</th>
+<th style="text-align: left;">Version or specification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">R (primary model fit)</td>
+<td style="text-align: left;">4.5.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R (later sensitivity and exact-reloo fits)</td>
+<td style="text-align: left;">4.5.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">brms</td>
+<td style="text-align: left;">2.23.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stan interface</td>
+<td style="text-align: left;">rstan 2.32.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Stan headers</td>
+<td style="text-align: left;">StanHeaders 2.32.10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">loo</td>
+<td style="text-align: left;">2.9.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cmdstanr</td>
+<td style="text-align: left;">Not used</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Primary-fit platform</td>
+<td style="text-align: left;">x86_64-w64-mingw32/x64; Windows 11 x64</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The Bayesian models were fitted in Stan through the <code>rstan</code> backend used by <code>brms</code>; <code>cmdstanr</code> was not used in this workflow. The primary model session was run under R 4.5.1. Later prior-sensitivity fits and the exact leave-one-out refits used R 4.5.3, while retaining the same versions of <code>brms</code>, <code>rstan</code>, <code>StanHeaders</code>, and <code>loo</code>. These values are taken from the saved model-fitting session logs rather than from the software environment used only to render this website.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02_data_preparation.html" class="pagination-link" aria-label="Data preparation">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data preparation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Environmental data sources"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overview</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>This chapter documents the data sources used to construct the environmental and geographic predictors in the EPP climate analysis. It separates two things: the source products from which variables were derived, and the repository files needed to reproduce the analyses from the processed data.</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data sources</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: main-environmental-data-sources</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>source_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Data component</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EPP records and metadata"</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Monthly climate"</span>,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Climate anomalies"</span>,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NDVI"</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Distance to coast"</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Taxonomy"</span>,</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Phylogeny"</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Variables or objects used</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_epp_broods, n_broods_sampled, species, population, location, breeding timing"</span>,</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tmp_*, pre_*, dtr_*"</span>,</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"short- and long-term temperature and precipitation anomaly variables"</span>,</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ndvi_first_month_median_30km; ndvi_full_season_median_30km"</span>,</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"distance_to_coast_km"</span>,</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Clements_name; species_phylo; species_nonphylo"</span>,</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"summary_dated_clements.nex; phylo_mat"</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Source or extraction route</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Compiled EPP dataset prepared for this project"</span>,</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CRU TS v4.09 monthly 0.5-degree climate fields for the breeding-season month or season"</span>,</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Derived from CRU TS v4.09 relative to local baseline conditions"</span>,</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NOAA CDR AVHRR NDVI v5 and VIIRS NDVI v1 extracted around study coordinates in Google Earth Engine"</span>,</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Derived from study coordinates"</span>,</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Clements Checklist v2025"</span>,</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Clements-matched dated avian phylogeny"</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Repository status</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Included in final analysis-ready files"</span>,</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Derived variables included; original raw files absent; checked manifest and downloader now provided"</span>,</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Derived variables included; original raw files absent; checked manifest and downloader now provided"</span>,</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Derived variables included; Google Earth Engine products not redistributed"</span>,</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Final values included"</span>,</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Matched taxonomy included"</span>,</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tree/covariance objects included where needed for modelling"</span></span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(source_table)</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Files needed to reproduce the analysis</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: reproducibility-files</span></span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>reproducibility_files <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">File or folder</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">"epp_data_June2026.csv"</span>,</span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>    <span class="st">"metadata_June2026.csv"</span>,</span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/processed/dat_model_phylo.rds"</span>,</span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/processed/phylo_mat.rds"</span>,</span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>    <span class="st">"phylogeny/summary_dated_clements.nex"</span>,</span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">"models/"</span>,</span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>    <span class="st">"models/climate_provenance/"</span>,</span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">"figures/"</span>,</span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>    <span class="st">"*.qmd files and _quarto.yml"</span>,</span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scripts/"</span></span>
+<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Purpose</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Final analysis-ready dataset containing EPP records, environmental predictors, geography, taxonomy, and derived covariates"</span>,</span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variable definitions and dataset metadata"</span>,</span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Model-ready dataset with phylogenetic species identifiers"</span>,</span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Phylogenetic covariance matrix used in Bayesian models"</span>,</span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Source phylogenetic tree used to construct the covariance matrix"</span>,</span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Saved model summaries, diagnostics, LOO outputs, and lightweight model outputs used by the book"</span>,</span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CRU TS v4.09 archive manifest with download URLs and SHA-256 checksums, recovered grid-cell map, and record-level reconstruction audits"</span>,</span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Saved figures called by the Quarto chapters"</span>,</span>
+<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Book chapters and rendering configuration"</span>,</span>
+<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>    <span class="st">"R scripts used to fit models and create saved outputs"</span></span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(reproducibility_files)</span>
+<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a>The analyses reported in this project can be reproduced from the processed files included in the repository. Full re-extraction of environmental variables requires the CRU archives identified in the checked manifest and the Google Earth Engine products used for NDVI extraction. The large CRU NetCDF archives are not redistributed in this repository.</span>
+<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Raw-climate provenance limitation"}</span>
+<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a>The original repository contained the derived CRU columns but **did not contain the post-1990 monthly NetCDF inputs, the original extraction script, or the original locality-to-cell lookup**. It was therefore not self-contained at the raw-climate level. CRU TS v4.09 and the used grid cells were identified later by exact empirical reconstruction of the stored values. This demonstrates a reproducible source for the columns, but it is a forensic reconstruction rather than proof that the original raw artifacts or extraction log were preserved.</span>
+<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sanity check of the stored study-year values</span></span>
+<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: stored-cru-sanity-check</span></span>
+<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>dat_fit_cru_check <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(</span>
+<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a>  <span class="st">"models/main_environmental_models/dat_main_environmental_models.rds"</span></span>
+<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a>dat_fit_cru_check<span class="sc">$</span>year <span class="ot">&lt;-</span> dat_fit_cru_check<span class="sc">$</span>climate_year</span>
+<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a>stored_cru_check <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a>  <span class="at">records =</span> <span class="fu">nrow</span>(dat_fit_cru_check),</span>
+<span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_year =</span> <span class="fu">min</span>(dat_fit_cru_check<span class="sc">$</span>year, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_year =</span> <span class="fu">max</span>(dat_fit_cru_check<span class="sc">$</span>year, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a>  <span class="at">records_after_1990 =</span> <span class="fu">sum</span>(dat_fit_cru_check<span class="sc">$</span>year <span class="sc">&gt;</span> <span class="dv">1990</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a>  <span class="at">records_after_2010 =</span> <span class="fu">sum</span>(dat_fit_cru_check<span class="sc">$</span>year <span class="sc">&gt;</span> <span class="dv">2010</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing_TMP =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(dat_fit_cru_check<span class="sc">$</span>tmp_cru_C_first_month)),</span>
+<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing_PRE =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(dat_fit_cru_check<span class="sc">$</span>pre_cru_mm_first_month)),</span>
+<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing_DTR =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(dat_fit_cru_check<span class="sc">$</span>dtr_cru_C_first_month))</span>
+<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a>  stored_cru_check,</span>
+<span id="cb10-131"><a href="#cb10-131" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Completeness of stored study-year CRU variables in the main model frame."</span></span>
+<span id="cb10-133"><a href="#cb10-133" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: stored-cru-warmest-post-2010</span></span>
+<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a>warmest_post_2010 <span class="ot">&lt;-</span> dat_fit_cru_check <span class="sc">|&gt;</span></span>
+<span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">&gt;</span> <span class="dv">2010</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>    Clements_name, year, climate_month, lat, long,</span>
+<span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a>    abs_latitude, tmp_cru_C_first_month</span>
+<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(tmp_cru_C_first_month)) <span class="sc">|&gt;</span></span>
+<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a>  utils<span class="sc">::</span><span class="fu">head</span>(<span class="dv">10</span>)</span>
+<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a>  warmest_post_2010,</span>
+<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Ten warmest stored first-breeding-month records after 2010."</span></span>
+<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a>The stored variables are therefore complete rather than truncated at 1990. Across the 414 post-1990 records, first-month temperature ranges from -2.0 to 35.6 degrees C, precipitation from 0 to 410.6 mm, and DTR from 3.9 to 19.8 degrees C. The warmest post-2010 observations occur in climatically plausible warm localities and breeding months. This check establishes that the processed values are populated and internally plausible; by itself it cannot identify the CRU release. The release attribution comes from the independent archive reconstruction below, which matches v4.09 rather than v4.10.</span>
+<span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a><span class="fu">## CRU TS product, years, and grid-cell provenance</span></span>
+<span id="cb10-162"><a href="#cb10-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-163"><a href="#cb10-163" aria-hidden="true" tabindex="-1"></a>The temperature (<span class="in">`tmp`</span>), precipitation (<span class="in">`pre`</span>), and diurnal temperature range (<span class="in">`dtr`</span>) variables in the analysis-ready data were extracted from **CRU TS v4.09**, a monthly gridded product at 0.5-degree resolution. The exact official archive release is <span class="in">`cruts.2503051245.v4.09`</span>; the <span class="co">[</span><span class="ot">CRU TS v4.09 archive</span><span class="co">](https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/)</span> and variable-specific directories for <span class="co">[</span><span class="ot">temperature</span><span class="co">](https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/cruts.2503051245.v4.09/tmp/)</span>, <span class="co">[</span><span class="ot">precipitation</span><span class="co">](https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/cruts.2503051245.v4.09/pre/)</span>, and <span class="co">[</span><span class="ot">diurnal temperature range</span><span class="co">](https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/cruts.2503051245.v4.09/dtr/)</span> are publicly accessible. CRU describes the product and its 0.5-degree monthly grid on its <span class="co">[</span><span class="ot">high-resolution climate-data page</span><span class="co">](https://crudata.uea.ac.uk/cru/data/hrg/)</span>. The product should be cited as Harris et al. (2020), <span class="co">[</span><span class="ot">doi:10.1038/s41597-020-0453-3</span><span class="co">](https://doi.org/10.1038/s41597-020-0453-3)</span>.</span>
+<span id="cb10-164"><a href="#cb10-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-165"><a href="#cb10-165" aria-hidden="true" tabindex="-1"></a>The actual study-year range used by <span class="in">`tmp_cru_C_first_month`</span>, <span class="in">`pre_cru_mm_first_month`</span>, and <span class="in">`dtr_cru_C_first_month`</span> in the 441-record main model frame is **1982--2018**; all three variables are complete over this range. It is not a 1901--2018 extraction. The reconstruction therefore reads the 1981--1990, 1991--2000, 2001--2010, and 2011--2020 archives, with 414 records occurring after 1990. Temperature and precipitation archives for 1961--1980 are additionally required only to calculate the 1961--1989 long baseline and the earliest rolling five-year baselines. These files were absent from the audited repository. The newly checked manifest identifies 16 required archives totalling 701,912,161 bytes (approximately 0.65 GiB) and records every official URL, byte size, and SHA-256 checksum.</span>
+<span id="cb10-166"><a href="#cb10-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a>The raw inputs can now be reobtained reproducibly, but they are still not committed to Git because of their size:</span>
+<span id="cb10-168"><a href="#cb10-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a><span class="in">```powershell</span></span>
+<span id="cb10-170"><a href="#cb10-170" aria-hidden="true" tabindex="-1"></a><span class="in">python scripts/download_cru_ts_v409.py</span></span>
+<span id="cb10-171"><a href="#cb10-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-173"><a href="#cb10-173" aria-hidden="true" tabindex="-1"></a>The downloader stores them under <span class="in">`data_raw/cru_ts_4.09/`</span>, verifies both byte count and SHA-256 before reporting success, and refuses to replace an existing nonmatching file unless <span class="in">`--force`</span> is supplied explicitly.</span>
+<span id="cb10-174"><a href="#cb10-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-175"><a href="#cb10-175" aria-hidden="true" tabindex="-1"></a>The original locality-to-cell lookup file was not retained. We therefore recovered the used grid cell empirically for each of 162 unique coordinates by comparing the stored first-month temperature and precipitation series with candidate CRU land cells within 100 km. Candidate cells were ranked first by the number of failures against the 0.01-degree-C/0.1-mm tolerances, then by scaled reconstruction error, and finally by distance. The selected cell reproduces all stored first-month values. Distance is the Haversine great-circle distance from the reported locality coordinates to the centre of the assigned 0.5-degree CRU grid cell, using an Earth radius of 6,371.0088 km. The recovered map is saved rather than recomputed during subsequent extraction. This step matters at coordinates lying exactly on a 0.5-degree cell boundary and at coastal localities, where a generic nearest-cell rule need not select the original land cell.</span>
+<span id="cb10-176"><a href="#cb10-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-179"><a href="#cb10-179" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-180"><a href="#cb10-180" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cru-locality-cell-mapping</span></span>
+<span id="cb10-181"><a href="#cb10-181" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb10-182"><a href="#cb10-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-183"><a href="#cb10-183" aria-hidden="true" tabindex="-1"></a>cru_locality_mapping <span class="ot">&lt;-</span> utils<span class="sc">::</span><span class="fu">read.csv</span>(</span>
+<span id="cb10-184"><a href="#cb10-184" aria-hidden="true" tabindex="-1"></a>  <span class="st">"models/climate_provenance/cru_ts_4.09_locality_to_cell_mapping.csv"</span>,</span>
+<span id="cb10-185"><a href="#cb10-185" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-186"><a href="#cb10-186" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-187"><a href="#cb10-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-188"><a href="#cb10-188" aria-hidden="true" tabindex="-1"></a>mapping_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-189"><a href="#cb10-189" aria-hidden="true" tabindex="-1"></a>  <span class="at">localities =</span> <span class="fu">nrow</span>(cru_locality_mapping),</span>
+<span id="cb10-190"><a href="#cb10-190" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean_distance_km =</span> <span class="fu">mean</span>(cru_locality_mapping<span class="sc">$</span>locality_to_cell_distance_km),</span>
+<span id="cb10-191"><a href="#cb10-191" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum_distance_km =</span> <span class="fu">max</span>(cru_locality_mapping<span class="sc">$</span>locality_to_cell_distance_km),</span>
+<span id="cb10-192"><a href="#cb10-192" aria-hidden="true" tabindex="-1"></a>  <span class="at">assignments_over_50_km =</span> <span class="fu">sum</span>(cru_locality_mapping<span class="sc">$</span>locality_to_cell_distance_km <span class="sc">&gt;</span> <span class="dv">50</span>)</span>
+<span id="cb10-193"><a href="#cb10-193" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-195"><a href="#cb10-195" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb10-196"><a href="#cb10-196" aria-hidden="true" tabindex="-1"></a>  mapping_summary,</span>
+<span id="cb10-197"><a href="#cb10-197" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb10-198"><a href="#cb10-198" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Summary of recovered locality-to-CRU-cell assignments."</span></span>
+<span id="cb10-200"><a href="#cb10-200" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-201"><a href="#cb10-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-202"><a href="#cb10-202" aria-hidden="true" tabindex="-1"></a>mapping_preview <span class="ot">&lt;-</span> cru_locality_mapping <span class="sc">|&gt;</span></span>
+<span id="cb10-203"><a href="#cb10-203" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(locality_to_cell_distance_km)) <span class="sc">|&gt;</span></span>
+<span id="cb10-204"><a href="#cb10-204" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb10-205"><a href="#cb10-205" aria-hidden="true" tabindex="-1"></a>    locality, assigned_cru_cell_lat, assigned_cru_cell_lon,</span>
+<span id="cb10-206"><a href="#cb10-206" aria-hidden="true" tabindex="-1"></a>    locality_to_cell_distance_km, n_model_records</span>
+<span id="cb10-207"><a href="#cb10-207" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-208"><a href="#cb10-208" aria-hidden="true" tabindex="-1"></a>  utils<span class="sc">::</span><span class="fu">head</span>(<span class="dv">10</span>)</span>
+<span id="cb10-209"><a href="#cb10-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-210"><a href="#cb10-210" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb10-211"><a href="#cb10-211" aria-hidden="true" tabindex="-1"></a>  mapping_preview,</span>
+<span id="cb10-212"><a href="#cb10-212" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb10-213"><a href="#cb10-213" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-214"><a href="#cb10-214" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"The ten most distant locality-to-cell assignments."</span></span>
+<span id="cb10-215"><a href="#cb10-215" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-216"><a href="#cb10-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-217"><a href="#cb10-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-218"><a href="#cb10-218" aria-hidden="true" tabindex="-1"></a>The mean locality-to-cell distance is 19.35 km, the maximum is 35.96 km, and no assignment exceeds 50 km. The complete table provides the locality coordinates, <span class="in">`location_id`</span>, population and species identifiers, assigned cell centre, distance, and reconstruction differences for all 162 localities: <span class="co">[</span><span class="ot">download the complete locality-to-cell mapping</span><span class="co">](models/climate_provenance/cru_ts_4.09_locality_to_cell_mapping.csv)</span>. The corresponding post-1990 completeness and range summary is also retained as a <span class="co">[</span><span class="ot">machine-readable CSV</span><span class="co">](models/climate_provenance/post1990_first_month_climate_sanity_check.csv)</span>.</span>
+<span id="cb10-219"><a href="#cb10-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-222"><a href="#cb10-222" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-223"><a href="#cb10-223" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cru-provenance-audit</span></span>
+<span id="cb10-224"><a href="#cb10-224" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb10-225"><a href="#cb10-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-226"><a href="#cb10-226" aria-hidden="true" tabindex="-1"></a>cru_provenance_dir <span class="ot">&lt;-</span> <span class="st">"models/climate_provenance"</span></span>
+<span id="cb10-227"><a href="#cb10-227" aria-hidden="true" tabindex="-1"></a>cru_reconstruction <span class="ot">&lt;-</span> utils<span class="sc">::</span><span class="fu">read.csv</span>(</span>
+<span id="cb10-228"><a href="#cb10-228" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(cru_provenance_dir, <span class="st">"main_cru_v409_summary.csv"</span>),</span>
+<span id="cb10-229"><a href="#cb10-229" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-230"><a href="#cb10-230" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-231"><a href="#cb10-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-232"><a href="#cb10-232" aria-hidden="true" tabindex="-1"></a>audit_display <span class="ot">&lt;-</span> <span class="fu">subset</span>(</span>
+<span id="cb10-233"><a href="#cb10-233" aria-hidden="true" tabindex="-1"></a>  cru_reconstruction,</span>
+<span id="cb10-234"><a href="#cb10-234" aria-hidden="true" tabindex="-1"></a>  period <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"post_1990"</span>, <span class="st">"all"</span>)</span>
+<span id="cb10-235"><a href="#cb10-235" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-236"><a href="#cb10-236" aria-hidden="true" tabindex="-1"></a>audit_display<span class="sc">$</span>variable <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb10-237"><a href="#cb10-237" aria-hidden="true" tabindex="-1"></a>  <span class="at">tmp_first =</span> <span class="st">"Temperature, first month"</span>,</span>
+<span id="cb10-238"><a href="#cb10-238" aria-hidden="true" tabindex="-1"></a>  <span class="at">pre_first =</span> <span class="st">"Precipitation, first month"</span>,</span>
+<span id="cb10-239"><a href="#cb10-239" aria-hidden="true" tabindex="-1"></a>  <span class="at">dtr_first =</span> <span class="st">"DTR, first month"</span>,</span>
+<span id="cb10-240"><a href="#cb10-240" aria-hidden="true" tabindex="-1"></a>  <span class="at">tmp_full =</span> <span class="st">"Temperature, full season"</span>,</span>
+<span id="cb10-241"><a href="#cb10-241" aria-hidden="true" tabindex="-1"></a>  <span class="at">pre_full =</span> <span class="st">"Precipitation, full season"</span>,</span>
+<span id="cb10-242"><a href="#cb10-242" aria-hidden="true" tabindex="-1"></a>  <span class="at">dtr_full =</span> <span class="st">"DTR, full season"</span></span>
+<span id="cb10-243"><a href="#cb10-243" aria-hidden="true" tabindex="-1"></a>)[audit_display<span class="sc">$</span>variable]</span>
+<span id="cb10-244"><a href="#cb10-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-245"><a href="#cb10-245" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb10-246"><a href="#cb10-246" aria-hidden="true" tabindex="-1"></a>  audit_display[, <span class="fu">c</span>(</span>
+<span id="cb10-247"><a href="#cb10-247" aria-hidden="true" tabindex="-1"></a>    <span class="st">"period"</span>, <span class="st">"variable"</span>, <span class="st">"n_records_compared"</span>,</span>
+<span id="cb10-248"><a href="#cb10-248" aria-hidden="true" tabindex="-1"></a>    <span class="st">"max_absolute_difference"</span>, <span class="st">"n_difference_gt_0_001"</span>,</span>
+<span id="cb10-249"><a href="#cb10-249" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_hard_failures"</span></span>
+<span id="cb10-250"><a href="#cb10-250" aria-hidden="true" tabindex="-1"></a>  )],</span>
+<span id="cb10-251"><a href="#cb10-251" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="dv">9</span>,</span>
+<span id="cb10-252"><a href="#cb10-252" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-253"><a href="#cb10-253" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Direct reconstruction of stored CRU variables from CRU TS v4.09."</span></span>
+<span id="cb10-254"><a href="#cb10-254" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-255"><a href="#cb10-255" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-256"><a href="#cb10-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-257"><a href="#cb10-257" aria-hidden="true" tabindex="-1"></a>All 441 first-month values and all 426 available full-season values were reproduced to floating-point precision. This includes every one of the 414 post-1990 records. No reconstructed value differed by more than 0.001, and none crossed the prespecified hard thresholds of 0.01 degrees C for temperature/DTR or 0.1 mm for precipitation. The earlier failed within-season check used CRU TS v4.10 and an approximate grid lookup; it was a product-version and cell-mapping mismatch, not evidence that the post-1990 climate values lacked a source.</span>
+<span id="cb10-258"><a href="#cb10-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-259"><a href="#cb10-259" aria-hidden="true" tabindex="-1"></a>For a breeding window wholly within a calendar year, temperature and DTR are means across the named months and precipitation is their sum. For the 63 complete windows whose reported start month is later than the end month (for example, October--January), the **historically stored** full-season fields retained all named months under the record's single <span class="in">`climate_year`</span>: October--December and January were read from that same calendar year. Those fields and the corresponding same-year H1 fit are retained only as a provenance audit. In the final preregistered H1 analysis, the full-season means and within-season standard deviations were re-extracted from CRU TS v4.09 using the corrected calendar convention: months through December use <span class="in">`climate_year`</span>, and January-side months use <span class="in">`climate_year + 1`</span>. The product and recovered grid-cell mapping were first validated on 22 non-cross-year records from 1982--1990, with maximum absolute differences of $4.0\times10^{-9}$ degrees C and $4.8\times10^{-8}$ mm. This correction affects only full-season variables and H1; the main climate and anomaly models use the first breeding month and therefore require no refitting.</span>
+<span id="cb10-260"><a href="#cb10-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-261"><a href="#cb10-261" aria-hidden="true" tabindex="-1"></a><span class="fu">## NOAA NDVI products and extraction scale</span></span>
+<span id="cb10-262"><a href="#cb10-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-263"><a href="#cb10-263" aria-hidden="true" tabindex="-1"></a>The Earth Engine script in <span class="in">`ndvi_extraction/EPP_NDVI_NOAA_AVHRR_VIIRS_median_30x30km_first_full_records.js`</span> uses two daily NOAA Climate Data Record products:</span>
+<span id="cb10-264"><a href="#cb10-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-265"><a href="#cb10-265" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**NOAA Climate Data Record (CDR) of AVHRR Normalized Difference Vegetation Index (NDVI), Version 5**, Earth Engine collection <span class="co">[</span><span class="ot">`NOAA/CDR/AVHRR/NDVI/V5`</span><span class="co">](https://developers.google.com/earth-engine/datasets/catalog/NOAA_CDR_AVHRR_NDVI_V5)</span> and NOAA dataset <span class="co">[</span><span class="ot">doi:10.7289/V5ZG6QH9</span><span class="co">](https://doi.org/10.7289/V5ZG6QH9)</span>. The Earth Engine collection covers 24 June 1981 through 31 December 2013. It supplies 399 final-model records dated 1982--2013.</span>
+<span id="cb10-266"><a href="#cb10-266" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**NOAA Climate Data Record (CDR) of VIIRS Normalized Difference Vegetation Index (NDVI), Version 1**, Earth Engine collection <span class="co">[</span><span class="ot">`NOAA/CDR/VIIRS/NDVI/V1`</span><span class="co">](https://developers.google.com/earth-engine/datasets/catalog/NOAA_CDR_VIIRS_NDVI_V1)</span> and NOAA dataset <span class="co">[</span><span class="ot">doi:10.25921/gakh-st76</span><span class="co">](https://doi.org/10.25921/gakh-st76)</span>. The collection begins on 1 January 2014 and is continuing; it supplies the 42 final-model records dated 2014--2018.</span>
+<span id="cb10-267"><a href="#cb10-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-268"><a href="#cb10-268" aria-hidden="true" tabindex="-1"></a>Both products provide daily NDVI on the same **0.05-degree by 0.05-degree global grid**. Earth Engine reports a nominal band pixel size of **5,566 m**. Throughout this project, a *pixel* means one native 0.05-degree NOAA CDR grid cell at this nominal scale. It does not mean a native 375-m or 750-m VIIRS sensor observation, and it does not mean the complete 30-by-30-km extraction window. Because the source grid is geographic, 0.05 degrees is the defining spatial resolution and the physical east--west width of a grid cell decreases with latitude.</span>
+<span id="cb10-269"><a href="#cb10-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-270"><a href="#cb10-270" aria-hidden="true" tabindex="-1"></a>The script masks daily cells flagged as cloud, cloud shadow, water, sunglint, night, or invalid channel data and applies the catalog scale factor of 0.0001. For each record it constructs a square extending 15 km from the study coordinate in each direction. It then calculates the temporal median of valid daily NDVI **separately for every native product pixel** over the first breeding month or complete breeding window, followed by the arithmetic mean of those pixel-level medians across the 30-by-30-km square using <span class="in">`scale = 5566`</span>. Consequently, despite the historical column names, <span class="in">`ndvi_first_month_median_30km`</span> and <span class="in">`ndvi_full_season_median_30km`</span> are temporal-pixel medians followed by a spatial mean; they are not spatial medians of the 30-km window.</span>
+<span id="cb10-271"><a href="#cb10-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-272"><a href="#cb10-272" aria-hidden="true" tabindex="-1"></a><span class="fu">### NDVI missingness and spatial selectivity</span></span>
+<span id="cb10-273"><a href="#cb10-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-274"><a href="#cb10-274" aria-hidden="true" tabindex="-1"></a>Among the 571 response-complete records considered for the common environmental</span>
+<span id="cb10-275"><a href="#cb10-275" aria-hidden="true" tabindex="-1"></a>model frame, first-month NDVI was unavailable for 111. The extraction audit</span>
+<span id="cb10-276"><a href="#cb10-276" aria-hidden="true" tabindex="-1"></a>separated these cases without an unresolved remainder: 60 records could not be</span>
+<span id="cb10-277"><a href="#cb10-277" aria-hidden="true" tabindex="-1"></a>submitted with the required inputs because coordinates or the first breeding</span>
+<span id="cb10-278"><a href="#cb10-278" aria-hidden="true" tabindex="-1"></a>month were missing, while 51 had complete inputs but returned a null NDVI value</span>
+<span id="cb10-279"><a href="#cb10-279" aria-hidden="true" tabindex="-1"></a>because no valid pixel remained in the 30-by-30-km window after quality</span>
+<span id="cb10-280"><a href="#cb10-280" aria-hidden="true" tabindex="-1"></a>masking. The latter category is important because water, cloud, shadow,</span>
+<span id="cb10-281"><a href="#cb10-281" aria-hidden="true" tabindex="-1"></a>sunglint, night, and invalid-channel masks do not remove study systems at</span>
+<span id="cb10-282"><a href="#cb10-282" aria-hidden="true" tabindex="-1"></a>random.</span>
+<span id="cb10-283"><a href="#cb10-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-284"><a href="#cb10-284" aria-hidden="true" tabindex="-1"></a>At the species level, the complete-case restriction reduced the dataset from</span>
+<span id="cb10-285"><a href="#cb10-285" aria-hidden="true" tabindex="-1"></a>153 to 110 Clements species. Thirty-three of these 43 lost species had no</span>
+<span id="cb10-286"><a href="#cb10-286" aria-hidden="true" tabindex="-1"></a>usable NDVI record: 17 lacked extraction inputs for every record, 15 returned</span>
+<span id="cb10-287"><a href="#cb10-287" aria-hidden="true" tabindex="-1"></a>no valid pixel for every record, and one had both failure mechanisms across</span>
+<span id="cb10-288"><a href="#cb10-288" aria-hidden="true" tabindex="-1"></a>its records. The other 10 species had at least one NDVI value and were removed</span>
+<span id="cb10-289"><a href="#cb10-289" aria-hidden="true" tabindex="-1"></a>by another model-frame requirement. Nine of the 15 species lost entirely after</span>
+<span id="cb10-290"><a href="#cb10-290" aria-hidden="true" tabindex="-1"></a>NDVI masking belonged to unequivocal seabird families; the masked set also</span>
+<span id="cb10-291"><a href="#cb10-291" aria-hidden="true" tabindex="-1"></a>included island and high-latitude populations. Consequently, the environmental</span>
+<span id="cb10-292"><a href="#cb10-292" aria-hidden="true" tabindex="-1"></a>models under-represent marine, island, and polar study systems. This is a</span>
+<span id="cb10-293"><a href="#cb10-293" aria-hidden="true" tabindex="-1"></a>limitation on their ecological scope of inference, not only a loss of sample</span>
+<span id="cb10-294"><a href="#cb10-294" aria-hidden="true" tabindex="-1"></a>size. Record- and species-level classifications are retained in</span>
+<span id="cb10-295"><a href="#cb10-295" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">`ndvi_missingness_audit.csv`</span><span class="co">](data/processed/ndvi_missingness_audit.csv)</span> and</span>
+<span id="cb10-296"><a href="#cb10-296" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">`ndvi_species_loss_audit.csv`</span><span class="co">](data/processed/ndvi_species_loss_audit.csv)</span>.</span>
+<span id="cb10-297"><a href="#cb10-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-298"><a href="#cb10-298" aria-hidden="true" tabindex="-1"></a>The loss was also **phylogenetically structured at the order level**, rather</span>
+<span id="cb10-299"><a href="#cb10-299" aria-hidden="true" tabindex="-1"></a>than being dispersed evenly across the avian tree. Among Clements species,</span>
+<span id="cb10-300"><a href="#cb10-300" aria-hidden="true" tabindex="-1"></a>Suliformes declined from six represented species before environmental</span>
+<span id="cb10-301"><a href="#cb10-301" aria-hidden="true" tabindex="-1"></a>complete-case filtering to none in the final 441-record frame,</span>
+<span id="cb10-302"><a href="#cb10-302" aria-hidden="true" tabindex="-1"></a>Procellariiformes from nine to three, and Sphenisciformes from six to two.</span>
+<span id="cb10-303"><a href="#cb10-303" aria-hidden="true" tabindex="-1"></a>Thus, one order was removed completely and two marine orders lost most of</span>
+<span id="cb10-304"><a href="#cb10-304" aria-hidden="true" tabindex="-1"></a>their representation. This structural thinning is relevant to interpretation</span>
+<span id="cb10-305"><a href="#cb10-305" aria-hidden="true" tabindex="-1"></a>of the phylogenetic variance component and strengthens the limitation on</span>
+<span id="cb10-306"><a href="#cb10-306" aria-hidden="true" tabindex="-1"></a>inference to marine and polar lineages.</span>
+<span id="cb10-307"><a href="#cb10-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-308"><a href="#cb10-308" aria-hidden="true" tabindex="-1"></a><span class="fu">## Climate-anomaly sign and time windows</span></span>
+<span id="cb10-309"><a href="#cb10-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-310"><a href="#cb10-310" aria-hidden="true" tabindex="-1"></a>Climate anomalies are stored as signed differences: the CRU value in the study year minus the corresponding local baseline, never as an absolute deviation. For climate variable $x$, locality $i$, breeding month or window $m$, and study year $y$,</span>
+<span id="cb10-311"><a href="#cb10-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-312"><a href="#cb10-312" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-313"><a href="#cb10-313" aria-hidden="true" tabindex="-1"></a>A^{\mathrm{short}}_{i,m,y}=x_{i,m,y}-\frac{1}{5}\sum_{t=y-5}^{y-1}x_{i,m,t},</span>
+<span id="cb10-314"><a href="#cb10-314" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-315"><a href="#cb10-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-316"><a href="#cb10-316" aria-hidden="true" tabindex="-1"></a>and</span>
+<span id="cb10-317"><a href="#cb10-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-318"><a href="#cb10-318" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-319"><a href="#cb10-319" aria-hidden="true" tabindex="-1"></a>A^{\mathrm{long}}_{i,m,y}=x_{i,m,y}-\frac{1}{29}\sum_{t=1961}^{1989}x_{i,m,t}.</span>
+<span id="cb10-320"><a href="#cb10-320" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb10-321"><a href="#cb10-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-322"><a href="#cb10-322" aria-hidden="true" tabindex="-1"></a>Thus positive temperature anomalies denote warmer conditions and positive precipitation anomalies wetter conditions than the relevant local baseline. The primary anomaly models use only the first reported breeding-season month. A direct CRU TS v4.09 reconstruction reproduced every stored short- and long-baseline value and every signed anomaly for all 441 first-month records (and all 426 available full-season records), with no absolute difference greater than 0.001. Exact definitions, sign interpretation, standardization, and the independent algebraic identity check are also given in @sec-climate-anomaly-definitions.</span>
+<span id="cb10-323"><a href="#cb10-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-324"><a href="#cb10-324" aria-hidden="true" tabindex="-1"></a><span class="fu">## Computational environment</span></span>
+<span id="cb10-325"><a href="#cb10-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-328"><a href="#cb10-328" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-329"><a href="#cb10-329" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: computational-environment</span></span>
+<span id="cb10-330"><a href="#cb10-330" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb10-331"><a href="#cb10-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-332"><a href="#cb10-332" aria-hidden="true" tabindex="-1"></a>environment_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-333"><a href="#cb10-333" aria-hidden="true" tabindex="-1"></a>  <span class="at">item =</span> <span class="fu">c</span>(</span>
+<span id="cb10-334"><a href="#cb10-334" aria-hidden="true" tabindex="-1"></a>    <span class="st">"R (primary model fit)"</span>,</span>
+<span id="cb10-335"><a href="#cb10-335" aria-hidden="true" tabindex="-1"></a>    <span class="st">"R (later sensitivity and exact-reloo fits)"</span>,</span>
+<span id="cb10-336"><a href="#cb10-336" aria-hidden="true" tabindex="-1"></a>    <span class="st">"brms"</span>,</span>
+<span id="cb10-337"><a href="#cb10-337" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Stan interface"</span>,</span>
+<span id="cb10-338"><a href="#cb10-338" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Stan headers"</span>,</span>
+<span id="cb10-339"><a href="#cb10-339" aria-hidden="true" tabindex="-1"></a>    <span class="st">"loo"</span>,</span>
+<span id="cb10-340"><a href="#cb10-340" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cmdstanr"</span>,</span>
+<span id="cb10-341"><a href="#cb10-341" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Primary-fit platform"</span></span>
+<span id="cb10-342"><a href="#cb10-342" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-343"><a href="#cb10-343" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">c</span>(</span>
+<span id="cb10-344"><a href="#cb10-344" aria-hidden="true" tabindex="-1"></a>    <span class="st">"4.5.1"</span>,</span>
+<span id="cb10-345"><a href="#cb10-345" aria-hidden="true" tabindex="-1"></a>    <span class="st">"4.5.3"</span>,</span>
+<span id="cb10-346"><a href="#cb10-346" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2.23.0"</span>,</span>
+<span id="cb10-347"><a href="#cb10-347" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rstan 2.32.7"</span>,</span>
+<span id="cb10-348"><a href="#cb10-348" aria-hidden="true" tabindex="-1"></a>    <span class="st">"StanHeaders 2.32.10"</span>,</span>
+<span id="cb10-349"><a href="#cb10-349" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2.9.0"</span>,</span>
+<span id="cb10-350"><a href="#cb10-350" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Not used"</span>,</span>
+<span id="cb10-351"><a href="#cb10-351" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x86_64-w64-mingw32/x64; Windows 11 x64"</span></span>
+<span id="cb10-352"><a href="#cb10-352" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-353"><a href="#cb10-353" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-354"><a href="#cb10-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-355"><a href="#cb10-355" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb10-356"><a href="#cb10-356" aria-hidden="true" tabindex="-1"></a>  environment_summary,</span>
+<span id="cb10-357"><a href="#cb10-357" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Software or platform"</span>, <span class="st">"Version or specification"</span>),</span>
+<span id="cb10-358"><a href="#cb10-358" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-359"><a href="#cb10-359" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Audited software environment used for model fitting and LOO evaluation."</span></span>
+<span id="cb10-360"><a href="#cb10-360" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-361"><a href="#cb10-361" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-362"><a href="#cb10-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-363"><a href="#cb10-363" aria-hidden="true" tabindex="-1"></a>The Bayesian models were fitted in Stan through the <span class="in">`rstan`</span> backend used by</span>
+<span id="cb10-364"><a href="#cb10-364" aria-hidden="true" tabindex="-1"></a><span class="in">`brms`</span>; <span class="in">`cmdstanr`</span> was not used in this workflow. The primary model session was</span>
+<span id="cb10-365"><a href="#cb10-365" aria-hidden="true" tabindex="-1"></a>run under R 4.5.1. Later prior-sensitivity fits and the exact leave-one-out</span>
+<span id="cb10-366"><a href="#cb10-366" aria-hidden="true" tabindex="-1"></a>refits used R 4.5.3, while retaining the same versions of <span class="in">`brms`</span>, <span class="in">`rstan`</span>,</span>
+<span id="cb10-367"><a href="#cb10-367" aria-hidden="true" tabindex="-1"></a><span class="in">`StanHeaders`</span>, and <span class="in">`loo`</span>. These values are taken from the saved model-fitting</span>
+<span id="cb10-368"><a href="#cb10-368" aria-hidden="true" tabindex="-1"></a>session logs rather than from the software environment used only to render</span>
+<span id="cb10-369"><a href="#cb10-369" aria-hidden="true" tabindex="-1"></a>this website.</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

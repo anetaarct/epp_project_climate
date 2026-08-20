@@ -1,0 +1,356 @@
+﻿---
+title: "Environmental data sources"
+---
+
+## Overview
+
+This chapter documents the data sources used to construct the environmental and geographic predictors in the EPP climate analysis. It separates two things: the source products from which variables were derived, and the repository files needed to reproduce the analyses from the processed data.
+
+## Data sources
+
+```{r}
+#| label: main-environmental-data-sources
+#| echo: true
+
+source_table <- data.frame(
+  `Data component` = c(
+    "EPP records and metadata",
+    "Monthly climate",
+    "Climate anomalies",
+    "NDVI",
+    "Distance to coast",
+    "Taxonomy",
+    "Phylogeny"
+  ),
+  `Variables or objects used` = c(
+    "n_epp_broods, n_broods_sampled, species, population, location, breeding timing",
+    "tmp_*, pre_*, dtr_*",
+    "short- and long-term temperature and precipitation anomaly variables",
+    "ndvi_first_month_median_30km; ndvi_full_season_median_30km",
+    "distance_to_coast_km",
+    "Clements_name; species_phylo; species_nonphylo",
+    "summary_dated_clements.nex; phylo_mat"
+  ),
+  `Source or extraction route` = c(
+    "Compiled EPP dataset prepared for this project",
+    "CRU TS v4.09 monthly 0.5-degree climate fields for the breeding-season month or season",
+    "Derived from CRU TS v4.09 relative to local baseline conditions",
+    "NOAA CDR AVHRR NDVI v5 and VIIRS NDVI v1 extracted around study coordinates in Google Earth Engine",
+    "Derived from study coordinates",
+    "Clements Checklist v2025",
+    "Clements-matched dated avian phylogeny"
+  ),
+  `Repository status` = c(
+    "Included in final analysis-ready files",
+    "Derived variables included; original raw files absent; checked manifest and downloader now provided",
+    "Derived variables included; original raw files absent; checked manifest and downloader now provided",
+    "Derived variables included; Google Earth Engine products not redistributed",
+    "Final values included",
+    "Matched taxonomy included",
+    "Tree/covariance objects included where needed for modelling"
+  ),
+  check.names = FALSE
+)
+
+knitr::kable(source_table)
+```
+
+## Files needed to reproduce the analysis
+
+```{r}
+#| label: reproducibility-files
+#| echo: true
+
+reproducibility_files <- data.frame(
+  `File or folder` = c(
+    "epp_data_June2026.csv",
+    "metadata_June2026.csv",
+    "data/processed/dat_model_phylo.rds",
+    "data/processed/phylo_mat.rds",
+    "phylogeny/summary_dated_clements.nex",
+    "models/",
+    "models/climate_provenance/",
+    "figures/",
+    "*.qmd files and _quarto.yml",
+    "scripts/"
+  ),
+  `Purpose` = c(
+    "Final analysis-ready dataset containing EPP records, environmental predictors, geography, taxonomy, and derived covariates",
+    "Variable definitions and dataset metadata",
+    "Model-ready dataset with phylogenetic species identifiers",
+    "Phylogenetic covariance matrix used in Bayesian models",
+    "Source phylogenetic tree used to construct the covariance matrix",
+    "Saved model summaries, diagnostics, LOO outputs, and lightweight model outputs used by the book",
+    "CRU TS v4.09 archive manifest with download URLs and SHA-256 checksums, recovered grid-cell map, and record-level reconstruction audits",
+    "Saved figures called by the Quarto chapters",
+    "Book chapters and rendering configuration",
+    "R scripts used to fit models and create saved outputs"
+  ),
+  check.names = FALSE
+)
+
+knitr::kable(reproducibility_files)
+```
+
+The analyses reported in this project can be reproduced from the processed files included in the repository. Full re-extraction of environmental variables requires the CRU archives identified in the checked manifest and the Google Earth Engine products used for NDVI extraction. The large CRU NetCDF archives are not redistributed in this repository.
+
+::: {.callout-warning title="Raw-climate provenance limitation"}
+The original repository contained the derived CRU columns but **did not contain the post-1990 monthly NetCDF inputs, the original extraction script, or the original locality-to-cell lookup**. It was therefore not self-contained at the raw-climate level. CRU TS v4.09 and the used grid cells were identified later by exact empirical reconstruction of the stored values. This demonstrates a reproducible source for the columns, but it is a forensic reconstruction rather than proof that the original raw artifacts or extraction log were preserved.
+:::
+
+### Sanity check of the stored study-year values
+
+```{r}
+#| label: stored-cru-sanity-check
+#| echo: true
+
+dat_fit_cru_check <- readRDS(
+  "models/main_environmental_models/dat_main_environmental_models.rds"
+)
+dat_fit_cru_check$year <- dat_fit_cru_check$climate_year
+
+stored_cru_check <- data.frame(
+  records = nrow(dat_fit_cru_check),
+  min_year = min(dat_fit_cru_check$year, na.rm = TRUE),
+  max_year = max(dat_fit_cru_check$year, na.rm = TRUE),
+  records_after_1990 = sum(dat_fit_cru_check$year > 1990, na.rm = TRUE),
+  records_after_2010 = sum(dat_fit_cru_check$year > 2010, na.rm = TRUE),
+  missing_TMP = sum(is.na(dat_fit_cru_check$tmp_cru_C_first_month)),
+  missing_PRE = sum(is.na(dat_fit_cru_check$pre_cru_mm_first_month)),
+  missing_DTR = sum(is.na(dat_fit_cru_check$dtr_cru_C_first_month))
+)
+
+knitr::kable(
+  stored_cru_check,
+  row.names = FALSE,
+  caption = "Completeness of stored study-year CRU variables in the main model frame."
+)
+```
+
+```{r}
+#| label: stored-cru-warmest-post-2010
+#| echo: true
+
+warmest_post_2010 <- dat_fit_cru_check |>
+  dplyr::filter(year > 2010) |>
+  dplyr::select(
+    Clements_name, year, climate_month, lat, long,
+    abs_latitude, tmp_cru_C_first_month
+  ) |>
+  dplyr::arrange(dplyr::desc(tmp_cru_C_first_month)) |>
+  utils::head(10)
+
+knitr::kable(
+  warmest_post_2010,
+  digits = 2,
+  row.names = FALSE,
+  caption = "Ten warmest stored first-breeding-month records after 2010."
+)
+```
+
+The stored variables are therefore complete rather than truncated at 1990. Across the 414 post-1990 records, first-month temperature ranges from -2.0 to 35.6 degrees C, precipitation from 0 to 410.6 mm, and DTR from 3.9 to 19.8 degrees C. The warmest post-2010 observations occur in climatically plausible warm localities and breeding months. This check establishes that the processed values are populated and internally plausible; by itself it cannot identify the CRU release. The release attribution comes from the independent archive reconstruction below, which matches v4.09 rather than v4.10.
+
+## CRU TS product, years, and grid-cell provenance
+
+The temperature (`tmp`), precipitation (`pre`), and diurnal temperature range (`dtr`) variables in the analysis-ready data were extracted from **CRU TS v4.09**, a monthly gridded product at 0.5-degree resolution. The exact official archive release is `cruts.2503051245.v4.09`; the [CRU TS v4.09 archive](https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/) and variable-specific directories for [temperature](https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/cruts.2503051245.v4.09/tmp/), [precipitation](https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/cruts.2503051245.v4.09/pre/), and [diurnal temperature range](https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.09/cruts.2503051245.v4.09/dtr/) are publicly accessible. CRU describes the product and its 0.5-degree monthly grid on its [high-resolution climate-data page](https://crudata.uea.ac.uk/cru/data/hrg/). The product should be cited as Harris et al. (2020), [doi:10.1038/s41597-020-0453-3](https://doi.org/10.1038/s41597-020-0453-3).
+
+The actual study-year range used by `tmp_cru_C_first_month`, `pre_cru_mm_first_month`, and `dtr_cru_C_first_month` in the 441-record main model frame is **1982--2018**; all three variables are complete over this range. It is not a 1901--2018 extraction. The reconstruction therefore reads the 1981--1990, 1991--2000, 2001--2010, and 2011--2020 archives, with 414 records occurring after 1990. Temperature and precipitation archives for 1961--1980 are additionally required only to calculate the 1961--1989 long baseline and the earliest rolling five-year baselines. These files were absent from the audited repository. The newly checked manifest identifies 16 required archives totalling 701,912,161 bytes (approximately 0.65 GiB) and records every official URL, byte size, and SHA-256 checksum.
+
+The raw inputs can now be reobtained reproducibly, but they are still not committed to Git because of their size:
+
+```powershell
+python scripts/download_cru_ts_v409.py
+```
+
+The downloader stores them under `data_raw/cru_ts_4.09/`, verifies both byte count and SHA-256 before reporting success, and refuses to replace an existing nonmatching file unless `--force` is supplied explicitly.
+
+The original locality-to-cell lookup file was not retained. We therefore recovered the used grid cell empirically for each of 162 unique coordinates by comparing the stored first-month temperature and precipitation series with candidate CRU land cells within 100 km. Candidate cells were ranked first by the number of failures against the 0.01-degree-C/0.1-mm tolerances, then by scaled reconstruction error, and finally by distance. The selected cell reproduces all stored first-month values. Distance is the Haversine great-circle distance from the reported locality coordinates to the centre of the assigned 0.5-degree CRU grid cell, using an Earth radius of 6,371.0088 km. The recovered map is saved rather than recomputed during subsequent extraction. This step matters at coordinates lying exactly on a 0.5-degree cell boundary and at coastal localities, where a generic nearest-cell rule need not select the original land cell.
+
+```{r}
+#| label: cru-locality-cell-mapping
+#| echo: true
+
+cru_locality_mapping <- utils::read.csv(
+  "models/climate_provenance/cru_ts_4.09_locality_to_cell_mapping.csv",
+  check.names = FALSE
+)
+
+mapping_summary <- data.frame(
+  localities = nrow(cru_locality_mapping),
+  mean_distance_km = mean(cru_locality_mapping$locality_to_cell_distance_km),
+  maximum_distance_km = max(cru_locality_mapping$locality_to_cell_distance_km),
+  assignments_over_50_km = sum(cru_locality_mapping$locality_to_cell_distance_km > 50)
+)
+
+knitr::kable(
+  mapping_summary,
+  digits = 2,
+  row.names = FALSE,
+  caption = "Summary of recovered locality-to-CRU-cell assignments."
+)
+
+mapping_preview <- cru_locality_mapping |>
+  dplyr::arrange(dplyr::desc(locality_to_cell_distance_km)) |>
+  dplyr::select(
+    locality, assigned_cru_cell_lat, assigned_cru_cell_lon,
+    locality_to_cell_distance_km, n_model_records
+  ) |>
+  utils::head(10)
+
+knitr::kable(
+  mapping_preview,
+  digits = 3,
+  row.names = FALSE,
+  caption = "The ten most distant locality-to-cell assignments."
+)
+```
+
+The mean locality-to-cell distance is 19.35 km, the maximum is 35.96 km, and no assignment exceeds 50 km. The complete table provides the locality coordinates, `location_id`, population and species identifiers, assigned cell centre, distance, and reconstruction differences for all 162 localities: [download the complete locality-to-cell mapping](models/climate_provenance/cru_ts_4.09_locality_to_cell_mapping.csv). The corresponding post-1990 completeness and range summary is also retained as a [machine-readable CSV](models/climate_provenance/post1990_first_month_climate_sanity_check.csv).
+
+```{r}
+#| label: cru-provenance-audit
+#| echo: true
+
+cru_provenance_dir <- "models/climate_provenance"
+cru_reconstruction <- utils::read.csv(
+  file.path(cru_provenance_dir, "main_cru_v409_summary.csv"),
+  check.names = FALSE
+)
+
+audit_display <- subset(
+  cru_reconstruction,
+  period %in% c("post_1990", "all")
+)
+audit_display$variable <- c(
+  tmp_first = "Temperature, first month",
+  pre_first = "Precipitation, first month",
+  dtr_first = "DTR, first month",
+  tmp_full = "Temperature, full season",
+  pre_full = "Precipitation, full season",
+  dtr_full = "DTR, full season"
+)[audit_display$variable]
+
+knitr::kable(
+  audit_display[, c(
+    "period", "variable", "n_records_compared",
+    "max_absolute_difference", "n_difference_gt_0_001",
+    "n_hard_failures"
+  )],
+  digits = 9,
+  row.names = FALSE,
+  caption = "Direct reconstruction of stored CRU variables from CRU TS v4.09."
+)
+```
+
+All 441 first-month values and all 426 available full-season values were reproduced to floating-point precision. This includes every one of the 414 post-1990 records. No reconstructed value differed by more than 0.001, and none crossed the prespecified hard thresholds of 0.01 degrees C for temperature/DTR or 0.1 mm for precipitation. The earlier failed within-season check used CRU TS v4.10 and an approximate grid lookup; it was a product-version and cell-mapping mismatch, not evidence that the post-1990 climate values lacked a source.
+
+For a breeding window wholly within a calendar year, temperature and DTR are means across the named months and precipitation is their sum. For the 63 complete windows whose reported start month is later than the end month (for example, October--January), the **historically stored** full-season fields retained all named months under the record's single `climate_year`: October--December and January were read from that same calendar year. Those fields and the corresponding same-year H1 fit are retained only as a provenance audit. In the final preregistered H1 analysis, the full-season means and within-season standard deviations were re-extracted from CRU TS v4.09 using the corrected calendar convention: months through December use `climate_year`, and January-side months use `climate_year + 1`. The product and recovered grid-cell mapping were first validated on 22 non-cross-year records from 1982--1990, with maximum absolute differences of $4.0\times10^{-9}$ degrees C and $4.8\times10^{-8}$ mm. This correction affects only full-season variables and H1; the main climate and anomaly models use the first breeding month and therefore require no refitting.
+
+## NOAA NDVI products and extraction scale
+
+The Earth Engine script in `ndvi_extraction/EPP_NDVI_NOAA_AVHRR_VIIRS_median_30x30km_first_full_records.js` uses two daily NOAA Climate Data Record products:
+
+- **NOAA Climate Data Record (CDR) of AVHRR Normalized Difference Vegetation Index (NDVI), Version 5**, Earth Engine collection [`NOAA/CDR/AVHRR/NDVI/V5`](https://developers.google.com/earth-engine/datasets/catalog/NOAA_CDR_AVHRR_NDVI_V5) and NOAA dataset [doi:10.7289/V5ZG6QH9](https://doi.org/10.7289/V5ZG6QH9). The Earth Engine collection covers 24 June 1981 through 31 December 2013. It supplies 399 final-model records dated 1982--2013.
+- **NOAA Climate Data Record (CDR) of VIIRS Normalized Difference Vegetation Index (NDVI), Version 1**, Earth Engine collection [`NOAA/CDR/VIIRS/NDVI/V1`](https://developers.google.com/earth-engine/datasets/catalog/NOAA_CDR_VIIRS_NDVI_V1) and NOAA dataset [doi:10.25921/gakh-st76](https://doi.org/10.25921/gakh-st76). The collection begins on 1 January 2014 and is continuing; it supplies the 42 final-model records dated 2014--2018.
+
+Both products provide daily NDVI on the same **0.05-degree by 0.05-degree global grid**. Earth Engine reports a nominal band pixel size of **5,566 m**. Throughout this project, a *pixel* means one native 0.05-degree NOAA CDR grid cell at this nominal scale. It does not mean a native 375-m or 750-m VIIRS sensor observation, and it does not mean the complete 30-by-30-km extraction window. Because the source grid is geographic, 0.05 degrees is the defining spatial resolution and the physical east--west width of a grid cell decreases with latitude.
+
+The script masks daily cells flagged as cloud, cloud shadow, water, sunglint, night, or invalid channel data and applies the catalog scale factor of 0.0001. For each record it constructs a square extending 15 km from the study coordinate in each direction. It then calculates the temporal median of valid daily NDVI **separately for every native product pixel** over the first breeding month or complete breeding window, followed by the arithmetic mean of those pixel-level medians across the 30-by-30-km square using `scale = 5566`. Consequently, despite the historical column names, `ndvi_first_month_median_30km` and `ndvi_full_season_median_30km` are temporal-pixel medians followed by a spatial mean; they are not spatial medians of the 30-km window.
+
+### NDVI missingness and spatial selectivity
+
+Among the 571 response-complete records considered for the common environmental
+model frame, first-month NDVI was unavailable for 111. The extraction audit
+separated these cases without an unresolved remainder: 60 records could not be
+submitted with the required inputs because coordinates or the first breeding
+month were missing, while 51 had complete inputs but returned a null NDVI value
+because no valid pixel remained in the 30-by-30-km window after quality
+masking. The latter category is important because water, cloud, shadow,
+sunglint, night, and invalid-channel masks do not remove study systems at
+random.
+
+At the species level, the complete-case restriction reduced the dataset from
+153 to 110 Clements species. Thirty-three of these 43 lost species had no
+usable NDVI record: 17 lacked extraction inputs for every record, 15 returned
+no valid pixel for every record, and one had both failure mechanisms across
+its records. The other 10 species had at least one NDVI value and were removed
+by another model-frame requirement. Nine of the 15 species lost entirely after
+NDVI masking belonged to unequivocal seabird families; the masked set also
+included island and high-latitude populations. Consequently, the environmental
+models under-represent marine, island, and polar study systems. This is a
+limitation on their ecological scope of inference, not only a loss of sample
+size. Record- and species-level classifications are retained in
+[`ndvi_missingness_audit.csv`](data/processed/ndvi_missingness_audit.csv) and
+[`ndvi_species_loss_audit.csv`](data/processed/ndvi_species_loss_audit.csv).
+
+The loss was also **phylogenetically structured at the order level**, rather
+than being dispersed evenly across the avian tree. Among Clements species,
+Suliformes declined from six represented species before environmental
+complete-case filtering to none in the final 441-record frame,
+Procellariiformes from nine to three, and Sphenisciformes from six to two.
+Thus, one order was removed completely and two marine orders lost most of
+their representation. This structural thinning is relevant to interpretation
+of the phylogenetic variance component and strengthens the limitation on
+inference to marine and polar lineages.
+
+## Climate-anomaly sign and time windows
+
+Climate anomalies are stored as signed differences: the CRU value in the study year minus the corresponding local baseline, never as an absolute deviation. For climate variable $x$, locality $i$, breeding month or window $m$, and study year $y$,
+
+$$
+A^{\mathrm{short}}_{i,m,y}=x_{i,m,y}-\frac{1}{5}\sum_{t=y-5}^{y-1}x_{i,m,t},
+$$
+
+and
+
+$$
+A^{\mathrm{long}}_{i,m,y}=x_{i,m,y}-\frac{1}{29}\sum_{t=1961}^{1989}x_{i,m,t}.
+$$
+
+Thus positive temperature anomalies denote warmer conditions and positive precipitation anomalies wetter conditions than the relevant local baseline. The primary anomaly models use only the first reported breeding-season month. A direct CRU TS v4.09 reconstruction reproduced every stored short- and long-baseline value and every signed anomaly for all 441 first-month records (and all 426 available full-season records), with no absolute difference greater than 0.001. Exact definitions, sign interpretation, standardization, and the independent algebraic identity check are also given in @sec-climate-anomaly-definitions.
+
+## Computational environment
+
+```{r}
+#| label: computational-environment
+#| echo: true
+
+environment_summary <- data.frame(
+  item = c(
+    "R (primary model fit)",
+    "R (later sensitivity and exact-reloo fits)",
+    "brms",
+    "Stan interface",
+    "Stan headers",
+    "loo",
+    "cmdstanr",
+    "Primary-fit platform"
+  ),
+  value = c(
+    "4.5.1",
+    "4.5.3",
+    "2.23.0",
+    "rstan 2.32.7",
+    "StanHeaders 2.32.10",
+    "2.9.0",
+    "Not used",
+    "x86_64-w64-mingw32/x64; Windows 11 x64"
+  )
+)
+
+knitr::kable(
+  environment_summary,
+  col.names = c("Software or platform", "Version or specification"),
+  row.names = FALSE,
+  caption = "Audited software environment used for model fitting and LOO evaluation."
+)
+```
+
+The Bayesian models were fitted in Stan through the `rstan` backend used by
+`brms`; `cmdstanr` was not used in this workflow. The primary model session was
+run under R 4.5.1. Later prior-sensitivity fits and the exact leave-one-out
+refits used R 4.5.3, while retaining the same versions of `brms`, `rstan`,
+`StanHeaders`, and `loo`. These values are taken from the saved model-fitting
+session logs rather than from the software environment used only to render
+this website.
+

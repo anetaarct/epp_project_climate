@@ -1,6 +1,11 @@
-﻿project:
+project:
   type: book
   output-dir: docs
+  resources:
+    - models/climate_provenance/cru_ts_4.09_locality_to_cell_mapping.csv
+    - models/climate_provenance/post1990_first_month_climate_sanity_check.csv
+    - figures/model_adjusted_epp_phylogeny.pdf
+    - figures/model_adjusted_epp_by_species.csv
 
 book:
   title: "Environmental variation and extra-pair paternity in birds: a global comparative meta-analysis"
@@ -9,15 +14,22 @@ book:
   date: today
   chapters:
     - index.qmd
-    - 00_environmental_data_sources.qmd
-    - 01_data_preparation.qmd
-    - 02_taxonomy_matching.qmd
-    - 03_overall_model.qmd
-    - 04_pca_for_environmental_predictors.qmd
-    - 05_location_scale_models.qmd
-    - 06_sensitivity_models.qmd
-    - 07_location_scale_models.qmd
-    - 07_figures.qmd
+    - 01_environmental_data_sources.qmd
+    - 02_data_preparation.qmd
+    - 03_taxonomy_phylogeny.qmd
+    - 04_overall_model_structure.qmd
+    - 05_environmental_pca.qmd
+    - 06_main_environmental_models.qmd
+    - 07_registered_direct_predictor_model.qmd
+    - 08_anomaly_latitude_interactions.qmd
+    - 09_within_between_models.qmd
+    - 10_seasonal_temperature_variability.qmd
+    - 11_br_comparison.qmd
+    - 12_zero_inflated_models.qmd
+    - 13_withinseason_h1.qmd
+    - 14_absolute_anomaly_models.qmd
+    - 15_exploratory_location_scale_models.qmd
+    - 16_figures.qmd
   sidebar:
     style: docked
     collapse-level: 1

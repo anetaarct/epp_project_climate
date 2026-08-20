@@ -1,0 +1,317 @@
+---
+title: "Within- and between-population temperature-anomaly effects"
+---
+
+## Overview
+
+The main anomaly models estimate one coefficient for each climate anomaly. That coefficient combines two biologically different comparisons: differences in the average anomaly among populations and departures from a population's own average across its repeated records. This chapter restores the prespecified within-between distinction from objective (4). It asks whether extra-pair paternity (EPP) is associated with climate differences among populations, with temporal departures within the same population, or with both.
+
+This is a pair of confirmatory models: the short temperature anomaly is decomposed in one model and the long temperature anomaly in the other. The matching precipitation anomaly remains an unsplit adjustment covariate. DTR, NDVI, and the remaining environmental predictors are not decomposed because they are outside this specific hypothesis; DTR-anomaly analysis is a separate task.
+
+```{r}
+#| label: within-between-setup
+#| echo: true
+
+library(dplyr)
+library(knitr)
+
+model_dir <- "models/within_between_models"
+
+first_existing <- function(paths) {
+  existing <- paths[file.exists(paths)]
+  if (length(existing) == 0) return(NA_character_)
+  existing[1]
+}
+
+show_saved_summary <- function(summary_file, label) {
+  if (!is.na(summary_file) && file.exists(summary_file)) {
+    cat("<details><summary>", label, "</summary>\n\n```\n", sep = "")
+    cat(readLines(summary_file), sep = "\n")
+    cat("\n```\n</details>\n")
+  } else {
+    cat("Saved model summary is not available yet.")
+  }
+}
+
+show_saved_figure <- function(figure_file, missing_message) {
+  if (file.exists(figure_file)) knitr::include_graphics(figure_file) else cat(missing_message)
+}
+
+read_saved_csv <- function(path) {
+  utils::read.csv(path, check.names = FALSE, stringsAsFactors = FALSE)
+}
+
+coverage_file <- first_existing(file.path(model_dir, "within_between_population_coverage.csv"))
+distribution_file <- first_existing(file.path(model_dir, "within_between_population_distribution.csv"))
+checks_file <- first_existing(file.path(model_dir, "within_between_decomposition_checks.csv"))
+source_file <- first_existing(file.path(model_dir, "within_between_predictor_source_audit.csv"))
+variance_file <- first_existing(file.path(model_dir, "within_between_variance_partition.csv"))
+sd_summary_file <- first_existing(file.path(model_dir, "within_between_population_sd_summary.csv"))
+pair_dominance_file <- first_existing(file.path(model_dir, "within_between_pair_dominance.csv"))
+variance_dominance_file <- first_existing(file.path(model_dir, "within_between_variance_dominance.csv"))
+top_populations_file <- first_existing(file.path(model_dir, "within_between_top_populations.csv"))
+effects_file <- first_existing(file.path(model_dir, "within_between_anomaly_effects.csv"))
+contrasts_file <- first_existing(file.path(model_dir, "within_minus_between_contrasts.csv"))
+diagnostics_file <- first_existing(file.path(model_dir, "diagnostics_within_between_models.csv"))
+loo_file <- first_existing(file.path(model_dir, "loo_compare_within_between_models.csv"))
+pareto_file <- first_existing(file.path(model_dir, "loo_diagnostics_within_between_models.csv"))
+pareto_population_file <- first_existing(file.path(model_dir, "loo_pareto_k_population_summary.csv"))
+fixed_file <- first_existing(file.path(model_dir, "fixed_effects_within_between_models.csv"))
+pareto_audit_summary_file <- first_existing(file.path("models/pareto_k_audit", "pareto_k_model_summary.csv"))
+pareto_audit_high_file <- first_existing(file.path("models/pareto_k_audit", "pareto_k_unique_high_observations.csv"))
+```
+
+## Information available for the within-population effect
+
+The exact fitting frame contains 441 records from 171 populations. Of these populations, 102 (59.6%) have at least two records. The 69 singleton populations have a within-population deviation of exactly zero: they inform the between-population effect and the other model terms, but provide no information about the within-population slope. Thus, the between effect uses 171 populations, whereas the within effect is effectively estimated from 102 populations, and from 101 populations with genuinely nonzero temperature-anomaly variation.
+
+```{r}
+#| label: within-between-coverage
+if (!is.na(coverage_file)) kable(read_saved_csv(coverage_file), digits = 1)
+if (!is.na(distribution_file)) kable(read_saved_csv(distribution_file), digits = 0)
+```
+
+### Within-population variance
+
+The number of repeated populations alone does not establish identifiability. The tables below therefore report the distribution of within-population standard deviations and a record-weighted ANOVA decomposition of the predictor sum of squares. `proportion_variance_within` is the share of total temperature-anomaly variation lying within populations; the complementary share lies among population means.
+
+```{r}
+#| label: within-between-variance
+if (!is.na(sd_summary_file)) kable(read_saved_csv(sd_summary_file), digits = 3)
+if (!is.na(variance_file)) {
+  variance_table <- read_saved_csv(variance_file) |>
+    select(timescale, source_variable, proportion_variance_within,
+           proportion_variance_between, ss_reconstruction_error)
+  kable(variance_table, digits = 6)
+}
+```
+
+### Concentration in the best-studied populations
+
+Because the number of records per population is strongly skewed, we report both the proportion of all possible within-population record pairs contributed by the five and six largest populations and their share of the within-population anomaly sum of squares. The six-row population table avoids an arbitrary choice at the tie between populations with seven records.
+
+```{r}
+#| label: within-between-dominance
+if (!is.na(pair_dominance_file)) kable(read_saved_csv(pair_dominance_file), digits = 3)
+if (!is.na(variance_dominance_file)) kable(read_saved_csv(variance_dominance_file), digits = 3)
+if (!is.na(top_populations_file)) {
+  top_population_table <- read_saved_csv(top_populations_file) |>
+    filter(study_rank <= 6) |>
+    select(study_rank, Clements_name, n_records, n_pairs, latitude, longitude)
+  kable(top_population_table, digits = 2)
+}
+```
+
+## Within-population centring
+
+Following the within-subject-centring definition of [van de Pol and Wright (2009)](https://doi.org/10.1016/j.anbehav.2008.11.006), adapted here from subjects to populations, for temperature anomaly $x_{ij}$ in record $i$ from population $j$ the script constructs the population mean $\bar{x}_j$ and the within-population departure $x_{ij}-\bar{x}_j$. Both components use the centre and standard deviation of the original anomaly on the complete 441-row model frame:
+
+$$
+x^{between}_{ij} = \frac{\bar{x}_j - \bar{x}}{s_x}, \qquad
+x^{within}_{ij} = \frac{x_{ij} - \bar{x}_j}{s_x}.
+$$
+
+Here, $\bar{x}_j$ is explicitly the population mean of the **temperature anomaly**, not the mean of raw or baseline temperature. The source-variable audit below stops the script if a raw-temperature or baseline-temperature column is substituted. Using the same scale for both components makes the posterior contrast $\beta_{within}-\beta_{between}$ meaningful.
+
+```{r}
+#| label: within-between-source
+if (!is.na(source_file)) kable(read_saved_csv(source_file), digits = 3)
+```
+
+The identity $x^z_{ij}=x^{between}_{ij}+x^{within}_{ij}$ is only a coding sanity check, not a test of identifiability. The script also checks that within deviations sum to zero by population and that the literal reconstruction of `priors_mu` matches the main-model definition.
+
+```{r}
+#| label: within-between-checks
+if (!is.na(checks_file)) {
+  checks <- read_saved_csv(checks_file) |>
+    select(timescale, climate, n_populations_with_variation,
+           n_records_in_varying_populations, proportion_variance_within,
+           proportion_variance_between, max_abs_within_population_sum,
+           max_abs_reconstruction_error, ss_reconstruction_error)
+  kable(checks, digits = 12)
+}
+```
+
+## Model set
+
+| Model | Decomposed climate terms | Other covariates |
+|---|---|---|
+| Short anomaly | short temperature anomaly: between + within | unsplit short precipitation anomaly, absolute latitude, distance to coast, nest box, marker type |
+| Long anomaly | long temperature anomaly: between + within | unsplit long precipitation anomaly, absolute latitude, distance to coast, nest box, marker type |
+
+Both models retain the beta-binomial response, `phi ~ 1`, and the population, non-phylogenetic species, and phylogenetic species random intercepts used in the matching main-effects models.
+
+## Short-anomaly model
+
+```{r}
+#| label: within-between-short-code
+#| eval: false
+m_within_between_short <- brms::brm(
+  brms::bf(
+    n_epp_broods | trials(n_broods_sampled) ~
+      tmp_short_anom_between_z + tmp_short_anom_within_z +
+      pre_short_anom_5yr_mm_first_month_z +
+      abs_latitude_z + distance_to_coast_z + nest_box + marker_type +
+      (1 | population_id) + (1 | species_nonphylo) +
+      (1 | gr(species_phylo, cov = phylo_mat_fit)),
+    phi ~ 1
+  ),
+  data = dat_fit, data2 = list(phylo_mat_fit = phylo_mat_fit),
+  family = brms::beta_binomial(link = "logit", link_phi = "log"),
+  prior = priors_mu, chains = 4, cores = 4, iter = 10000, warmup = 5000,
+  control = list(adapt_delta = 0.99, max_treedepth = 15), seed = 1415,
+  save_pars = brms::save_pars(all = TRUE)
+)
+```
+
+```{r}
+#| label: within-between-short-summary
+#| results: asis
+show_saved_summary(first_existing(file.path(model_dir, "summary_m_within_between_short.txt")),
+                   "Show summary for the short-anomaly within-between model")
+```
+
+## Long-anomaly model
+
+```{r}
+#| label: within-between-long-code
+#| eval: false
+m_within_between_long <- brms::brm(
+  brms::bf(
+    n_epp_broods | trials(n_broods_sampled) ~
+      tmp_long_anom_between_z + tmp_long_anom_within_z +
+      pre_long_anom_1961_1989_mm_first_month_z +
+      abs_latitude_z + distance_to_coast_z + nest_box + marker_type +
+      (1 | population_id) + (1 | species_nonphylo) +
+      (1 | gr(species_phylo, cov = phylo_mat_fit)),
+    phi ~ 1
+  ),
+  data = dat_fit, data2 = list(phylo_mat_fit = phylo_mat_fit),
+  family = brms::beta_binomial(link = "logit", link_phi = "log"),
+  prior = priors_mu, chains = 4, cores = 4, iter = 10000, warmup = 5000,
+  control = list(adapt_delta = 0.99, max_treedepth = 15), seed = 1417,
+  save_pars = brms::save_pars(all = TRUE)
+)
+```
+
+```{r}
+#| label: within-between-long-summary
+#| results: asis
+show_saved_summary(first_existing(file.path(model_dir, "summary_m_within_between_long.txt")),
+                   "Show summary for the long-anomaly within-between model")
+```
+
+## Anomaly effects
+
+The coefficients below are on the same one-standard-deviation scale as the original anomaly variables. The between-population term describes differences among population means; the within-population term describes departures from the same population's own mean.
+
+```{r}
+#| label: within-between-effects
+if (!is.na(effects_file)) {
+  effects <- read_saved_csv(effects_file) |>
+    select(model, timescale, climate, level, estimate, lower, upper,
+           prob_positive, prob_negative)
+  kable(effects, digits = 3)
+}
+```
+
+Neither decomposition produced a clearly estimated anomaly effect. For the
+short anomaly, the between-population coefficient was -0.006 (95% CrI -0.205
+to 0.192) and the within-population coefficient was 0.055 (-0.027 to 0.138).
+For the long anomaly, the corresponding estimates were -0.017 (-0.209 to
+0.171) and 0.070 (-0.021 to 0.158). The within-population means are modestly
+positive, but all four intervals include zero; the data therefore do not
+provide a precise separation of within- from between-population effects.
+
+```{r}
+#| label: within-between-figure
+#| fig-cap: "Posterior estimates for climate-anomaly effects separated into between-population means and within-population departures. Points are posterior medians and bars are 95% credible intervals."
+show_saved_figure("figures/within_between_anomaly_effects.png",
+                  "Within-between coefficient figure will appear after model fitting.")
+```
+
+## Direct within-minus-between contrasts
+
+Because both components retain the original anomaly scale, a contrast of zero corresponds to equal within- and between-population slopes.
+
+```{r}
+#| label: within-between-contrasts
+if (!is.na(contrasts_file)) kable(read_saved_csv(contrasts_file), digits = 3)
+```
+
+Both direct contrasts also included zero: 0.061 (95% CrI -0.153 to 0.274) for
+the short anomaly and 0.086 (-0.121 to 0.297) for the long anomaly.
+
+## Diagnostics
+
+```{r}
+#| label: within-between-diagnostics
+if (!is.na(diagnostics_file)) kable(read_saved_csv(diagnostics_file), digits = 2)
+```
+
+Both models mixed well (maximum R-hat 1.003, minimum ESS above 1,500, no
+divergences, and no maximum-treedepth hits).
+
+## LOO comparison with the unsplit models
+
+Each decomposed model is compared only with the matching main model containing one common coefficient for the temperature anomaly. Pareto-`k` diagnostics are shown explicitly. The second table lists population-level maxima so that influential observations can be checked against the best-studied populations; observation-level values are also saved by the fitting script.
+
+```{r}
+#| label: within-between-loo
+if (!is.na(loo_file)) kable(read_saved_csv(loo_file), digits = 2)
+if (!is.na(pareto_file)) kable(read_saved_csv(pareto_file), digits = 2)
+if (!is.na(pareto_population_file)) {
+  influential_populations <- read_saved_csv(pareto_population_file) |>
+    group_by(model) |>
+    slice_max(order_by = max_pareto_k, n = 10, with_ties = FALSE) |>
+    ungroup()
+  kable(influential_populations, digits = 3)
+}
+```
+
+The observation-level audit does not support domination by the best-studied
+populations: none of the observations with Pareto $k>0.7$ came from the five
+largest populations, and the median record count of their populations was one.
+Tropical records were nevertheless overrepresented. They form 8.4% of the
+full model frame but 22--40% of the high-$k$ observations across the decomposed
+and matched unsplit models. The recurring low-latitude cases include *Ardea
+ibis* and *Spheniscus humboldti*. Thus the predictive difficulty is associated
+more with sparse, extreme observations---including tropical ones---than with
+the repeatedly sampled tit and flycatcher populations that contribute many
+within-population contrasts.
+
+```{r}
+#| label: within-between-pareto-audit
+if (!is.na(pareto_audit_summary_file)) {
+  pareto_audit_summary <- read_saved_csv(pareto_audit_summary_file) |>
+    filter(analysis == "within_between") |>
+    select(model, max_pareto_k, n_pareto_k_gt_0_7, n_pareto_k_gt_1,
+           n_high_tropical, proportion_high_tropical,
+           n_high_top5_population, median_population_records_high)
+  kable(pareto_audit_summary, digits = 3,
+        caption = "Inspected Pareto-k observations in within-between and matched models.")
+}
+if (!is.na(pareto_audit_high_file)) {
+  pareto_audit_cases <- read_saved_csv(pareto_audit_high_file) |>
+    filter(analysis == "within_between") |>
+    arrange(desc(max_pareto_k)) |>
+    select(species, family, order, abs_latitude, tropical,
+           population_record_count, n_broods_sampled, observed_epp_rate,
+           models_high, max_pareto_k)
+  kable(pareto_audit_cases, digits = 3,
+        caption = "Unique observations with Pareto k above 0.7.")
+}
+```
+
+The scientific conclusion is based on the posterior within- and
+between-population coefficients and their uncertainty, not on the approximate
+ELPD ranking. Exact `reloo` will be required before any formal LOO comparison
+from this chapter is placed in the submitted manuscript; until then the LOO
+table is retained as a diagnostic only.
+
+## All fixed effects
+
+```{r}
+#| label: within-between-fixed-effects
+if (!is.na(fixed_file)) kable(read_saved_csv(fixed_file), digits = 3)
+```

@@ -1,0 +1,481 @@
+---
+title: "Comparison with Botero & Rubenstein (2012)"
+---
+
+## Overview
+
+Botero and Rubenstein (2012) analysed the proportion of nests containing
+extra-pair young, the same response definition used here, but aggregated the
+data to one value per species. Their only retained climate association for
+infidelity was a weak positive effect of within-year temperature variance
+($\beta = 0.042$, $P = 0.041$) in a final model with $R^2 = 0.08$. This chapter
+tests that predictor directly in the present population-resolved,
+beta-binomial phylogenetic framework and then reproduces their species-level
+PGLS workflow on our data. The comparison is framed as a test of
+generalisability, not as a claim that the earlier result was strong.
+
+::: {.callout-warning title="Scope of the comparison: context, not a formal replication"}
+Only **44 of the 122 species** in B&R's infidelity dataset occur in the
+present annual-data model set. This limited overlap is driven primarily by
+our requirement for year-resolved population records, not by failed taxonomy:
+all 122 B&R names were resolved to Clements v2025. In addition, adult
+mortality and coloniality, which entered B&R's candidate model, are not
+available consistently in our dataset. Our models instead retain the
+pre-specified phylogenetic, population, marker-type, and nest-box controls.
+
+Consequently, the analyses in this chapter provide **comparative context and
+a test of generalisability**, not a formal replication of B&R's complete
+analysis. The separate Table S1 check below validates the PGLS implementation
+on their original response and predictors; it does not remove the differences
+in species coverage, covariates, or phylogeny.
+:::
+
+```{r}
+#| label: br-setup
+#| echo: true
+
+library(dplyr)
+library(readr)
+library(knitr)
+
+model_dir <- "models/br_comparison_v409"
+legacy_model_dir <- "models/br_comparison"
+
+# Base R's reader is used here because vroom/readr can fail to open otherwise
+# valid relative paths when the Windows project path contains non-ASCII text.
+read_csv_safe <- function(path) {
+  utils::read.csv(path, check.names = FALSE, stringsAsFactors = FALSE)
+}
+
+show_saved_summary <- function(summary_file, label) {
+  if (file.exists(summary_file)) {
+    cat("<details><summary>", label, "</summary>\n\n```\n", sep = "")
+    cat(readLines(summary_file), sep = "\n")
+    cat("\n```\n</details>\n")
+  } else {
+    cat("Saved model summary is not available yet.")
+  }
+}
+
+show_csv <- function(filename, digits = 3) {
+  path <- file.path(model_dir, filename)
+  if (file.exists(path)) {
+    knitr::kable(read_csv_safe(path), digits = digits)
+  } else {
+    cat("Saved output is not available yet.")
+  }
+}
+
+show_legacy_csv <- function(filename, digits = 3) {
+  path <- file.path(legacy_model_dir, filename)
+  if (file.exists(path)) {
+    knitr::kable(read_csv_safe(path), digits = digits)
+  } else {
+    cat("Saved version-invariant output is not available yet.")
+  }
+}
+```
+
+## Climate reconstruction
+
+Monthly CRU TS v4.09 temperature and precipitation were extracted at the
+audited 0.5-degree locality cells. The locality-to-cell assignments were held
+fixed while changing the CRU product version, so the v4.09--v4.10 comparison
+does not conflate product version with spatial remapping. All populations use
+the fixed 1961--1990 reference window, preventing the derived climate
+descriptors from being confounded with study year. No climate value was
+imputed. Sites without a reported breeding-season end month retain the two
+within-year metrics but are excluded from analyses requiring among-year
+breeding-season variance.
+
+Breeding seasons that cross December/January are treated as one continuous
+season: months from the reported start through December use reference year
+$y$, whereas January-side months use $y+1$. Thus, a season beginning in 1990
+may use calendar months from 1991. The v4.09 extraction consequently includes
+the 1991--2000 archives solely to complete the 1961--1990 reference seasons.
+All 23 unique cross-year locality--season combinations (63 population-year
+records) retained 30 complete temperature and precipitation seasons.
+
+For variable $x$ in year $y$, within-year variance is
+$s_y^2 = \operatorname{Var}(x_{y,1}, \ldots, x_{y,12})$; the locality value is
+the mean of $s_y^2$ across 1961--1990. Among-year variance is the variance,
+across those 30 years, of the mean over the reported breeding-season months.
+The four variables are:
+
+| Variable | Definition |
+|---|---|
+| `br_tmp_withinyear_var` | Mean annual variance of the 12 monthly temperatures |
+| `br_pre_withinyear_var` | Mean annual variance of the 12 monthly precipitation totals |
+| `br_tmp_amongyear_var` | Variance among annual breeding-season mean temperatures |
+| `br_pre_amongyear_var` | Variance among annual breeding-season mean precipitation totals |
+
+Each predictor is standardised only after complete-case filtering of its own
+model frame. DTR is not included in the comparison models: daily thermal
+amplitude and B&R's seasonal monthly variance are different quantities.
+
+```{r}
+#| label: br-source-manifests
+cru_manifest_path <- file.path(model_dir, "cru_ts_4.09_file_manifest.csv")
+if (file.exists(cru_manifest_path)) {
+  read_csv_safe(cru_manifest_path) %>%
+    mutate(sha256 = paste0(substr(sha256, 1, 12), "...")) %>%
+    kable(digits = 0)
+}
+
+table_manifest_path <- file.path(legacy_model_dir, "br_table_s1_source_manifest.csv")
+if (file.exists(table_manifest_path)) {
+  read_csv_safe(table_manifest_path) %>%
+    select(
+      article, doi, pmcid, source_file, source_sheet,
+      source_species_rows, retrieved_date
+    ) %>%
+    kable(digits = 0)
+}
+```
+
+```{r}
+#| label: br-model-frames
+show_csv("br_model_frame_checks.csv", digits = 0)
+show_csv("br_scaling_parameters.csv", digits = 3)
+show_csv("br_record_level_season_audit.csv", digits = 0)
+show_csv("br_v409_vs_v410_record_comparison.csv", digits = 3)
+```
+
+B1 and B1b retain all 441 records. B2 contains 426 records because 15 records
+lack a reported breeding-season end month; this is the only loss introduced
+by its among-year seasonal predictors. The version comparison is presented
+as an audit, not as a model-selection exercise. In particular, precipitation
+among-year variance changes only for cross-year seasons, as expected from the
+calendar-year correction.
+
+## Relation to the existing environmental predictors
+
+The correlation panel distinguishes B&R's seasonal temperature variance from
+our raw temperature, DTR, absolute latitude, and thermal-geographic PC1.
+
+```{r}
+#| label: br-correlation-panel
+panel_path <- file.path(model_dir, "br_correlation_panel.csv")
+if (file.exists(panel_path)) {
+  panel <- read_csv_safe(panel_path) %>%
+    filter(variable_1 == "br_tmp_withinyear_var", variable_2 != variable_1)
+  kable(panel, digits = 3)
+}
+```
+
+PC1 is not a pure temperature-variability axis. Its largest relevant loadings
+are positive for mean temperature and DTR and negative for absolute latitude;
+distance to coast also contributes. The raw-predictor sensitivity model is
+therefore required to decide whether its weak positive effect can be assigned
+to any one measured variable.
+
+```{r}
+#| label: br-pc1-resolution
+loadings_path <- "models/pca_environment_model_set/pca_loadings_environment_geography.csv"
+sensitivity_path <- "models/sensitivity_models/fixed_effects_sensitivity_models.csv"
+if (file.exists(loadings_path)) {
+  read_csv_safe(loadings_path) %>%
+    select(variable, PC1_thermal_geographic) %>%
+    arrange(desc(abs(PC1_thermal_geographic))) %>%
+    kable(digits = 3)
+}
+if (file.exists(sensitivity_path)) {
+  read_csv_safe(sensitivity_path) %>%
+    filter(
+      component == "mu",
+      predictor %in% c("Mean temperature", "DTR", "Absolute latitude", "Distance to coast")
+    ) %>%
+    select(model, predictor, estimate, lower, upper, prob_positive, prob_negative) %>%
+    kable(digits = 3)
+}
+```
+
+## Validation of the PGLS pipeline on B&R Table S1
+
+Before applying the species-level PGLS workflow to our data, we tested it on
+the 122 original infidelity rows in B&R Table S1. The source workbook is
+accepted only if its SHA-256 checksum and row count match the recorded source
+manifest. Following the reported final infidelity model, the response is the
+arcsine-square-root transformation of the proportion of broods with EPP;
+adult mortality and within-year temperature variance are standardised; and a
+PGLS with Pagel's lambda is fitted. This checksum-verified validation uses
+B&R's published Table S1 values and is therefore invariant to our CRU product
+version; its existing validated fit is retained rather than needlessly
+refitted.
+
+```{r}
+#| label: br-pgls-validation-code
+#| eval: false
+m_br_table_s1_validation_pgls <- phylolm::phylolm(
+  epp_arcsine_sqrt ~
+    adult_mortality_z + within_year_temperature_variance_z,
+  data = dat_br_table_s1,
+  phy = phy_br_table_s1,
+  model = "lambda"
+)
+```
+
+```{r}
+#| label: br-pgls-validation-results
+show_legacy_csv("br_pgls_pipeline_validation.csv", digits = 4)
+```
+
+```{r}
+#| label: br-pgls-validation-summary
+#| results: asis
+show_saved_summary(
+  file.path(legacy_model_dir, "summary_m_br_table_s1_validation_pgls.txt"),
+  "Show summary for the Table S1 validation PGLS"
+)
+```
+
+The reproduced temperature-seasonality coefficient is required
+programmatically to round to B&R's published value of **0.042**; a mismatch
+stops the pipeline. The original RAxML tree is available in the article
+package only as a plotted PDF rather than a machine-readable tree with branch
+lengths. We therefore use the current dated Clements tree pruned to the 122
+Table S1 species. The coefficient is the primary implementation check;
+differences in the reproduced $t$, $P$, and lambda are retained in the table
+as transparent secondary consequences of using a different phylogeny.
+
+## Bayesian comparison models
+
+The priors are reproduced literally from the main fitting script and compared
+programmatically with its parsed `priors_mu` assignment before fitting. A
+difference stops the script. All three models otherwise use the main model's
+beta-binomial family, sampler settings, population random intercept,
+non-phylogenetic species intercept, phylogenetic covariance, nest-box effect,
+and marker-type effect. Coloniality and adult mortality were unavailable and
+were not replaced by new proxies.
+
+### B1: retained B&R predictor
+
+```{r}
+#| label: br-b1-code
+#| eval: false
+m_br_tmp_withinyear <- brms::brm(
+  brms::bf(
+    n_epp_broods | trials(n_broods_sampled) ~
+      br_tmp_withinyear_var_z + nest_box + marker_type +
+      (1 | population_id) + (1 | species_nonphylo) +
+      (1 | gr(species_phylo, cov = phylo_cov)),
+    phi ~ 1
+  ),
+  data = dat_b1,
+  data2 = list(phylo_cov = phylo_b1),
+  family = brms::beta_binomial(link = "logit", link_phi = "log"),
+  prior = priors_mu,
+  chains = 4, cores = 4, iter = 10000, warmup = 5000,
+  control = list(adapt_delta = 0.99, max_treedepth = 15),
+  seed = 2411,
+  save_pars = brms::save_pars(all = TRUE)
+)
+```
+
+```{r}
+#| label: br-b1-summary
+#| results: asis
+show_saved_summary(
+  file.path(model_dir, "summary_m_br_tmp_withinyear.txt"),
+  "Show summary for B1"
+)
+```
+
+### B1b: retained B&R predictor adjusted for latitude
+
+B1 is deliberately left without latitude because it is the direct,
+head-to-head test of B&R's retained seasonality predictor. B1b is a separate
+confounding test: it adds standardised absolute latitude to the otherwise
+identical model. This distinction matters because within-year temperature
+variance and absolute latitude are appreciably associated in these data
+($r = 0.400$), precisely the concern raised for this literature by
+[Brouwer and Griffith (2019)](https://doi.org/10.1111/mec.15259).
+
+```{r}
+#| label: br-b1b-code
+#| eval: false
+m_br_tmp_withinyear_latitude <- brms::brm(
+  brms::bf(
+    n_epp_broods | trials(n_broods_sampled) ~
+      br_tmp_withinyear_var_z + abs_latitude_z +
+      nest_box + marker_type +
+      (1 | population_id) + (1 | species_nonphylo) +
+      (1 | gr(species_phylo, cov = phylo_cov)),
+    phi ~ 1
+  ),
+  data = dat_b1,
+  data2 = list(phylo_cov = phylo_b1),
+  family = brms::beta_binomial(link = "logit", link_phi = "log"),
+  prior = priors_mu,
+  chains = 4, cores = 4, iter = 10000, warmup = 5000,
+  control = list(adapt_delta = 0.99, max_treedepth = 15),
+  seed = 2412,
+  save_pars = brms::save_pars(all = TRUE)
+)
+```
+
+```{r}
+#| label: br-b1b-summary
+#| results: asis
+show_saved_summary(
+  file.path(model_dir, "summary_m_br_tmp_withinyear_latitude.txt"),
+  "Show summary for B1b"
+)
+```
+
+### B2: full variance set
+
+```{r}
+#| label: br-b2-code
+#| eval: false
+m_br_full_climate <- brms::brm(
+  brms::bf(
+    n_epp_broods | trials(n_broods_sampled) ~
+      br_tmp_withinyear_var_z + br_pre_withinyear_var_z +
+      br_tmp_amongyear_var_z + br_pre_amongyear_var_z +
+      nest_box + marker_type +
+      (1 | population_id) + (1 | species_nonphylo) +
+      (1 | gr(species_phylo, cov = phylo_cov)),
+    phi ~ 1
+  ),
+  data = dat_b2,
+  data2 = list(phylo_cov = phylo_b2),
+  family = brms::beta_binomial(link = "logit", link_phi = "log"),
+  prior = priors_mu,
+  chains = 4, cores = 4, iter = 10000, warmup = 5000,
+  control = list(adapt_delta = 0.99, max_treedepth = 15),
+  seed = 2413,
+  save_pars = brms::save_pars(all = TRUE)
+)
+```
+
+```{r}
+#| label: br-b2-summary
+#| results: asis
+show_saved_summary(
+  file.path(model_dir, "summary_m_br_full_climate.txt"),
+  "Show summary for B2"
+)
+```
+
+### Bayesian results and diagnostics
+
+All four B2 climate coefficients are reported; no backward elimination is
+used. Predictor VIFs and posterior coefficient correlations are retained so
+that collinearity is reported rather than resolved by selecting a preferred
+coefficient.
+
+```{r}
+#| label: br-bayesian-results
+show_csv("br_b1_b1b_seasonality_comparison.csv", digits = 3)
+show_csv("fixed_effects_br_models.csv", digits = 3)
+show_csv("br_fixed_effects_v409_vs_v410.csv", digits = 3)
+show_csv("diagnostics_br_models.csv", digits = 2)
+show_csv("br_predictor_vif_b2.csv", digits = 2)
+show_csv("br_posterior_coefficient_correlations_b2.csv", digits = 2)
+```
+
+B1 provides no support for the positive B&R association: the standardised
+within-year temperature-variance coefficient is approximately $-0.05$
+(95% CrI $[-0.23, 0.13]$). In B1b it remains null at approximately $-0.02$
+($[-0.21, 0.17]$), while absolute latitude is also unsupported at
+approximately $-0.11$ ($[-0.32, 0.10]$). Thus, adjustment for latitude does
+not uncover an independent seasonality effect, and neither predictor explains
+the other's null association. Exact posterior summaries and diagnostics are
+reported in the tables above.
+
+In B2, neither temperature coefficient is supported: within-year temperature
+variance is $-0.085$ (95% CrI $[-0.296, 0.128]$) and among-year seasonal
+temperature variance is $0.026$ ($[-0.162, 0.213]$). Within-year
+precipitation variance is negative at $-0.221$ ($[-0.445, -0.001]$,
+probability of direction $=0.976$), whereas among-year seasonal precipitation
+variance is positive but uncertain at $0.190$ ($[-0.014, 0.394]$,
+probability of direction $=0.966$). The former interval only narrowly excludes
+zero and its v4.09 estimate differs from the v4.10 estimate by $-0.001$; the
+threshold crossing is therefore not a material product-version effect. With
+four correlated climate predictors and no backward elimination, it is treated
+as a weak secondary signal rather than a selected independent effect.
+
+## C1: Species-level PGLS on our data
+
+To separate a methodological difference from a sampling difference, the
+current observations are aggregated to species means, EPP is transformed as
+$\arcsin(\sqrt{p})$, the climate predictors are standardised, and a PGLS with
+Pagel's $\lambda$ is fitted. The model contains within-year temperature and
+precipitation variance and uses the same Clements-matched phylogeny. This is a
+supplementary decomposition of the discrepancy, not a preferred primary model.
+
+```{r}
+#| label: br-pgls-results
+show_csv("coefficients_br_species_pgls.csv", digits = 4)
+show_csv("summary_metrics_br_species_pgls.csv", digits = 4)
+```
+
+```{r}
+#| label: br-pgls-summary
+#| results: asis
+show_saved_summary(
+  file.path(model_dir, "summary_m_br_species_pgls.txt"),
+  "Show summary for the species-level PGLS"
+)
+```
+
+On the v4.09 reconstruction, neither species-level coefficient differs from
+zero: within-year temperature variance is $-0.0035$ (SE $=0.0282$,
+$P=0.902$) and within-year precipitation variance is $-0.0054$
+(SE $=0.0255$, $P=0.833$; 110 species). Thus, applying B&R's species-level
+aggregation and response transformation to the present data does not recover
+their positive temperature-seasonality association.
+
+## Species overlap with the original study
+
+Species names from the 122-row infidelity sheet in B&R Table S1 were matched
+to the local Clements v2025 checklist. Exact scientific-name matches were used
+first, followed by exact English-name matches. Non-exact assignments were
+accepted only when the relevant Clements split or infraspecific-group row was
+verified automatically. The source spelling, Clements name, matching method,
+and overlap indicator are all retained in the crosswalk.
+
+```{r}
+#| label: br-species-overlap-summary
+show_legacy_csv("br_species_overlap_summary.csv", digits = 0)
+```
+
+```{r}
+#| label: br-species-overlap-crosswalk
+crosswalk_path <- file.path(legacy_model_dir, "br_species_overlap_crosswalk.csv")
+if (file.exists(crosswalk_path)) {
+  read_csv_safe(crosswalk_path) %>%
+    select(
+      br_scientific_name_original,
+      br_common_name_original,
+      clements_name,
+      match_method,
+      match_status,
+      in_current_data
+    ) %>%
+    kable()
+}
+```
+
+## Interpretation rule
+
+The head-to-head conclusion is based on B1; B1b must not replace it. B1b asks
+whether the seasonality coefficient contains information independent of
+absolute latitude. If the coefficient is attenuated or loses posterior support
+after adding latitude, while latitude itself remains unsupported in the main
+latitude sensitivity analysis and in B1b, the B&R association is statistically
+indistinguishable from a null latitudinal gradient. That is a separate result,
+not evidence that latitude explains EPP.
+
+If B1's 95% credible interval for within-year temperature variance includes
+zero and the species-level PGLS is also null, the discrepancy is attributed
+primarily to data and sampling rather than to species averaging or the arcsine
+transformation. B&R's among-year
+breeding-season variance was already absent from their final infidelity model;
+our year-specific anomaly results therefore extend, rather than contradict,
+that null. Any manuscript statement should retain the modest magnitude and
+borderline support of the original result.
+
+Source: [Botero & Rubenstein (2012)](https://doi.org/10.1371/journal.pone.0032311).
+Confounding rationale: [Brouwer & Griffith (2019)](https://doi.org/10.1111/mec.15259).

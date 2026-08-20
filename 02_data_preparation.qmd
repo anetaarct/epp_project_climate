@@ -1,0 +1,981 @@
+﻿---
+title: "Data preparation"
+---
+
+## Overview
+
+This chapter documents the preparation of the analytical dataset used in the analyses. The workflow starts from the analysis input file, checks the response variables, restricts the data to socially monogamous species, defines population-level identifiers, and summarises the final dataset used in the Bayesian models.
+
+The legacy database of Brouwer and Griffith contained 488 unique publications. Of these, 286 publications (58.6%) were excluded because their EPP estimates could not be assigned to individual study years, leaving 202 publications (41.4%) with annual-resolution EPP data. Results of the literature update for studies published after 1 August 2017, including the number contributing eligible year-specific EPP data, are reported separately in the PRISMA flow diagram. Throughout this chapter, study counts refer to unique publications (`id_reference`), species counts use Clements v2025 names, and repeated population-year observations are not counted as separate studies.
+
+## Load packages and data
+
+```{r}
+#| label: setup
+#| echo: true
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(knitr)
+
+read_csv_safe <- function(path, na = c("", "NA")) {
+  tibble::as_tibble(utils::read.csv(
+    path,
+    check.names = FALSE,
+    stringsAsFactors = FALSE,
+    na.strings = na
+  ))
+}
+
+write_csv_safe <- function(data, path) {
+  utils::write.csv(
+    data,
+    file = path,
+    row.names = FALSE,
+    na = "NA",
+    fileEncoding = "UTF-8"
+  )
+}
+
+# Base R avoids the vroom path-encoding failure caused by non-ASCII
+# characters in the Windows project path; the input file is unchanged.
+dat_import <- read_csv_safe("epp_data_June2026.csv")
+
+source("scripts/apply_clements_v2025_corrections.R")
+source("scripts/resolve_publication_overlap.R")
+
+taxonomy_resolution <- apply_clements_v2025_corrections(dat_import)
+dat_import <- taxonomy_resolution$data
+
+overlap_resolution <- resolve_publication_overlap(
+  dat_import,
+  distance_threshold_km = 25
+)
+
+dat_raw <- overlap_resolution$data
+
+count_clements_species <- function(data) {
+  if (!"Clements_name" %in% names(data)) {
+    stop("Species totals require the Clements_name column.")
+  }
+
+  clements_names <- trimws(as.character(data$Clements_name))
+  if (any(is.na(clements_names) | clements_names == "")) {
+    stop("Species totals cannot be calculated: Clements_name contains missing or blank values.")
+  }
+
+  dplyr::n_distinct(clements_names)
+}
+
+dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
+write_csv_safe(
+  taxonomy_resolution$audit,
+  "data/processed/clements_v2025_taxonomic_corrections.csv"
+)
+write_csv_safe(
+  overlap_resolution$decisions,
+  "data/processed/publication_overlap_decisions.csv"
+)
+write_csv_safe(
+  overlap_resolution$removed_records,
+  "data/processed/publication_overlap_removed_records.csv"
+)
+write_csv_safe(
+  overlap_resolution$exact_duplicate_log,
+  "data/processed/exact_within_publication_duplicate_log.csv"
+)
+write_csv_safe(
+  overlap_resolution$series_summary,
+  "data/processed/publication_series_summary.csv"
+)
+write_csv_safe(
+  overlap_resolution$postcheck,
+  "data/processed/publication_overlap_postcheck.csv"
+)
+write_csv_safe(
+  dat_raw,
+  "data/processed/epp_data_overlap_filtered.csv"
+)
+```
+
+## Clements v2025 taxonomic corrections
+
+Scientific names were checked against the Clements Checklist v2025 before the
+publication-overlap rule was applied. The former broad Yellow Warbler concept
+(`Dendroica petechia`, later `Setophaga petechia`) was split in Clements v2025.
+The reviewed northern breeding populations in this dataset were therefore
+assigned to `Setophaga aestiva`; the name `Setophaga petechia` is now restricted
+to Mangrove Yellow Warbler. The correction is accepted only after the target
+species and split text are found in the local Clements v2025 file. Every changed
+row is written to `data/processed/clements_v2025_taxonomic_corrections.csv`.
+This was therefore a manually reviewed, evidence-gated taxonomic correction,
+not an automatic scientific-name substitution.
+
+```{r}
+#| label: clements-v2025-corrections
+#| echo: true
+
+taxonomy_resolution$audit %>%
+  select(
+    id_reference,
+    scientific_name_original,
+    clements_name_before,
+    clements_name_after,
+    latitude,
+    longitude,
+    rule
+  ) %>%
+  knitr::kable()
+```
+
+## Publication-overlap resolution
+
+To prevent repeated use of the same population-years across publications, records were compared using the Clements-matched species name (`Clements_name`), study year, and geographic coordinates. Two publication series were treated as potentially overlapping when they represented the same Clements species, shared at least one study year, and their reported locations were no more than 25 km apart. Within every such comparison, the publication series covering the longest temporal span was retained and the shorter series was removed in full, including its non-overlapping years. This prevents a shorter report derived from the same study system from contributing additional weight beside a longer report. Exact repeated biological results within the same publication were reduced to one record before the between-publication comparison.
+
+When temporal spans were equal, ties were resolved reproducibly using, in order, the number of observed years, the total number of sampled broods, the number of records, and the reference identifier. The rule was applied to all species before restricting the dataset by breeding system. No record was removed solely because two studies were geographically close: an overlapping study year was also required.
+
+```{r}
+#| label: publication-overlap-summary
+#| echo: true
+
+overlap_summary <- tibble(
+  metric = c(
+    "Imported records",
+    "Records after overlap resolution",
+    "Publication series removed",
+    "Records removed with shorter publication series",
+    "Exact within-publication duplicate rows removed",
+    "Remaining cross-publication species-year pairs within 25 km"
+  ),
+  value = c(
+    nrow(dat_import),
+    nrow(dat_raw),
+    nrow(overlap_resolution$decisions),
+    nrow(overlap_resolution$removed_records),
+    sum(overlap_resolution$exact_duplicate_log$action == "remove_exact_duplicate"),
+    nrow(overlap_resolution$postcheck)
+  )
+)
+
+knitr::kable(overlap_summary)
+```
+
+```{r}
+#| label: publication-overlap-decisions
+#| echo: true
+
+overlap_resolution$decisions %>%
+  select(
+    Clements_name,
+    removed_reference,
+    retained_reference,
+    distance_km,
+    overlap_years,
+    removed_start_year,
+    removed_end_year,
+    retained_start_year,
+    retained_end_year
+  ) %>%
+  mutate(distance_km = round(distance_km, 1)) %>%
+  knitr::kable()
+```
+
+## Raw data summary
+
+```{r}
+#| label: raw-data-summary
+#| echo: true
+
+raw_summary <- tibble(
+  metric = c(
+    "Number of records",
+    "Number of references",
+    "Number of species",
+    "Number of families",
+    "Number of populations / localities"
+  ),
+  value = c(
+    nrow(dat_raw),
+    n_distinct(dat_raw$id_reference),
+    count_clements_species(dat_raw),
+    n_distinct(dat_raw$family),
+    n_distinct(paste(dat_raw$Clements_name, round(dat_raw$lat, 2), round(dat_raw$long, 2)))
+  )
+)
+
+knitr::kable(raw_summary)
+```
+
+## Sampling locations
+
+The geographic distribution of retained EPP records was inspected to evaluate the spatial coverage of the dataset before model fitting.
+
+```{r}
+#| label: sampling-location-map
+#| echo: true
+#| fig-cap: "Geographic distribution of EPP study locations."
+#| fig-width: 9
+#| fig-height: 5.2
+
+if (file.exists("figures/sampling_locations_map.png")) {
+  knitr::include_graphics("figures/sampling_locations_map.png")
+} else {
+  cat("Sampling-location map is not available yet. Render the Figures chapter to create it.")
+}
+```
+
+## Basic variable cleaning
+
+Geographic coordinates, response variables, environmental variables, and breeding-season variables were converted to numeric format where needed. We also created absolute latitude and a population identifier based on species identity and rounded geographic coordinates.
+
+```{r}
+#| label: basic-cleaning
+#| echo: true
+
+dat_clean <- dat_raw %>%
+  mutate(
+    lat = as.numeric(lat),
+    long = as.numeric(long),
+    lat_round = round(lat, 2),
+    long_round = round(long, 2),
+    abs_latitude = abs(lat),
+
+    population_id = paste(
+      Clements_name,
+      lat_round,
+      long_round,
+      sep = "_"
+    ),
+
+    n_epp_broods = as.numeric(n_epp_broods),
+    n_wpp_broods = as.numeric(n_wpp_broods),
+    n_broods_sampled = as.numeric(n_broods_sampled),
+
+    tmp_cru_C_first_month = as.numeric(tmp_cru_C_first_month),
+    pre_cru_mm_first_month = as.numeric(pre_cru_mm_first_month),
+    dtr_cru_C_first_month = as.numeric(dtr_cru_C_first_month),
+    ndvi_first_month_median_30km = as.numeric(ndvi_first_month_median_30km),
+
+    tmp_cru_C_full_season = as.numeric(tmp_cru_C_full_season),
+    pre_cru_mm_full_season = as.numeric(pre_cru_mm_full_season),
+    dtr_cru_C_full_season = as.numeric(dtr_cru_C_full_season),
+    ndvi_full_season_median_30km = as.numeric(ndvi_full_season_median_30km),
+
+    tmp_long_anom_1961_1989_C_first_month = as.numeric(tmp_long_anom_1961_1989_C_first_month),
+    tmp_short_anom_5yr_C_first_month = as.numeric(tmp_short_anom_5yr_C_first_month),
+    pre_long_anom_1961_1989_mm_first_month = as.numeric(pre_long_anom_1961_1989_mm_first_month),
+    pre_short_anom_5yr_mm_first_month = as.numeric(pre_short_anom_5yr_mm_first_month),
+
+    distance_to_coast_km = as.numeric(distance_to_coast_km),
+    breeding_season_length_months = as.numeric(breeding_season_length_months),
+
+    id_reference = factor(id_reference),
+    population_id = factor(population_id),
+    scientific_name = factor(scientific_name),
+    marker_type = factor(marker_type),
+    nest_box = factor(nest_box),
+    breeding_system = factor(breeding_system)
+  )
+```
+
+## Breeding system restriction
+
+The main analyses are restricted to socially monogamous species. This restriction is important because EPP is defined relative to social pair bonds. EPP estimates are therefore not directly comparable across systems without stable social pair bonds, or across polyandrous, lekking, or non-pair-bonded mating systems.
+
+After resolving duplicate and overlapping publication series, the combined annual dataset contained 237 unique publications representing 167 species. The breeding-system restriction excluded 14 publications representing 13 species: 13 publications inherited from the Brouwer and Griffith database and one publication identified in the literature update. Twelve species were removed from the analysis entirely; one additional species, the Aquatic Warbler (*Acrocephalus paludicola*), also had a retained publication classified as socially monogamous. The socially monogamous dataset therefore contained 223 unique publications representing 155 species. These counts are publication- and species-level totals, not counts of annual records.
+
+```{r}
+#| label: breeding-system-counts
+#| echo: true
+
+dat_clean %>%
+  count(breeding_system, sort = TRUE) %>%
+  knitr::kable()
+```
+
+```{r}
+#| label: monogamy-filter
+#| echo: true
+
+dat_mono <- dat_clean %>%
+  filter(breeding_system == "monogamy")
+```
+
+```{r}
+#| label: monogamy-summary
+#| echo: true
+
+monogamy_summary <- tibble(
+  n_records = nrow(dat_mono),
+  n_references = n_distinct(dat_mono$id_reference),
+  n_species = count_clements_species(dat_mono),
+  n_populations = n_distinct(dat_mono$population_id)
+)
+
+knitr::kable(monogamy_summary)
+```
+
+## Response variable checks
+
+The response variable is the number of broods with EPP out of the total number of broods sampled. Records were retained for modelling only when brood counts were available, the total number of sampled broods was greater than zero, and the number of EPP broods did not exceed the total number of sampled broods.
+
+```{r}
+#| label: response-variable-qc
+#| echo: true
+
+response_qc <- dat_mono %>%
+  summarise(
+    n_records = n(),
+    missing_epp_broods = sum(is.na(n_epp_broods)),
+    missing_total_broods = sum(is.na(n_broods_sampled)),
+    missing_both_response_counts = sum(is.na(n_epp_broods) & is.na(n_broods_sampled)),
+    missing_epp_only = sum(is.na(n_epp_broods) & !is.na(n_broods_sampled)),
+    missing_total_only = sum(!is.na(n_epp_broods) & is.na(n_broods_sampled)),
+    zero_total_broods = sum(n_broods_sampled == 0, na.rm = TRUE),
+    epp_greater_than_total = sum(n_epp_broods > n_broods_sampled, na.rm = TRUE),
+    records_excluded_response_qc = sum(
+      is.na(n_epp_broods) |
+        is.na(n_broods_sampled) |
+        n_broods_sampled <= 0 |
+        n_epp_broods > n_broods_sampled,
+      na.rm = TRUE
+    )
+  )
+
+knitr::kable(response_qc)
+```
+
+Of the `r response_qc$n_records` socially monogamous records, `r response_qc$missing_epp_broods` lacked the number of EPP broods. The `r response_qc$missing_total_broods` records lacking the total number of sampled broods were a subset of those same records: `r response_qc$missing_both_response_counts` lacked both response counts, whereas `r response_qc$missing_epp_only` lacked only the EPP-brood count and `r response_qc$missing_total_only` lacked only the total-brood count. Thus, these columns identify `r response_qc$records_excluded_response_qc` unique excluded records, not the sum of the two missing-value counts.
+
+## Final model dataset
+
+```{r}
+#| label: final-model-dataset
+#| echo: true
+
+dat_model <- dat_mono %>%
+  filter(
+    !is.na(n_epp_broods),
+    !is.na(n_broods_sampled),
+    n_broods_sampled > 0,
+    n_epp_broods <= n_broods_sampled
+  )
+
+saveRDS(dat_model, "data/processed/dat_model.rds")
+```
+
+```{r}
+#| label: final-model-dataset-summary
+#| echo: true
+
+final_model_summary <- tibble(
+  n_records = nrow(dat_model),
+  n_references = n_distinct(dat_model$id_reference),
+  n_species = count_clements_species(dat_model),
+  n_populations = n_distinct(dat_model$population_id),
+  total_broods = sum(dat_model$n_broods_sampled),
+  total_epp_broods = sum(dat_model$n_epp_broods),
+  raw_epp_rate = total_epp_broods / total_broods
+)
+
+knitr::kable(final_model_summary, digits = 3)
+```
+
+## Species-count reconciliation
+
+All species totals in this chapter are calculated exclusively from the
+Clements v2025 field (`Clements_name`). The source-name field
+(`scientific_name`) is retained only for provenance and is never used to report
+the number of species. The superseded totals of 158 species after the monogamy
+restriction and 156 species after response-quality filtering resulted from
+counting source scientific names; taxonomic harmonisation collapses three such
+names at each stage. The corrected Clements totals are therefore 155 and 153,
+respectively.
+
+```{r}
+#| label: species-count-reconciliation
+#| echo: true
+
+species_count_reconciliation <- bind_rows(
+  tibble(
+    stage = "After publication-overlap resolution",
+    n_records = nrow(dat_raw),
+    n_publications = n_distinct(dat_raw$id_reference),
+    n_clements_species = count_clements_species(dat_raw)
+  ),
+  tibble(
+    stage = "After restriction to social monogamy",
+    n_records = nrow(dat_mono),
+    n_publications = n_distinct(dat_mono$id_reference),
+    n_clements_species = count_clements_species(dat_mono)
+  ),
+  tibble(
+    stage = "Response-complete dataset",
+    n_records = nrow(dat_model),
+    n_publications = n_distinct(dat_model$id_reference),
+    n_clements_species = count_clements_species(dat_model)
+  )
+)
+
+expected_clements_counts <- c(167L, 155L, 153L)
+if (!identical(species_count_reconciliation$n_clements_species, expected_clements_counts)) {
+  stop(
+    "Clements species-count reconciliation failed: expected 167, 155, and 153 species."
+  )
+}
+
+write_csv_safe(
+  species_count_reconciliation,
+  "data/processed/species_count_reconciliation.csv"
+)
+
+knitr::kable(species_count_reconciliation)
+```
+
+## Environmental predictor complete-case restriction
+
+The response-complete dataset is broader than the common frame used by the
+main environmental models. The model-fitting script additionally requires
+complete first-month climate and NDVI values, geographic covariates, anomaly
+variables, categorical moderators, and phylogenetic identifiers. The following
+audit names this previously implicit filtering step and separates missing NDVI
+caused by unavailable extraction inputs from null Earth Engine results after
+quality masking.
+
+```{r}
+#| label: environmental-complete-case-audit
+#| echo: true
+
+main_environmental_frame <- readRDS(
+  "models/main_environmental_models/dat_main_environmental_models.rds"
+)
+ndvi_input <- read_csv_safe(
+  "ndvi_extraction/EPP_NDVI_GEE_input_all_records.csv",
+  na = c("", "NA", "NaN")
+)
+ndvi_output <- read_csv_safe(
+  "ndvi_extraction/EPP_NOAA_NDVI_median_30x30km_first_full.csv",
+  na = c("", "NA", "NaN")
+)
+
+if (anyDuplicated(dat_model$record_id) ||
+    anyDuplicated(ndvi_input$record_id) ||
+    anyDuplicated(ndvi_output$record_id)) {
+  stop("NDVI missingness audit requires unique record_id values.")
+}
+
+ndvi_input_match <- match(dat_model$record_id, ndvi_input$record_id)
+ndvi_output_match <- match(dat_model$record_id, ndvi_output$record_id)
+if (anyNA(ndvi_input_match)) {
+  stop("Some response-complete records are absent from the Earth Engine input table.")
+}
+
+ndvi_missingness_audit <- dat_model %>%
+  transmute(
+    record_id,
+    Clements_name,
+    family,
+    lat,
+    long,
+    climate_year,
+    breeding_start_month_num,
+    breeding_end_month_num,
+    stored_ndvi = ndvi_first_month_median_30km,
+    can_first_month = ndvi_input$can_first_month[ndvi_input_match],
+    gee_output_present = !is.na(ndvi_output_match),
+    gee_output_ndvi = ndvi_output$ndvi_first_month_median_30km[ndvi_output_match]
+  ) %>%
+  mutate(
+    missing_coordinates = is.na(lat) | is.na(long),
+    missing_study_year = is.na(climate_year),
+    missing_start_month = is.na(breeding_start_month_num),
+    missing_required_input = missing_coordinates |
+      missing_study_year | missing_start_month,
+    missing_stored_ndvi = is.na(stored_ndvi),
+    no_valid_pixel_after_masking = can_first_month == 1 &
+      gee_output_present & is.na(gee_output_ndvi),
+    missingness_category = case_when(
+      !missing_stored_ndvi ~ "NDVI available",
+      missing_required_input | can_first_month == 0 ~
+        "Missing coordinates, study year, or first breeding month",
+      no_valid_pixel_after_masking ~ "No valid pixel after masking",
+      TRUE ~ "Unresolved"
+    )
+  )
+
+ndvi_missingness_summary <- ndvi_missingness_audit %>%
+  count(missingness_category, name = "n_records") %>%
+  mutate(percent_of_571 = 100 * n_records / nrow(dat_model))
+
+if (sum(ndvi_missingness_audit$missing_stored_ndvi) != 111L ||
+    sum(ndvi_missingness_audit$missingness_category ==
+          "Missing coordinates, study year, or first breeding month") != 60L ||
+    sum(ndvi_missingness_audit$missingness_category ==
+          "No valid pixel after masking") != 51L ||
+    any(ndvi_missingness_audit$missingness_category == "Unresolved")) {
+  stop("NDVI missingness reconciliation failed: expected 111 = 60 + 51 records.")
+}
+
+ndvi_input_missingness <- tibble(
+  input_problem = c(
+    "Missing coordinates (including overlap with missing month)",
+    "Missing first breeding month (including overlap with coordinates)",
+    "Missing study year",
+    "Coordinates only",
+    "First breeding month only",
+    "Both coordinates and first breeding month"
+  ),
+  n_records = c(
+    sum(ndvi_missingness_audit$missing_stored_ndvi &
+          ndvi_missingness_audit$missing_coordinates),
+    sum(ndvi_missingness_audit$missing_stored_ndvi &
+          ndvi_missingness_audit$missing_start_month),
+    sum(ndvi_missingness_audit$missing_stored_ndvi &
+          ndvi_missingness_audit$missing_study_year),
+    sum(ndvi_missingness_audit$missing_stored_ndvi &
+          ndvi_missingness_audit$missing_coordinates &
+          !ndvi_missingness_audit$missing_start_month),
+    sum(ndvi_missingness_audit$missing_stored_ndvi &
+          !ndvi_missingness_audit$missing_coordinates &
+          ndvi_missingness_audit$missing_start_month),
+    sum(ndvi_missingness_audit$missing_stored_ndvi &
+          ndvi_missingness_audit$missing_coordinates &
+          ndvi_missingness_audit$missing_start_month)
+  )
+)
+
+environmental_filter_funnel <- tibble(
+  stage = c(
+    "Response-complete socially monogamous dataset",
+    "Common main-environmental-model frame"
+  ),
+  n_records = c(nrow(dat_model), nrow(main_environmental_frame)),
+  n_populations = c(
+    n_distinct(dat_model$population_id),
+    n_distinct(main_environmental_frame$population_id)
+  ),
+  n_clements_species = c(
+    count_clements_species(dat_model),
+    count_clements_species(main_environmental_frame)
+  )
+)
+
+lost_clements_species <- setdiff(
+  unique(as.character(dat_model$Clements_name)),
+  unique(as.character(main_environmental_frame$Clements_name))
+)
+
+ndvi_species_loss_audit <- ndvi_missingness_audit %>%
+  filter(Clements_name %in% lost_clements_species) %>%
+  group_by(Clements_name, family) %>%
+  summarise(
+    n_records = n(),
+    any_ndvi_available = any(!missing_stored_ndvi),
+    all_missing_input = all(
+      missingness_category ==
+        "Missing coordinates, study year, or first breeding month"
+    ),
+    all_masked = all(missingness_category == "No valid pixel after masking"),
+    no_ndvi_available = all(missing_stored_ndvi),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    species_loss_category = case_when(
+      any_ndvi_available ~
+        "At least one NDVI value available; removed by another requirement",
+      all_missing_input ~ "All records lack coordinates or season date",
+      all_masked ~ "All records have no valid pixel after masking",
+      no_ndvi_available ~ "Mixed NDVI failure mechanisms",
+      TRUE ~ "Unresolved"
+    )
+  )
+
+species_loss_summary <- ndvi_species_loss_audit %>%
+  count(species_loss_category, name = "n_clements_species")
+
+if (length(lost_clements_species) != 43L ||
+    sum(ndvi_species_loss_audit$all_missing_input) != 17L ||
+    sum(ndvi_species_loss_audit$all_masked) != 15L ||
+    sum(ndvi_species_loss_audit$species_loss_category ==
+          "Mixed NDVI failure mechanisms") != 1L ||
+    sum(ndvi_species_loss_audit$any_ndvi_available) != 10L) {
+  stop("Species-loss reconciliation failed: expected 43 = 17 + 15 + 1 + 10 species.")
+}
+
+seabird_families <- c(
+  "Alcidae", "Diomedeidae", "Fregatidae", "Procellariidae",
+  "Spheniscidae", "Stercorariidae", "Sulidae"
+)
+masked_records <- ndvi_missingness_audit %>%
+  filter(missingness_category == "No valid pixel after masking")
+masked_lost_species <- ndvi_species_loss_audit %>%
+  filter(all_masked)
+
+masked_epp_records <- dat_model %>%
+  semi_join(masked_records %>% select(record_id), by = "record_id")
+
+summarise_raw_epp <- function(data, group) {
+  tibble(
+    group = group,
+    n_records = nrow(data),
+    n_clements_species = n_distinct(data$Clements_name),
+    n_broods = sum(data$n_broods_sampled),
+    n_epp_broods = sum(data$n_epp_broods),
+    pooled_raw_epp_percent =
+      100 * sum(data$n_epp_broods) / sum(data$n_broods_sampled),
+    mean_record_epp_percent =
+      100 * mean(data$n_epp_broods / data$n_broods_sampled)
+  )
+}
+
+masked_raw_epp_summary <- bind_rows(
+  summarise_raw_epp(main_environmental_frame, "Retained environmental model frame"),
+  summarise_raw_epp(masked_epp_records, "No valid NDVI pixel after masking"),
+  summarise_raw_epp(
+    masked_epp_records %>% filter(family %in% seabird_families),
+    "Masked records: strict seabird families"
+  ),
+  summarise_raw_epp(
+    masked_epp_records %>% filter(!family %in% seabird_families),
+    "Masked records: other families"
+  )
+)
+
+masked_seabird_orders <- masked_epp_records %>%
+  filter(family %in% seabird_families) %>%
+  group_by(order) %>%
+  summarise(
+    n_masked_records = n(),
+    n_masked_species = n_distinct(Clements_name),
+    families = paste(sort(unique(family)), collapse = ", "),
+    n_broods = sum(n_broods_sampled),
+    pooled_raw_epp_percent = 100 * sum(n_epp_broods) / sum(n_broods_sampled),
+    .groups = "drop"
+  )
+
+eligible_order_coverage <- dat_model %>%
+  filter(order %in% masked_seabird_orders$order) %>%
+  group_by(order) %>%
+  summarise(
+    eligible_records = n(),
+    eligible_species = n_distinct(Clements_name),
+    .groups = "drop"
+  )
+
+retained_order_coverage <- main_environmental_frame %>%
+  filter(order %in% masked_seabird_orders$order) %>%
+  group_by(order) %>%
+  summarise(
+    retained_records = n(),
+    retained_species = n_distinct(Clements_name),
+    .groups = "drop"
+  )
+
+masked_seabird_order_coverage <- masked_seabird_orders %>%
+  left_join(eligible_order_coverage, by = "order") %>%
+  left_join(retained_order_coverage, by = "order") %>%
+  mutate(
+    retained_records = coalesce(retained_records, 0L),
+    retained_species = coalesce(retained_species, 0L),
+    order_lost_entirely = retained_records == 0L
+  ) %>%
+  select(
+    order, families, n_masked_records, n_masked_species,
+    eligible_species, retained_species, order_lost_entirely,
+    n_broods, pooled_raw_epp_percent
+  ) %>%
+  arrange(desc(n_masked_records), order)
+
+orders_lost_entirely <- setdiff(
+  unique(as.character(dat_model$order)),
+  unique(as.character(main_environmental_frame$order))
+)
+
+if (nrow(masked_epp_records) != 51L ||
+    sum(masked_epp_records$family %in% seabird_families) != 18L ||
+    !setequal(orders_lost_entirely, c("Ciconiiformes", "Suliformes"))) {
+  stop("Taxonomic/EPP audit of masked NDVI records did not reproduce expected totals.")
+}
+
+write_csv_safe(
+  ndvi_missingness_audit,
+  "data/processed/ndvi_missingness_audit.csv"
+)
+write_csv_safe(
+  ndvi_species_loss_audit,
+  "data/processed/ndvi_species_loss_audit.csv"
+)
+```
+
+```{r}
+#| label: environmental-filter-funnel-table
+#| echo: true
+
+knitr::kable(
+  environmental_filter_funnel,
+  caption = "The named complete-case restriction from the response-complete dataset to the common environmental model frame."
+)
+```
+
+This restriction removed 130 records, 59 populations, and 43 Clements species.
+NDVI was missing for 111 of the 571 candidate records. The causes were fully
+reconciled: **60 records lacked coordinates or the first breeding month needed
+to request an Earth Engine extraction, whereas 51 had complete inputs but no
+valid pixel remained in the 30-by-30-km window after masking**. No study year
+was missing. Among the 60 input-limited records, 3 lacked coordinates only, 47
+lacked the first breeding month only, and 10 lacked both.
+
+```{r}
+#| label: ndvi-missingness-summary-table
+#| echo: true
+
+knitr::kable(
+  ndvi_missingness_summary %>%
+    filter(missingness_category != "NDVI available"),
+  digits = 2,
+  caption = "Mutually exclusive causes of missing first-month NDVI."
+)
+```
+
+At the species level, 33 of the 43 lost species had no usable NDVI record: all
+records of 17 species lacked coordinates or a season date, all records of 15
+species returned no valid pixel after masking, and one species had both failure
+mechanisms across its records. The remaining 10 lost species had at least one
+NDVI value and disappeared because of another complete-case requirement.
+
+The masking failure was taxonomically and ecologically selective rather than a
+simple random loss. Eighteen of the 51 masked records (`r sprintf("%.1f", 100 * sum(masked_records$family %in% seabird_families) / nrow(masked_records))`%) belonged to seven unequivocal seabird families, and 9 of the 15 species lost entirely through masking (`r sprintf("%.1f", 100 * sum(masked_lost_species$family %in% seabird_families) / nrow(masked_lost_species))`%) were seabirds. The affected set also included island and high-latitude populations. This reflects the combined water, cloud, shadow, sunglint, night, and invalid-channel masks and means that the final environmental frame under-represents marine, island, and polar study systems. It is therefore a limitation on the ecological scope of inference, not merely a reduction in sample size.
+
+The selection was also associated with the response. Pooling brood counts, the
+51 masked records had `r sprintf("%.1f", masked_raw_epp_summary$pooled_raw_epp_percent[2])`% EPP, compared with
+`r sprintf("%.1f", masked_raw_epp_summary$pooled_raw_epp_percent[1])`% in the retained 441-record frame. This difference was concentrated in the 18 records from strict seabird families (`r sprintf("%.1f", masked_raw_epp_summary$pooled_raw_epp_percent[3])`%); the other 33 masked records had `r sprintf("%.1f", masked_raw_epp_summary$pooled_raw_epp_percent[4])`%. These are unadjusted descriptive rates and remain confounded by species and study composition, but they show that environmental complete-case filtering was associated with both phylogeny and the observed outcome.
+
+```{r}
+#| label: ndvi-masked-raw-epp-table
+#| echo: true
+
+knitr::kable(
+  masked_raw_epp_summary,
+  digits = 1,
+  caption = "Unadjusted EPP in retained records and records without a valid NDVI pixel."
+)
+```
+
+The 18 conservatively classified seabird records belonged to four orders. The
+loss was not limited to isolated tips of the phylogeny: all six eligible
+Suliformes species were absent from the retained frame. Procellariiformes
+declined from nine to three species and Sphenisciformes from six to two, while
+Charadriiformes retained eight of 14 species. Across the entire 571-to-441
+restriction, two orders disappeared completely: Suliformes (six species) and
+Ciconiiformes (one species). The Ciconiiformes loss was a single record from a
+single species, White Stork (*Ciconia ciconia*), and is therefore not comparable
+in scale with the loss of all six represented Suliformes species. The direction
+of the marine selection was also informative: the 18 masked records from strict
+seabird families had pooled raw EPP of `r sprintf("%.1f", masked_raw_epp_summary$pooled_raw_epp_percent[3])`%, compared with `r sprintf("%.1f", masked_raw_epp_summary$pooled_raw_epp_percent[1])`% in the retained
+frame, and they occupied a small number of phylogenetically distinct marine
+clades. Their omission removes low-EPP between-clade extremes and is therefore
+expected to bias the estimated phylogenetic variance downward. The reported
+phylogenetic variance should consequently be regarded as conservative for the
+eligible dataset, while still not being extrapolated directly to the omitted
+marine lineages.
+
+```{r}
+#| label: ndvi-masked-seabird-orders-table
+#| echo: true
+
+knitr::kable(
+  masked_seabird_order_coverage,
+  digits = 1,
+  caption = "Order-level representation of the 18 masked seabird records."
+)
+```
+
+Chlorophyll-*a* was not used as a substitute predictor for these records.
+Colony coordinates identify breeding sites, whereas the marine productivity
+relevant to seabirds occurs across often distant and shifting foraging areas;
+extracting chlorophyll-*a* at the colony cell would therefore introduce a
+spatial mismatch. It would also address only part of the 18 strict-seabird
+records, not the other 33 masked records or the 60 records lacking extraction
+inputs.
+
+```{r}
+#| label: ndvi-species-loss-table
+#| echo: true
+
+knitr::kable(
+  species_loss_summary,
+  caption = "Contribution of NDVI availability to the loss of 43 Clements species."
+)
+```
+
+## Reference-population overlap {#sec-reference-population-overlap}
+
+The overlap between reference identity (`id_reference`) and population identity (`population_id`) is checked directly from the response-complete dataset. This summary was used to evaluate whether reference identity and population identity represented sufficiently distinct grouping structures.
+
+```{r}
+#| label: reference-population-overlap-data
+#| echo: true
+
+if (file.exists("data/processed/dat_model.rds")) {
+  overlap_dat <- readRDS("data/processed/dat_model.rds")
+} else {
+  overlap_dat <- read_csv_safe("epp_data_June2026.csv") %>%
+    mutate(
+      lat_round = round(as.numeric(lat), 2),
+      long_round = round(as.numeric(long), 2),
+      population_id = paste(Clements_name, lat_round, long_round, sep = "_")
+    )
+}
+
+overlap_dat <- overlap_dat %>%
+  mutate(
+    id_reference = if ("id_reference" %in% names(.)) {
+      as.character(id_reference)
+    } else {
+      as.character(id)
+    }
+  ) %>%
+  mutate(
+    population_id = as.character(population_id)
+  ) %>%
+  filter(!is.na(id_reference), !is.na(population_id))
+
+population_overlap <- overlap_dat %>%
+  group_by(population_id) %>%
+  summarise(
+    n_records = n(),
+    n_references = n_distinct(id_reference),
+    id_references = paste(sort(unique(id_reference)), collapse = "; "),
+    .groups = "drop"
+  )
+
+reference_overlap <- overlap_dat %>%
+  group_by(id_reference) %>%
+  summarise(
+    n_records = n(),
+    n_populations = n_distinct(population_id),
+    .groups = "drop"
+  )
+```
+
+```{r}
+#| label: reference-population-overlap-table
+#| echo: true
+
+population_overlap %>%
+  count(n_references, name = "n_populations") %>%
+  mutate(percent_populations = 100 * n_populations / sum(n_populations)) %>%
+  knitr::kable(digits = 2)
+```
+
+In this dataset, `r sum(population_overlap$n_references == 1)` of `r nrow(population_overlap)` populations (`r sprintf("%.2f", 100 * mean(population_overlap$n_references == 1))`%) are represented by a single publication, and only `r sum(population_overlap$n_references > 1)` populations occur in more than one publication. The study and population groupings are therefore almost completely nested on the population side, making separate study- and population-level random-intercept variances weakly identifiable. We retained the population random intercept because population is the repeated-observation unit and because it also links the few populations reported in multiple publications. Omitting the preregistered study-level random intercept is a deviation from the registered model specification; this overlap diagnostic and its rationale are reported here for the Supplementary Methods under “Reference-population overlap.”
+
+## Environmental window correlations
+
+The main environmental models use environmental values from the first breeding-season month. As a data check, we compared these values with the corresponding full-season summaries for temperature, precipitation, diurnal temperature range, and NDVI. The CRU full-season summaries used here follow the corrected calendar convention: for seasons crossing a year boundary, months through December use `climate_year` and January-side months use `climate_year + 1`. NDVI already used this continuous-season convention.
+
+```{r}
+#| label: first-month-full-season-correlations
+#| echo: true
+
+corrected_fullseason_climate <- read_csv_safe(
+  "models/withinseason_models_corrected/withinseason_climate_by_record.csv",
+  na = c("", "NA", "NaN")
+)
+
+required_corrected_columns <- c(
+  "epp_row_id", "crosses_year_boundary",
+  "recomputed_tmp_cru_C_full_season",
+  "recomputed_pre_cru_mm_full_season",
+  "recomputed_dtr_cru_C_full_season"
+)
+missing_corrected_columns <- setdiff(
+  required_corrected_columns,
+  names(corrected_fullseason_climate)
+)
+if (length(missing_corrected_columns)) {
+  stop(
+    "Corrected full-season climate audit is missing: ",
+    paste(missing_corrected_columns, collapse = ", ")
+  )
+}
+
+environment_window_data <- main_environmental_frame %>%
+  mutate(epp_row_id = as.character(epp_row_id)) %>%
+  left_join(
+    corrected_fullseason_climate %>%
+      transmute(
+        epp_row_id = as.character(epp_row_id),
+        crosses_year_boundary =
+          tolower(as.character(crosses_year_boundary)) == "true",
+        tmp_cru_C_full_season_corrected =
+          as.numeric(recomputed_tmp_cru_C_full_season),
+        pre_cru_mm_full_season_corrected =
+          as.numeric(recomputed_pre_cru_mm_full_season),
+        dtr_cru_C_full_season_corrected =
+          as.numeric(recomputed_dtr_cru_C_full_season)
+      ),
+    by = "epp_row_id",
+    relationship = "one-to-one"
+  )
+
+if (nrow(environment_window_data) != 441L ||
+    sum(environment_window_data$crosses_year_boundary %in% TRUE, na.rm = TRUE) != 63L) {
+  stop("Corrected environmental-window audit did not reproduce 441 records and 63 cross-year seasons.")
+}
+
+environment_window_pairs <- tribble(
+  ~variable, ~first_month, ~full_season,
+  "Temperature", "tmp_cru_C_first_month", "tmp_cru_C_full_season_corrected",
+  "Precipitation", "pre_cru_mm_first_month", "pre_cru_mm_full_season_corrected",
+  "DTR", "dtr_cru_C_first_month", "dtr_cru_C_full_season_corrected",
+  "NDVI", "ndvi_first_month_median_30km", "ndvi_full_season_median_30km"
+)
+
+environment_window_correlations <- purrr::pmap_dfr(
+  environment_window_pairs,
+  function(variable, first_month, full_season) {
+    keep <- complete.cases(environment_window_data[, c(first_month, full_season)])
+    test <- cor.test(
+      environment_window_data[[first_month]][keep],
+      environment_window_data[[full_season]][keep],
+      method = "pearson"
+    )
+
+    tibble(
+      variable = variable,
+      n_complete = sum(keep),
+      pearson_r = unname(test$estimate),
+      lower_95_ci = test$conf.int[1],
+      upper_95_ci = test$conf.int[2]
+    )
+  }
+)
+
+write_csv_safe(
+  environment_window_correlations,
+  "models/climate_provenance/corrected_environment_window_correlations.csv"
+)
+
+environment_window_correlations %>%
+  mutate(across(where(is.numeric), ~ round(.x, 3))) %>%
+  knitr::kable()
+```
+
+After assigning January-side CRU months to the following calendar year for all 63 cross-year seasons, the correspondence between first-month and full-season values was high for temperature (*r* = `r sprintf("%.3f", environment_window_correlations$pearson_r[environment_window_correlations$variable == "Temperature"])`), DTR (*r* = `r sprintf("%.3f", environment_window_correlations$pearson_r[environment_window_correlations$variable == "DTR"])`), and NDVI (*r* = `r sprintf("%.3f", environment_window_correlations$pearson_r[environment_window_correlations$variable == "NDVI"])`), but only moderate for precipitation (*r* = `r sprintf("%.3f", environment_window_correlations$pearson_r[environment_window_correlations$variable == "Precipitation"])`). These correlations are calculated on the 441-record main environmental frame using the corrected CRU TS v4.09 full-season fields; pair-specific sample sizes are reported in the table. The two temporal windows should therefore not be regarded as interchangeable for precipitation: precipitation coefficients in the main models describe conditions in the first breeding-season month and should be interpreted with this limitation. The preregistered analysis specified environmental aggregation across the complete breeding window; using first-month predictors in the main models is a deviation from that specification and is documented here for the Supplementary Methods.
+
+```{r}
+#| label: first-month-full-season-correlation-plot
+#| echo: true
+#| fig-cap: "Relationship between first breeding-season month and full-season environmental values."
+#| fig-width: 8
+#| fig-height: 6
+
+if (file.exists("figures/first_month_full_season_correlations.png")) {
+  knitr::include_graphics("figures/first_month_full_season_correlations.png")
+} else {
+  cat("Environmental-window correlation figure is not available yet. Render the Figures chapter to create it.")
+}
+```
+

@@ -1,0 +1,293 @@
+﻿---
+title: "PCA for environmental predictors"
+---
+
+## Overview
+
+The environmental predictors combine climate, productivity, and geography. These variables describe related ecological gradients and should not be interpreted as fully independent axes of variation. We therefore use principal component analysis (PCA) to construct a small number of orthogonal predictors for the main environmental models.
+
+The PCA is fitted to complete cases for the selected environmental-geographic variables.
+
+```{r}
+#| label: pca-setup
+#| echo: true
+
+library(dplyr)
+library(readr)
+library(tidyr)
+library(tibble)
+library(knitr)
+library(ggplot2)
+
+read_csv_safe <- function(path) {
+  tibble::as_tibble(utils::read.csv(
+    path, check.names = FALSE, stringsAsFactors = FALSE
+  ))
+}
+
+write_csv_safe <- function(data, path) {
+  utils::write.csv(
+    data, file = path, row.names = FALSE, na = "NA", fileEncoding = "UTF-8"
+  )
+}
+
+pca_model_set_dir <- "models/pca_environment_model_set"
+pca_legacy_dir <- "models/pca_environment"
+
+dat_model_phylo <- readRDS("data/processed/dat_model_phylo.rds")
+```
+
+## Input variables
+
+```{r}
+#| label: pca-input-variables-table
+#| echo: true
+
+tibble(
+  `Data component` = c(
+    "Mean temperature",
+    "Precipitation",
+    "Thermal variability",
+    "Productivity",
+    "Latitude",
+    "Coast proximity"
+  ),
+  `Variable used in PCA` = c(
+    "tmp_cru_C_first_month",
+    "pre_cru_mm_first_month",
+    "dtr_cru_C_first_month",
+    "ndvi_first_month_median_30km",
+    "abs_latitude",
+    "distance_to_coast_km"
+  ),
+  Transformation = c(
+    "scaled",
+    "log1p, then scaled",
+    "scaled",
+    "scaled",
+    "scaled",
+    "scaled"
+  ),
+  Interpretation = c(
+    "Local mean temperature",
+    "Local precipitation",
+    "Diurnal temperature range",
+    "Local vegetation productivity",
+    "Distance from the equator",
+    "Inland-coastal gradient"
+  )
+) %>%
+  kable()
+```
+
+Geographic variables are included in the PCA because latitude and distance to coast are themselves broad environmental gradients. The PCA axes should therefore be interpreted as environmental-geographic gradients, not as isolated climate variables.
+
+## PCA construction
+
+Precipitation was first transformed as `log1p`. Each of the six PCA inputs was then centred to a mean of zero and scaled to a standard deviation of one. The PCA was therefore performed on the correlation matrix (equivalently, on the covariance matrix of the standardised variables), so variables measured on different scales contributed comparably.
+
+The sign of a PCA axis is arbitrary. PC1 is oriented so that higher values correspond to higher temperature loadings. PC2 is oriented so that higher values correspond to wetter and more productive environments.
+
+```{r}
+#| label: pca-construction-code
+#| echo: true
+
+
+library(dplyr)
+library(readr)
+
+pca_source <- dat_model_phylo %>%
+  mutate(
+    pca_record_id = if ("epp_row_id" %in% names(.)) {
+      as.character(epp_row_id)
+    } else {
+      as.character(row_number())
+    }
+  )
+
+pca_raw <- pca_source %>%
+  transmute(
+    pca_record_id = pca_record_id,
+    tmp = tmp_cru_C_first_month,
+    pre_log = log1p(pre_cru_mm_first_month),
+    dtr = dtr_cru_C_first_month,
+    ndvi = ndvi_first_month_median_30km,
+    abs_latitude = abs_latitude,
+    distance_to_coast = distance_to_coast_km
+  ) %>%
+  tidyr::drop_na()
+
+pca_input <- pca_raw %>%
+  transmute(
+    pca_record_id = pca_record_id,
+    tmp_z = as.numeric(scale(tmp)),
+    pre_log_z = as.numeric(scale(pre_log)),
+    dtr_z = as.numeric(scale(dtr)),
+    ndvi_z = as.numeric(scale(ndvi)),
+    abs_latitude_z = as.numeric(scale(abs_latitude)),
+    distance_to_coast_z = as.numeric(scale(distance_to_coast))
+  )
+
+pca_vars <- pca_input %>%
+  select(-pca_record_id)
+
+pca <- prcomp(pca_vars, center = FALSE, scale. = FALSE)
+
+pc1_direction <- ifelse(pca$rotation["tmp_z", "PC1"] < 0, -1, 1)
+pc2_direction <- ifelse(sum(pca$rotation[c("pre_log_z", "ndvi_z"), "PC2"]) < 0, -1, 1)
+
+pca$x[, "PC1"] <- pc1_direction * pca$x[, "PC1"]
+pca$rotation[, "PC1"] <- pc1_direction * pca$rotation[, "PC1"]
+pca$x[, "PC2"] <- pc2_direction * pca$x[, "PC2"]
+pca$rotation[, "PC2"] <- pc2_direction * pca$rotation[, "PC2"]
+
+scores <- as_tibble(pca$x[, 1:2]) %>%
+  transmute(
+    pca_record_id = pca_input$pca_record_id,
+    PC1_thermal_geographic = PC1,
+    PC2_wet_productive = PC2
+  )
+
+dat_model_with_environment_geography_pca <- pca_source %>%
+  left_join(scores, by = "pca_record_id")
+
+dat_pca <- pca_source %>%
+  inner_join(scores, by = "pca_record_id")
+
+dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
+saveRDS(
+  dat_pca,
+  "data/processed/dat_model_phylo_pca.rds"
+)
+saveRDS(
+  dat_model_with_environment_geography_pca,
+  "data/processed/dat_model_with_environment_geography_pca.rds"
+)
+
+loadings <- as.data.frame(pca$rotation) %>%
+  rownames_to_column("variable") %>%
+  mutate(
+    PC1_thermal_geographic = PC1,
+    PC2_wet_productive = PC2
+  ) %>%
+  select(variable, PC1_thermal_geographic, PC2_wet_productive, everything(), -PC1, -PC2)
+
+variance_values <- pca$sdev^2 / sum(pca$sdev^2)
+
+variance_explained <- tibble(
+  PC = paste0("PC", seq_along(pca$sdev)),
+  variance_explained = variance_values,
+  cumulative_variance = cumsum(variance_values)
+)
+
+```
+
+The PCA was fitted to `r nrow(pca_input)` complete observations from the `r nrow(pca_source)`-record input frame. The remaining `r nrow(pca_source) - nrow(pca_input)` records had at least one missing value among the six PCA inputs and were not used to estimate the axes.
+
+## Variance explained
+
+```{r}
+#| label: pca-variance-table
+#| echo: true
+
+variance_explained %>%
+  mutate(
+    variance_explained = round(variance_explained, 3),
+    cumulative_variance = round(cumulative_variance, 3)
+  ) %>%
+  kable()
+```
+
+Two components were retained as a parsimonious representation of the two broad, interpretable multivariate gradients; together they explained `r sprintf("%.1f", 100 * variance_explained$cumulative_variance[2])`% of the standardised input variance. PC3 explained a further `r sprintf("%.1f", 100 * variance_explained$variance_explained[3])`% and was dominated by residual distance from the coast (loading `r sprintf("%.3f", loadings$PC3[loadings$variable == "distance_to_coast_z"])`). It was not retained because it primarily reintroduced a coastal-distance contrast rather than a third broad environmental gradient; distance from the coast is nevertheless estimated directly in the sensitivity model.
+
+## Loadings
+
+```{r}
+#| label: pca-loadings-table
+#| echo: true
+
+loadings %>%
+  select(variable, PC1_thermal_geographic, PC2_wet_productive, everything()) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 3))) %>%
+  kable()
+```
+
+```{r}
+#| label: pca-save-outputs
+#| echo: true
+
+dir.create(pca_model_set_dir, recursive = TRUE, showWarnings = FALSE)
+
+write_csv_safe(
+  variance_explained,
+  file.path(pca_model_set_dir, "pca_variance_explained_environment_geography.csv")
+)
+write_csv_safe(
+  loadings,
+  file.path(pca_model_set_dir, "pca_loadings_environment_geography.csv")
+)
+saveRDS(
+  pca,
+  file.path(pca_model_set_dir, "pca_environment_geography.rds")
+)
+```
+
+## Environmental PCA figure
+
+```{r}
+#| label: environmental-pca-panel-figure
+#| echo: true
+#| fig-cap: "Environmental PCA. Panel A shows variance explained by the principal components; panel B shows loadings of the input variables on PC1 and PC2."
+#| fig-width: 10.5
+#| fig-height: 4.8
+
+if (file.exists("figures/pca_environmental_pca.png")) {
+  knitr::include_graphics("figures/pca_environmental_pca.png")
+} else {
+  cat("Environmental PCA figure is not available yet. Render the Figures chapter to create it.")
+}
+```
+
+## Interpretation
+
+```{r}
+#| label: pc1-component-attribution-audit
+#| include: false
+
+d2_effects_file <- "models/sensitivity_models/fixed_effects_sensitivity_models.csv"
+
+if (!file.exists(d2_effects_file)) {
+  stop("The D2 fixed-effect audit is required for the PC1 interpretation: ", d2_effects_file)
+}
+
+d2_effects <- read_csv_safe(d2_effects_file)
+
+d2_temperature <- d2_effects %>%
+  filter(
+    model == "Mean-only sensitivity",
+    term == "b_tmp_cru_C_first_month_z"
+  )
+
+d2_dtr <- d2_effects %>%
+  filter(
+    model == "Mean-only sensitivity",
+    term == "b_dtr_cru_C_first_month_z"
+  )
+
+if (nrow(d2_temperature) != 1L || nrow(d2_dtr) != 1L) {
+  stop("The D2 audit must contain exactly one mean-temperature row and one DTR row.")
+}
+```
+
+Based on the loadings, PC1 was interpreted as a **thermal-geographic gradient**. In this dataset, higher PC1 values correspond to warmer sites with greater diurnal temperature range, lower absolute latitude, and greater distance from the coast.
+
+::: {.callout-warning}
+## PC1 cannot be attributed to a single component
+
+The PC1 coefficient describes the combined thermal-geographic gradient and should not be interpreted as an independently identified effect of temperature, DTR, latitude, or distance from the coast. These constituents are correlated, so the data provide limited information about their mutually adjusted effects. In the D2 direct-predictor sensitivity model, the mean-temperature coefficient was `r sprintf("%.3f", d2_temperature$estimate)` (95% CrI [`r sprintf("%.3f", d2_temperature$lower)`, `r sprintf("%.3f", d2_temperature$upper)`]) and the DTR coefficient was `r sprintf("%.3f", d2_dtr$estimate)` (95% CrI [`r sprintf("%.3f", d2_dtr$lower)`, `r sprintf("%.3f", d2_dtr$upper)`]); both intervals included zero. Thus, the PC1 result supports inference only about the composite gradient: it does not identify which individual constituent accounts for the association. The PC1 and D2 results are therefore not contradictory; they answer different questions under strong collinearity.
+:::
+
+Based on the loadings, PC2 was interpreted as a **wet-productivity gradient** after orienting the axis. In this dataset, higher PC2 values correspond to wetter sites with higher NDVI.
+
+These two axes are used as the main environmental predictors in the beta-binomial EPP models.
+

@@ -1,0 +1,124 @@
+---
+title: "Seasonal temperature variability"
+---
+
+```{r}
+#| label: seasonal-temperature-setup
+#| include: false
+library(knitr)
+
+model_dir <- "models/seasonal_temperature_variability_v409"
+read_result <- function(name) {
+  utils::read.csv(file.path(model_dir, name), check.names = FALSE, stringsAsFactors = FALSE)
+}
+
+frame <- read_result("seasonal_temperature_model_frame_checks.csv")
+definition <- read_result("seasonal_temperature_variable_definition.csv")
+version_comparison <- read_result("cru_version_comparison_v409_vs_v410.csv")
+model_ready <- all(file.exists(file.path(model_dir, c(
+  "seasonal_temperature_focal_effect.csv",
+  "fixed_effects_seasonal_temperature_variability.csv",
+  "diagnostics_seasonal_temperature_variability.csv",
+  "posterior_predictive_checks_seasonal_temperature_variability.csv"
+))))
+if (model_ready) {
+  focal <- read_result("seasonal_temperature_focal_effect.csv")
+  effects <- read_result("fixed_effects_seasonal_temperature_variability.csv")
+  diagnostics <- read_result("diagnostics_seasonal_temperature_variability.csv")
+  ppc <- read_result("posterior_predictive_checks_seasonal_temperature_variability.csv")
+}
+```
+
+## Overview
+
+To complement our analyses of local environmental conditions and year-specific climatic anomalies, we quantified within-year temperature variability following [Botero and Rubenstein (2012)](https://doi.org/10.1371/journal.pone.0032311). This descriptor represents the average variance in monthly temperatures within a year and therefore characterises persistent seasonal thermal variability at a locality rather than temporal variation among breeding seasons or a year-specific departure from local conditions. We tested its association with EPP using the same population-resolved Bayesian phylogenetic beta-binomial framework as in the primary analyses. This supplementary analysis applies an established climatic descriptor to our data and is not intended as a direct replication of the earlier species-level analysis.
+
+The analysis addresses one question: **Is population-level EPP associated with within-year temperature variability in our population-year dataset?**
+
+## Climate variable
+
+Monthly mean temperature was taken from **CRU TS v4.09** for the fixed 1961--1990 reference period. Each study locality was matched to the nearest valid 0.5° land cell within 100 km. No climate values were imputed. This v4.09 fit is the retained analysis used on this page, consistent with the product version used throughout the project. The earlier v4.10 fit is preserved in its original directory for auditability but is not used for inference here.
+
+The version audit used the same assigned grid cell at all 162 localities. The
+v4.09 and legacy v4.10 descriptors were nearly perfectly correlated, but were
+not identical: 60 localities differed by more than 0.001 °C², the mean absolute
+difference was 0.050 °C², and the maximum was 1.103 °C². We therefore refitted
+the model rather than relabelling the legacy output.
+
+```{r}
+#| label: seasonal-temperature-version-audit
+kable(version_comparison, digits = 4,
+      caption = "Audit of the retained CRU TS v4.09 descriptor against the legacy v4.10 descriptor.")
+```
+
+Let $T_{ym}$ be monthly mean temperature in year $y$ and month $m$, and let $\bar{T}_y$ be the mean of the 12 monthly values in year $y$. The retained descriptor is
+
+$$
+V_T = \frac{1}{30}\sum_{y=1961}^{1990}
+\left[\frac{1}{11}\sum_{m=1}^{12}(T_{ym}-\bar{T}_y)^2\right].
+$$
+
+Thus, `br_tmp_withinyear_var` is the mean across 30 years of the sample variance among the 12 monthly temperatures within each year. Its units are °C². It measures persistent seasonal differences among months. It is not diurnal temperature range, variation among years, or a year-specific climatic anomaly. The predictor was standardised after complete-case filtering of the model frame.
+
+```{r}
+#| label: seasonal-temperature-definition
+kable(definition, caption = "Retained climatic descriptor.")
+```
+
+## Statistical model
+
+We modelled the number of EPP broods out of the number sampled with a Bayesian beta-binomial model and logit link. Standardised within-year temperature variability was the focal predictor. Nest-box use and marker type were included as methodological covariates. Random intercepts accounted for population, non-phylogenetic species identity, and phylogenetic covariance among species. The response family, priors, four-chain sampling scheme, 10,000 iterations with 5,000 warm-up iterations, and sampler controls were identical to the primary mean model. The prior block was also checked programmatically against the primary fitting script. The v4.09 refit used seed 1611 and was saved separately from the legacy v4.10 fit.
+
+```{r}
+#| label: seasonal-temperature-formula
+#| eval: false
+#| code-fold: true
+n_epp_broods | trials(n_broods_sampled) ~
+  br_tmp_withinyear_var_z + nest_box + marker_type +
+  (1 | population_id) + (1 | species_nonphylo) +
+  (1 | gr(species_phylo, cov = phylo_mat_fit))
+```
+
+## Results
+
+The model frame contains `r frame$n_records` population-year records from `r frame$n_populations` populations and `r frame$n_species` species, representing `r format(frame$n_broods, big.mark = ",")` sampled broods.
+
+```{r}
+#| label: seasonal-temperature-results
+#| results: asis
+if (model_ready) {
+  direction_probability <- focal$probability_of_direction
+  direction <- if (focal$estimate >= 0) "positive" else "negative"
+  cat(sprintf(
+    "The posterior estimate for within-year temperature variability was %.3f on the logit scale (95%% credible interval %.3f to %.3f). The posterior probability of a %s association was %.3f.\n\n",
+    focal$estimate, focal$lower, focal$upper, direction, direction_probability
+  ))
+  print(kable(
+    effects[, c("predictor", "estimate", "lower", "upper", "prob_positive", "prob_negative", "probability_of_direction")],
+    digits = 3,
+    caption = "Population-level coefficients. Continuous effects are expressed per one standard deviation."
+  ))
+} else {
+  cat("The retained Bayesian model is queued for fitting. This page will read the saved model and report its posterior automatically when that fit completes; no alternative model is substituted in the interim.")
+}
+```
+
+```{r}
+#| label: seasonal-temperature-diagnostics-and-interpretation
+#| results: asis
+if (model_ready) {
+  cat("\n\n### Diagnostics\n\n")
+  print(kable(diagnostics, digits = 3, caption = "Convergence and sampler diagnostics."))
+  cat("\n\n")
+  print(kable(ppc, digits = 3, caption = "Posterior predictive checks for zero counts and EPP rates."))
+  cat("\n\n## Interpretation\n\n")
+  if (focal$lower > 0 || focal$upper < 0) {
+    cat(sprintf(
+      "Within our population-year dataset, the posterior supports a %s association between persistent seasonal temperature variability and EPP. The estimate describes this dataset and model, conditional on the methodological covariates and hierarchical structure.",
+      if (focal$estimate > 0) "positive" else "negative"
+    ))
+  } else {
+    cat("Within our population-year dataset, the posterior interval spans zero, so the analysis does not provide clear support for an association between persistent seasonal temperature variability and EPP after accounting for the methodological covariates and hierarchical structure.")
+  }
+}
+```

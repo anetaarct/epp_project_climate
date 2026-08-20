@@ -1,0 +1,2 @@
+"source","object","rnaturalearthdata_version","sf_version","s2_version","coordinate_crs","distance_engine","n_dataset_rows","n_rows_with_complete_coordinates_and_distance","n_unique_locations_compared","mean_absolute_difference_km","maximum_absolute_difference_km","n_difference_gt_0_001_km","n_difference_gt_0_01_km","hard_stop_tolerance_km","validation_passed"
+"Natural Earth 1:50m coastline","rnaturalearthdata::coastline50","1.0.0","1.1.2","1.1.11","EPSG:4326","sf::st_distance with sf_use_s2(TRUE)",648,635,234,2.09831574310901e-08,4.95837298331026e-07,0,0,0.001,TRUE

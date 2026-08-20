@@ -36,7 +36,7 @@ source_table <- data.frame(
     "CRU TS v4.09 monthly 0.5-degree climate fields for the breeding-season month or season",
     "Derived from CRU TS v4.09 relative to local baseline conditions",
     "NOAA CDR AVHRR NDVI v5 and VIIRS NDVI v1 extracted around study coordinates in Google Earth Engine",
-    "Derived from study coordinates",
+    "Natural Earth 1:50m coastline; spherical point-to-line distance from study coordinates",
     "Clements Checklist v2025",
     "Clements-matched dated avian phylogeny"
   ),
@@ -45,7 +45,7 @@ source_table <- data.frame(
     "Derived variables included; original raw files absent; checked manifest and downloader now provided",
     "Derived variables included; original raw files absent; checked manifest and downloader now provided",
     "Derived variables included; Google Earth Engine products not redistributed",
-    "Final values included",
+    "Values, reconstruction script, and record-level validation audit included",
     "Matched taxonomy included",
     "Tree/covariance objects included where needed for modelling"
   ),
@@ -70,6 +70,7 @@ reproducibility_files <- data.frame(
     "phylogeny/summary_dated_clements.nex",
     "models/",
     "models/climate_provenance/",
+    "data/processed/distance_to_coast_reconstruction_*.csv",
     "figures/",
     "*.qmd files and _quarto.yml",
     "scripts/"
@@ -82,6 +83,7 @@ reproducibility_files <- data.frame(
     "Source phylogenetic tree used to construct the covariance matrix",
     "Saved model summaries, diagnostics, LOO outputs, and lightweight model outputs used by the book",
     "CRU TS v4.09 archive manifest with download URLs and SHA-256 checksums, recovered grid-cell map, and record-level reconstruction audits",
+    "Independent reconstruction and validation of distance_to_coast_km from the Natural Earth coastline",
     "Saved figures called by the Quarto chapters",
     "Book chapters and rendering configuration",
     "R scripts used to fit models and create saved outputs"
@@ -292,6 +294,58 @@ Thus, one order was removed completely and two marine orders lost most of
 their representation. This structural thinning is relevant to interpretation
 of the phylogenetic variance component and strengthens the limitation on
 inference to marine and polar lineages.
+
+## Distance to coast: source and reconstruction
+
+The geographic covariate `distance_to_coast_km` was reconstructed from the
+**Natural Earth 1:50m coastline** distributed as
+`rnaturalearthdata::coastline50` in `rnaturalearthdata` version 1.0.0. Study
+coordinates were treated as WGS84 longitude--latitude points (EPSG:4326).
+For every unique locality, the value is the minimum spherical distance to any
+coastline feature, calculated in metres by `sf::st_distance()` with
+`sf::sf_use_s2(TRUE)` and converted to kilometres. Lakes and river banks are
+not coastlines in this definition.
+
+The original script was not retained, so the source and algorithm were
+identified empirically rather than assumed. We compared the stored values
+against Natural Earth coastlines at 1:110m, 1:50m and 1:10m and against both
+the `sf/s2` and `geosphere::dist2Line` distance engines. Only the 1:50m
+`sf/s2` combination reproduced the stored column to floating-point precision.
+The executable reconstruction is
+[`scripts/reconstruct_distance_to_coast.R`](scripts/reconstruct_distance_to_coast.R).
+It is audit-only: it does not overwrite the analysis-ready dataset and stops
+if any reconstructed value differs from the stored value by more than 0.001
+km.
+
+```{r}
+#| label: distance-to-coast-reconstruction-audit
+#| echo: true
+
+coast_audit_summary <- utils::read.csv(
+  "data/processed/distance_to_coast_reconstruction_summary.csv",
+  check.names = FALSE
+)
+
+knitr::kable(
+  coast_audit_summary[, c(
+    "source", "object", "rnaturalearthdata_version",
+    "n_unique_locations_compared", "mean_absolute_difference_km",
+    "maximum_absolute_difference_km", "n_difference_gt_0_001_km",
+    "validation_passed"
+  )],
+  digits = 9,
+  row.names = FALSE,
+  caption = "Independent reconstruction of the stored distance-to-coast covariate."
+)
+```
+
+Across 234 unique localities with complete coordinates and a stored distance,
+the maximum absolute reconstruction difference was less than
+$5\times10^{-7}$ km (approximately 0.5 mm), and no locality differed by more
+than 0.001 km. The complete locality-level comparison is retained in
+[`distance_to_coast_reconstruction_audit.csv`](data/processed/distance_to_coast_reconstruction_audit.csv).
+This exact numerical agreement supports the recovered source and computation;
+no model refitting is required because the reconstructed values are unchanged.
 
 ## Climate-anomaly sign and time windows
 

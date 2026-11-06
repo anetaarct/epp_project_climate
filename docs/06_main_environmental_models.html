@@ -297,6 +297,7 @@ window.Quarto = {
   <li><a href="#mcmc-diagnostics" id="toc-mcmc-diagnostics" class="nav-link" data-scroll-target="#mcmc-diagnostics"><span class="header-section-number">6.9</span> MCMC diagnostics</a></li>
   <li><a href="#random-effect-variance-components" id="toc-random-effect-variance-components" class="nav-link" data-scroll-target="#random-effect-variance-components"><span class="header-section-number">6.10</span> Random-effect variance components</a></li>
 <li><a class="nav-link" href="#sensitivity-to-phylogenetic-uncertainty" data-scroll-target="#sensitivity-to-phylogenetic-uncertainty"><span class="header-section-number">6.11</span> Sensitivity to phylogenetic uncertainty</a></li>
+  <li><a class="nav-link" href="#sensitivity-to-seabird-coverage" data-scroll-target="#sensitivity-to-seabird-coverage"><span class="header-section-number">6.12</span> Sensitivity to seabird coverage</a></li>
   </ul>
 </nav>
     </div>
@@ -2034,6 +2035,15 @@ mu
 </section>
 
 <section id="sensitivity-to-phylogenetic-uncertainty" class="level2" data-number="6.11"><h2 data-number="6.11" class="anchored" data-anchor-id="sensitivity-to-phylogenetic-uncertainty"><span class="header-section-number">6.11</span> Sensitivity to phylogenetic uncertainty</h2><p>We refitted the PCA model to the same 441 population–year records from 110 species on 50 dated Aves 1.7 trees (Clements 2025), sampled without replacement from 100 trees (seed 20261106). We pooled equal numbers of posterior draws per tree and calculated the phylogenetic share of total random-effect variance for each draw.</p><table class='table'><thead><tr><th>Tree analysis</th><th>PC1 coefficient (95% CrI)</th><th>Phylogenetic share (95% CrI)</th></tr></thead><tbody><tr><td>Original MCC fit</td><td>0.1272 [0.0067, 0.2456]</td><td>54.23% [17.7%, 89.9%]</td></tr><tr><td>Aves 1.7 MCC refit</td><td>0.1282 [0.0076, 0.2505]</td><td>53.59% [17.7%, 89.4%]</td></tr><tr><td>Pooled across 50 trees</td><td>0.1278 [0.0082, 0.2477]</td><td>54.28% [17.5%, 89.5%]</td></tr></tbody></table><p>Tree-specific posterior means ranged from 0.1191 to 0.1326 for PC1 and from 45.0% to 61.7% for the phylogenetic share. Across the 51 refits, there were no divergences or transitions reaching maximum tree depth. The largest monitored R̂ was 1.0072.</p></section>
+<section id="sensitivity-to-seabird-coverage" class="level2" data-number="6.12">
+<h2 data-number="6.12" class="anchored" data-anchor-id="sensitivity-to-seabird-coverage"><span class="header-section-number">6.12</span> Sensitivity to seabird coverage</h2>
+<p>We tested whether adding seabird records excluded by NDVI masking changed the association between annual EPP and the thermal–geographical gradient. We defined a reduced PC1 using first-month mean temperature, diurnal temperature range, absolute latitude and distance to the coast. We estimated the loadings and scaling on the 441 complete cases and projected the additional records onto that same axis. Nine of the 18 masked seabird records had all other data required for the comparison.</p>
+<table class="table"><thead><tr><th>Sample</th><th>Population–year records</th><th>Species</th><th>Reduced PC1 coefficient (95% CrI)</th></tr></thead><tbody>
+<tr><td>Complete cases</td><td>441</td><td>110</td><td>0.2051 [0.0148, 0.3950]</td></tr>
+<tr><td>Complete cases plus seabird records</td><td>450</td><td>114</td><td>0.2058 [0.0151, 0.3955]</td></tr>
+</tbody></table>
+<p>The posterior mean changed by 0.0007 on the logit scale per standard deviation of the reduced axis. Neither fit had divergent transitions or transitions reaching the maximum tree depth.</p>
+</section>
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

@@ -647,3 +647,15 @@ We refitted the PCA model to the same 441 population–year records from 110 spe
 | Pooled across 50 trees | 0.1278 [0.0082, 0.2477] | 54.28% [17.5%, 89.5%] |
 
 Tree-specific posterior means ranged from 0.1191 to 0.1326 for PC1 and from 45.0% to 61.7% for the phylogenetic share. Across the 51 refits, there were no divergences or transitions reaching maximum tree depth. The largest monitored R̂ was 1.0072.
+
+
+## Sensitivity to seabird coverage {#sensitivity-to-seabird-coverage}
+
+We tested whether adding seabird records excluded by NDVI masking changed the association between annual EPP and the thermal–geographical gradient. We defined a reduced PC1 using first-month mean temperature, diurnal temperature range, absolute latitude and distance to the coast. We estimated the loadings and scaling on the 441 complete cases and projected the additional records onto that same axis. Nine of the 18 masked seabird records had all other data required for the comparison.
+
+| Sample | Population–year records | Species | Reduced PC1 coefficient (95% CrI) |
+|---|---:|---:|---:|
+| Complete cases | 441 | 110 | 0.2051 [0.0148, 0.3950] |
+| Complete cases plus seabird records | 450 | 114 | 0.2058 [0.0151, 0.3955] |
+
+The posterior mean changed by 0.0007 on the logit scale per standard deviation of the reduced axis. Neither fit had divergent transitions or transitions reaching the maximum tree depth.

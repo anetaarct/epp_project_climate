@@ -634,3 +634,16 @@ The baseline model used `r overall_n_records` records, whereas the environmental
 
 
 
+
+
+## Sensitivity to phylogenetic uncertainty {#sensitivity-to-phylogenetic-uncertainty}
+
+We refitted the PCA model to the same 441 population–year records from 110 species on 50 dated Aves 1.7 trees (Clements 2025), sampled without replacement from 100 trees (seed 20261106). We pooled equal numbers of posterior draws per tree and calculated the phylogenetic share of total random-effect variance for each draw.
+
+| Tree analysis | PC1 coefficient (95% CrI) | Phylogenetic share (95% CrI) |
+|---|---:|---:|
+| Original MCC fit | 0.1272 [0.0067, 0.2456] | 54.23% [17.7%, 89.9%] |
+| Aves 1.7 MCC refit | 0.1282 [0.0076, 0.2505] | 53.59% [17.7%, 89.4%] |
+| Pooled across 50 trees | 0.1278 [0.0082, 0.2477] | 54.28% [17.5%, 89.5%] |
+
+Tree-specific posterior means ranged from 0.1191 to 0.1326 for PC1 and from 45.0% to 61.7% for the phylogenetic share. Across the 51 refits, there were no divergences or transitions reaching maximum tree depth. The largest monitored R̂ was 1.0072.
